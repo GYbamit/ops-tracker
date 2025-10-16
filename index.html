@@ -204,7 +204,7 @@
             color: #6b7280;
             font-size: 0.875rem;
         }
-        /* Enhanced label styles */
+        /* label styles */
         .enhanced-label {
             color: #1e3a8a; /* Dark Blue */
             font-weight: 600;
@@ -505,7 +505,7 @@
             border-bottom-color: #0c4a6e;
         }
 
-        /* Enhanced turnover text areas */
+        /* Turnover text areas */
         .turnover-textarea {
             width: 100%;
             padding: 0.75rem;
@@ -516,7 +516,7 @@
             min-height: 80px;
         }
 
-        /* Enhanced turnover labels */
+        /* Turnover labels */
         .turnover-label {
             font-weight: 600;
             margin-bottom: 0.5rem;
@@ -524,7 +524,7 @@
             font-size: 0.875rem;
         }
 
-        /* NEW: Enhanced color schemes for Reports tab charts */
+        /* Color schemes for Reports tab charts */
         .chart-card {
             border-radius: 0.75rem;
             padding: 1.5rem;
@@ -991,15 +991,17 @@
                             <div class="turnover-input-group">
                                 <label for="turnover-shift" class="turnover-label">Shift</label>
                                 <select id="turnover-shift" class="w-full p-2 border rounded-md">
+                                    <option value="" disabled selected>Select Shift</option>
                                     <option value="Day Shift">Day Shift</option>
                                     <option value="Night Shift">Night Shift</option>
                                 </select>
                             </div>
                         </div>
-                        <!-- NEW: Team Selection -->
+                        <!-- Team Selection -->
                         <div class="team-selection">
                             <label for="turnover-team" class="turnover-label">Team</label>
                             <select id="turnover-team" class="w-full p-2 border rounded-md">
+                                <option value="" disabled selected>Select Team</option>
                                 <option value="A">Team A</option>
                                 <option value="B">Team B</option>
                                 <option value="C">Team C</option>
@@ -1326,11 +1328,11 @@
         let editingTicketId = null;
         let editingTicketVersion = 0;
 
-        // NEW: Turnover state
+        // Turnover state 
         let turnoverData = {
             date: new Date().toISOString().split('T')[0],
-            shift: 'Day Shift',
-            team: 'A', // NEW: Default team
+            shift: '',
+            team: '', // No default team
             scheduledEvents: [],
             generalInfo: [],
             reminders: [],
@@ -1825,7 +1827,7 @@
             renderPagination('in-progress', inProgressTickets.length, currentPageInProgress, inProgressTotalPages);
             renderPagination('resolved', resolvedTickets.length, currentPageResolved, resolvedTotalPages);
             
-            // Re-attach event listeners for dropdowns
+            // Event listeners for dropdowns - using event delegation instead
             setupDropdownEventListeners();
         }
         
@@ -1968,6 +1970,7 @@
             `;
         }
 
+        // Dropdown event listeners with event delegation
         function setupDropdownEventListeners() {
             // Close all dropdowns when clicking elsewhere
             document.addEventListener('click', (e) => {
@@ -1978,9 +1981,10 @@
                 }
             });
 
-            // Ellipsis button click to show dropdown
-            document.querySelectorAll('.ellipsis-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+            // Event delegation for ellipsis buttons
+            document.addEventListener('click', function(e) {
+                // Handle ellipsis button clicks
+                if (e.target.classList.contains('ellipsis-btn')) {
                     e.stopPropagation();
                     // Close other dropdowns
                     document.querySelectorAll('.dropdown-menu').forEach(menu => {
@@ -1991,30 +1995,39 @@
                     // Toggle current dropdown
                     const dropdown = e.target.nextElementSibling;
                     dropdown.classList.toggle('show');
-                });
-            });
-
-            // Edit option click
-            document.querySelectorAll('.dropdown-item.edit').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+                }
+                
+                // Handle dropdown item clicks for tickets
+                if (e.target.classList.contains('dropdown-item')) {
                     e.stopPropagation();
                     const ticketId = e.target.dataset.id;
-                    const ticket = allTickets.find(t => t.id === ticketId);
-                    openModal(ticket);
+                    
+                    if (e.target.classList.contains('edit')) {
+                        const ticket = allTickets.find(t => t.id === ticketId);
+                        if (ticket) {
+                            openModal(ticket);
+                        }
+                    } else if (e.target.classList.contains('resolve')) {
+                        markAsResolved(ticketId);
+                    }
+                    
                     // Close dropdown
                     e.target.closest('.dropdown-menu').classList.remove('show');
-                });
-            });
-
-            // Resolve option click
-            document.querySelectorAll('.dropdown-item.resolve').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+                }
+                
+                // Handle dropdown item clicks for past turnover
+                if (e.target.classList.contains('view-past-turnover')) {
                     e.stopPropagation();
-                    const ticketId = e.target.dataset.id;
-                    markAsResolved(ticketId);
-                    // Close dropdown
+                    const turnoverId = e.target.dataset.id;
+                    const turnover = pastTurnovers.find(t => t.id === turnoverId);
+                    viewPastTurnoverDetails(turnover);
                     e.target.closest('.dropdown-menu').classList.remove('show');
-                });
+                } else if (e.target.classList.contains('delete-past-turnover')) {
+                    e.stopPropagation();
+                    const turnoverId = e.target.dataset.id;
+                    deletePastTurnover(turnoverId);
+                    e.target.closest('.dropdown-menu').classList.remove('show');
+                }
             });
         }
 
@@ -2467,6 +2480,12 @@
                 const selectedShift = turnoverShiftSelect.value;
                 const selectedTeam = turnoverTeamSelect.value; // NEW
                 
+                // Validate required fields
+                if (!selectedDate || !selectedShift || !selectedTeam) {
+                    showNotification('Please fill in Date, Shift, and Team before saving turnover.', 'error');
+                    return;
+                }
+                
                 // Calculate ticket counts
                 const inProgressTickets = allTickets.filter(ticket => {
                     const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toISOString().split('T')[0] : 
@@ -2509,6 +2528,7 @@
             }
         }
         
+        // Turnover screenshot to include date, shift, and team
         async function takeTurnoverScreenshot() {
             try {
                 showNotification('Taking turnover screenshot...', 'info');
@@ -2533,16 +2553,17 @@
                 headerSection.style.borderRadius = '8px';
                 headerSection.style.textAlign = 'center';
                 
+                // Get current selected values for the screenshot
                 const date = document.getElementById('turnover-date').value;
                 const shift = document.getElementById('turnover-shift').value;
-                const team = document.getElementById('turnover-team').value; // NEW
+                const team = document.getElementById('turnover-team').value;
                 
                 headerSection.innerHTML = `
                     <h2 style="margin: 0 0 10px 0; font-size: 24px; font-weight: bold;">Turnover Report</h2>
                     <div style="display: flex; justify-content: center; gap: 30px; font-size: 16px;">
-                        <div><strong>Date:</strong> ${date}</div>
-                        <div><strong>Shift:</strong> ${shift}</div>
-                        <div><strong>Team:</strong> ${team}</div> <!-- NEW -->
+                        <div><strong>Date:</strong> ${date || 'Not selected'}</div>
+                        <div><strong>Shift:</strong> ${shift || 'Not selected'}</div>
+                        <div><strong>Team:</strong> ${team ? 'Team ' + team : 'Not selected'}</div>
                     </div>
                 `;
                 
@@ -2582,9 +2603,9 @@
                 const image = canvas.toDataURL('image/png');
                 const link = document.createElement('a');
                 const formattedDate = date || new Date().toISOString().split('T')[0];
-                const formattedShift = shift ? shift.replace(' ', '_') : 'Day_Shift';
-                const formattedTeam = team ? `_Team_${team}` : ''; // NEW
-                link.download = `Turnover_${formattedDate}_${formattedShift}${formattedTeam}.png`; // UPDATED
+                const formattedShift = shift ? shift.replace(' ', '_') : 'Not_Selected';
+                const formattedTeam = team ? `_Team_${team}` : '_Team_Not_Selected';
+                link.download = `Turnover_${formattedDate}_${formattedShift}${formattedTeam}.png`;
                 link.href = image;
                 link.click();
                 
@@ -2652,9 +2673,6 @@
             
             // Render pagination
             renderPastTurnoverPagination(filteredTurnovers.length, currentPagePastTurnover, totalPages);
-            
-            // Re-attach event listeners for dropdowns
-            setupPastTurnoverDropdownEventListeners();
         }
         
         function createPastTurnoverRow(turnover) {
@@ -2765,82 +2783,78 @@
             });
         }
         
-        function setupPastTurnoverDropdownEventListeners() {
-            // Close all dropdowns when clicking elsewhere
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.dropdown-container')) {
-                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                        menu.classList.remove('show');
-                    });
+        function viewPastTurnoverDetails(turnover) {
+            if (!turnover) return;
+            
+            // Create a modal to show turnover details
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50';
+            modal.innerHTML = `
+                <div class="relative top-20 mx-auto p-5 border w-full max-w-4xl shadow-lg rounded-xl bg-white">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-blue-900">Turnover Details - ${turnover.date} (${turnover.shift})</h3>
+                        <button class="text-gray-500 hover:text-gray-700 close-turnover-modal">&times;</button>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-blue-50 p-3 rounded-md">
+                                <h4 class="font-semibold text-blue-800">In Progress Tickets</h4>
+                                <p class="text-2xl font-bold">${turnover.inProgressCount}</p>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded-md">
+                                <h4 class="font-semibold text-green-800">Resolved Tickets</h4>
+                                <p class="text-2xl font-bold">${turnover.resolvedCount}</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-2">Scheduled Events</h4>
+                            ${turnover.scheduledEvents.length > 0 ? 
+                                `<div class="bg-yellow-50 p-3 rounded-md whitespace-pre-line">${turnover.scheduledEvents.join('\n')}</div>` : 
+                                '<p class="text-gray-500 italic">No scheduled events</p>'}
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-2">General Information</h4>
+                            ${turnover.generalInfo.length > 0 ? 
+                                `<div class="bg-purple-50 p-3 rounded-md whitespace-pre-line">${turnover.generalInfo.join('\n')}</div>` : 
+                                '<p class="text-gray-500 italic">No general information</p>'}
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-2">Reminders</h4>
+                            ${turnover.reminders.length > 0 ? 
+                                `<div class="bg-pink-50 p-3 rounded-md whitespace-pre-line">${turnover.reminders.join('\n')}</div>` : 
+                                '<p class="text-gray-500 italic">No reminders</p>'}
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-2">On-call Updates</h4>
+                            ${turnover.onCallUpdates.length > 0 ? 
+                                `<div class="bg-blue-50 p-3 rounded-md whitespace-pre-line">${turnover.onCallUpdates.join('\n')}</div>` : 
+                                '<p class="text-gray-500 italic">No on-call updates</p>'}
+                        </div>
+                        
+                        <div class="text-sm text-gray-500 mt-4">
+                            Saved by: ${turnover.savedBy} on ${turnover.savedAt ? turnover.savedAt.toDate().toLocaleString() : 'N/A'}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Close modal event
+            modal.querySelector('.close-turnover-modal').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            // Close on background click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
                 }
             });
-
-            // Ellipsis button click to show dropdown
-            document.querySelectorAll('.ellipsis-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    // Close other dropdowns
-                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                        if (menu !== e.target.nextElementSibling) {
-                            menu.classList.remove('show');
-                        }
-                    });
-                    // Toggle current dropdown
-                    const dropdown = e.target.nextElementSibling;
-                    dropdown.classList.toggle('show');
-                });
-            });
-
-            // View Past Turnover option click
-            document.querySelectorAll('.view-past-turnover').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const turnoverId = e.target.dataset.id;
-                    const turnover = pastTurnovers.find(t => t.id === turnoverId);
-                    viewPastTurnoverDetails(turnover);
-                    // Close dropdown
-                    e.target.closest('.dropdown-menu').classList.remove('show');
-                });
-            });
-
-            // Delete Past Turnover option click
-            document.querySelectorAll('.delete-past-turnover').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const turnoverId = e.target.dataset.id;
-                    deletePastTurnover(turnoverId);
-                    // Close dropdown
-                    e.target.closest('.dropdown-menu').classList.remove('show');
-                });
-            });
-        }
-        
-        function viewPastTurnoverDetails(turnover) {
-            // Create a modal or use an alert to show the full details
-            const details = `
-Date: ${turnover.date}
-Shift: ${turnover.shift}
-Team: ${turnover.team || 'N/A'} <!-- NEW -->
-In Progress Tickets: ${turnover.inProgressCount}
-Resolved Tickets: ${turnover.resolvedCount}
-
-Scheduled Events:
-${turnover.scheduledEvents.length > 0 ? turnover.scheduledEvents.map(event => `• ${event}`).join('\n') : 'None'}
-
-General Information:
-${turnover.generalInfo.length > 0 ? turnover.generalInfo.map(info => `• ${info}`).join('\n') : 'None'}
-
-Reminders:
-${turnover.reminders.length > 0 ? turnover.reminders.map(reminder => `• ${reminder}`).join('\n') : 'None'}
-
-On-call Updates:
-${turnover.onCallUpdates.length > 0 ? turnover.onCallUpdates.map(update => `• ${update}`).join('\n') : 'None'}
-
-Saved by: ${turnover.savedBy}
-Saved on: ${turnover.savedAt ? turnover.savedAt.toDate().toLocaleString() : 'N/A'}
-    `;
-            
-            alert(details);
         }
         
         async function deletePastTurnover(turnoverId) {
@@ -2849,24 +2863,13 @@ Saved on: ${turnover.savedAt ? turnover.savedAt.toDate().toLocaleString() : 'N/A
                     await deleteDoc(doc(db, `/artifacts/${appId}/public/data/pastTurnovers`, turnoverId));
                     showNotification('Turnover record deleted.', 'warning');
                 } catch (error) {
-                    console.error("Error deleting turnover: ", error);
+                    console.error("Error deleting turnover record: ", error);
                     showNotification('Error deleting turnover record.', 'error');
                 }
             }
         }
-        
-        function applyPastTurnoverFilters() {
-            renderPastTurnovers();
-        }
-        
-        function clearPastTurnoverFilters() {
-            filterPastTurnoverDate.value = '';
-            filterPastTurnoverShift.value = 'all';
-            filterPastTurnoverTeam.value = 'all'; // NEW
-            renderPastTurnovers();
-        }
 
-        // NEW: Clear filter functions for In Progress and Resolved tabs
+        // --- NEW: CLEAR FILTER FUNCTIONS ---
         function clearInProgressFilters() {
             document.getElementById('sort-in-progress-date').value = 'newest';
             document.getElementById('sort-in-progress-shift').value = 'default';
@@ -2875,10 +2878,11 @@ Saved on: ${turnover.savedAt ? turnover.savedAt.toDate().toLocaleString() : 'N/A
             document.getElementById('sort-in-progress-environment').value = 'default';
             document.getElementById('sort-in-progress-issue').value = 'default';
             document.getElementById('filter-in-progress-specific-date').value = '';
+            
             renderTickets();
             showNotification('In Progress filters cleared', 'info');
         }
-
+        
         function clearResolvedFilters() {
             document.getElementById('sort-resolved-date').value = 'newest';
             document.getElementById('sort-resolved-shift').value = 'default';
@@ -2887,227 +2891,406 @@ Saved on: ${turnover.savedAt ? turnover.savedAt.toDate().toLocaleString() : 'N/A
             document.getElementById('sort-resolved-environment').value = 'default';
             document.getElementById('sort-resolved-issue').value = 'default';
             document.getElementById('filter-resolved-specific-date').value = '';
+            
             renderTickets();
             showNotification('Resolved filters cleared', 'info');
         }
 
-        // --- REPORTS - FIXED VERSION ---
-        function generateReport(period) {
-            // Store the current report type for real-time updates
-            currentReportType = period;
+        // --- EVENT LISTENER SETUP ---
+        function setupEventListeners() {
+            // Tab switching
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+            });
             
-            const now = new Date();
-            let startDate, endDate;
+            // Modal
+            addTicketBtn.addEventListener('click', () => openModal());
+            cancelModalBtn.addEventListener('click', closeModal);
+            ticketForm.addEventListener('submit', handleFormSubmit);
+            deleteTicketBtn.addEventListener('click', handleDeleteTicket);
             
-            if (period === 'daily') {
-                startDate = new Date(now);
-                startDate.setHours(0, 0, 0, 0);
-                endDate = new Date(now);
-                endDate.setHours(23, 59, 59, 999);
-            } else if (period === 'weekly') {
-                startDate = new Date(now);
-                startDate.setDate(now.getDate() - 7);
-                startDate.setHours(0, 0, 0, 0);
-                endDate = new Date(now);
-                endDate.setHours(23, 59, 59, 999);
-            } else if (period === 'monthly') {
-                startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-                startDate.setHours(0, 0, 0, 0);
-                endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-                endDate.setHours(23, 59, 59, 999);
-            }
+            // Sorting and filtering
+            document.querySelectorAll('#sort-in-progress-date, #sort-in-progress-shift, #sort-in-progress-assignee, #sort-in-progress-priority, #sort-in-progress-environment, #sort-in-progress-issue, #filter-in-progress-specific-date').forEach(el => {
+                el.addEventListener('change', renderTickets);
+            });
+            
+            document.querySelectorAll('#sort-resolved-date, #sort-resolved-shift, #sort-resolved-assignee, #sort-resolved-priority, #sort-resolved-environment, #sort-resolved-issue, #filter-resolved-specific-date').forEach(el => {
+                el.addEventListener('change', renderTickets);
+            });
+            
+            // Export buttons
+            exportInProgressBtn.addEventListener('click', () => exportTickets('in-progress'));
+            exportResolvedBtn.addEventListener('click', () => exportTickets('resolved'));
+            
+            // Report generation
+            generateDailyReportBtn.addEventListener('click', () => generateReport('daily'));
+            generateWeeklyReportBtn.addEventListener('click', () => generateReport('weekly'));
+            generateMonthlyReportBtn.addEventListener('click', () => generateReport('monthly'));
+            takeScreenshotBtn.addEventListener('click', takeReportScreenshot);
+            downloadReportBtn.addEventListener('click', downloadReport);
+            
+            // User selection
+            confirmUserBtn.addEventListener('click', confirmUserSelection);
+            
+            // Past turnover filters
+            applyPastTurnoverFilter.addEventListener('click', renderPastTurnovers);
+            clearPastTurnoverFilter.addEventListener('click', () => {
+                filterPastTurnoverDate.value = '';
+                filterPastTurnoverShift.value = 'all';
+                filterPastTurnoverTeam.value = 'all'; // NEW
+                renderPastTurnovers();
+                showNotification('Past turnover filters cleared', 'info');
+            });
+        }
 
-            // FIXED: Better date filtering logic
-            const periodTickets = allTickets.filter(t => {
-                // Use the most appropriate date field for filtering
+        // --- EXPORT FUNCTIONALITY ---
+        function exportTickets(type) {
+            let ticketsToExport = [];
+            let period = '';
+            
+            if (type === 'in-progress') {
+                ticketsToExport = allTickets.filter(t => t.status !== 'Resolved');
+                period = exportInProgressPeriod.value;
+            } else {
+                ticketsToExport = allTickets.filter(t => t.status === 'Resolved');
+                period = exportResolvedPeriod.value;
+            }
+            
+            // Filter by period
+            const now = new Date();
+            ticketsToExport = ticketsToExport.filter(ticket => {
                 let ticketDate;
-                
-                if (t.ticketDate) {
-                    // If ticketDate exists, use it (this is the user-selected date)
-                    ticketDate = new Date(t.ticketDate);
-                } else if (t.createdAt) {
-                    // Fall back to createdAt if ticketDate doesn't exist
-                    ticketDate = t.createdAt.toDate();
+                if (ticket.ticketDate) {
+                    ticketDate = new Date(ticket.ticketDate);
+                } else if (ticket.createdAt) {
+                    ticketDate = ticket.createdAt.toDate();
                 } else {
-                    // If neither exists, skip this ticket
                     return false;
                 }
                 
-                // Check if the ticket date falls within the report period
+                if (period === 'day') {
+                    return ticketDate.toDateString() === now.toDateString();
+                } else if (period === 'month') {
+                    return ticketDate.getMonth() === now.getMonth() && 
+                           ticketDate.getFullYear() === now.getFullYear();
+                } else if (period === 'year') {
+                    return ticketDate.getFullYear() === now.getFullYear();
+                }
+                return true;
+            });
+            
+            if (ticketsToExport.length === 0) {
+                showNotification('No tickets to export for the selected period.', 'info');
+                return;
+            }
+            
+            // Prepare data for export
+            const headers = type === 'in-progress' ? 
+                ['Date', 'Shift', 'Handled By', 'Ticket #', 'Priority', 'Environment', 'Status', 'Issue/Request', 'Description', 'Resolution', 'Age'] :
+                ['Date', 'Shift', 'Handled By', 'Ticket #', 'Priority', 'Environment', 'Issue/Request', 'Description', 'Resolution', 'Resolved On'];
+                
+            const data = ticketsToExport.map(ticket => {
+                const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toLocaleDateString() : 
+                                  (ticket.createdAt ? ticket.createdAt.toDate().toLocaleDateString() : 'N/A');
+                const resolvedDate = ticket.resolvedAt ? ticket.resolvedAt.toDate().toLocaleDateString() : 'N/A';
+                const age = ticket.createdAt ? formatDistanceToNow(ticket.createdAt.toDate()) : 'N/A';
+                
+                if (type === 'in-progress') {
+                    return [
+                        ticketDate,
+                        ticket.shift,
+                        ticket.handledBy,
+                        ticket.ticketNumber,
+                        ticket.priority,
+                        ticket.environment || 'N/A',
+                        ticket.status,
+                        ticket.issueType || 'Not specified',
+                        ticket.description || 'No description',
+                        ticket.resolution || 'No resolution yet',
+                        age
+                    ];
+                } else {
+                    return [
+                        ticketDate,
+                        ticket.shift,
+                        ticket.handledBy,
+                        ticket.ticketNumber,
+                        ticket.priority,
+                        ticket.environment || 'N/A',
+                        ticket.issueType || 'Not specified',
+                        ticket.description || 'No description',
+                        ticket.resolution || 'No resolution',
+                        resolvedDate
+                    ];
+                }
+            });
+            
+            // Create worksheet and workbook
+            const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, type === 'in-progress' ? 'In Progress Tickets' : 'Resolved Tickets');
+            
+            // Generate file name
+            const periodText = period === 'day' ? 'Today' : period === 'month' ? 'ThisMonth' : 'ThisYear';
+            const fileName = `${type === 'in-progress' ? 'InProgress' : 'Resolved'}Tickets_${periodText}_${new Date().toISOString().split('T')[0]}.xlsx`;
+            
+            // Export
+            XLSX.writeFile(wb, fileName);
+            showNotification(`Exported ${ticketsToExport.length} ${type.replace('-', ' ')} tickets`, 'success');
+        }
+
+        // --- REPORTING ---
+        function generateReport(type) {
+            currentReportType = type;
+            
+            // Show/hide buttons based on report type
+            takeScreenshotBtn.classList.remove('hidden');
+            downloadReportBtn.classList.remove('hidden');
+            
+            // Calculate date range based on report type
+            const now = new Date();
+            let startDate, endDate, periodText;
+            
+            switch(type) {
+                case 'daily':
+                    startDate = new Date(now);
+                    startDate.setHours(0, 0, 0, 0);
+                    endDate = new Date(now);
+                    endDate.setHours(23, 59, 59, 999);
+                    periodText = `Daily Report - ${now.toLocaleDateString()}`;
+                    break;
+                case 'weekly':
+                    startDate = new Date(now);
+                    startDate.setDate(now.getDate() - now.getDay()); // Start of week (Sunday)
+                    startDate.setHours(0, 0, 0, 0);
+                    endDate = new Date(now);
+                    endDate.setDate(now.getDate() + (6 - now.getDay())); // End of week (Saturday)
+                    endDate.setHours(23, 59, 59, 999);
+                    periodText = `Weekly Report - ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}`;
+                    break;
+                case 'monthly':
+                    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                    endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+                    periodText = `Monthly Report - ${now.toLocaleString('default', { month: 'long' })} ${now.getFullYear()}`;
+                    break;
+            }
+            
+            // Filter tickets for the report period
+            const reportTickets = allTickets.filter(ticket => {
+                let ticketDate;
+                if (ticket.ticketDate) {
+                    ticketDate = new Date(ticket.ticketDate);
+                } else if (ticket.createdAt) {
+                    ticketDate = ticket.createdAt.toDate();
+                } else {
+                    return false;
+                }
                 return ticketDate >= startDate && ticketDate <= endDate;
             });
             
-            // FIXED: Better resolved ticket filtering
-            const resolvedInPeriod = periodTickets.filter(t => {
-                if (t.status !== 'Resolved') return false;
-                
-                // Use resolvedAt date if available, otherwise use the ticket date
-                let resolvedDate;
-                if (t.resolvedAt) {
-                    resolvedDate = t.resolvedAt.toDate();
-                } else {
-                    // Fall back to ticket date if resolvedAt doesn't exist
-                    resolvedDate = t.ticketDate ? new Date(t.ticketDate) : 
-                                  (t.createdAt ? t.createdAt.toDate() : new Date(0));
-                }
-                
-                return resolvedDate >= startDate && resolvedDate <= endDate;
-            });
-
-            const inProgressInPeriod = periodTickets.filter(t => t.status !== 'Resolved');
-
-            const totalResolved = resolvedInPeriod.length;
-            const totalInProgress = inProgressInPeriod.length;
+            // Store report data for download
+            reportData = {
+                type: type,
+                period: periodText,
+                tickets: reportTickets,
+                generatedAt: new Date()
+            };
             
-            const dayTickets = periodTickets.filter(t => t.shift === 'Day').length;
-            const nightTickets = periodTickets.filter(t => t.shift === 'Night').length;
-
-            const totalAgeInProgressMs = inProgressInPeriod.reduce((acc, t) => {
-                let ticketDate;
-                if (t.ticketDate) {
-                    ticketDate = new Date(t.ticketDate);
-                } else if (t.createdAt) {
-                    ticketDate = t.createdAt.toDate();
-                } else {
-                    return acc; // Skip if no date available
-                }
-                return acc + (new Date() - ticketDate);
-            }, 0);
-            const avgAgeInProgress = totalInProgress > 0 ? formatDuration(totalAgeInProgressMs / totalInProgress) : 'N/A';
-            
-            // Calculate issue type distribution
-            const issueTypes = [
-                'Zena Failed Jobs - BPI',
-                'Zena Failed Jobs - DB',
-                'Netcool Alert',
-                'PagerDuty Alert',
-                'PowerBroker (SDDC)',
-                'PowerBroker (Cloud AWS)',
-                'CSOC - Phishing Email',
-                'Service Request - Data Center Access'
-            ];
-            
-            const issueTypeCounts = {};
-            issueTypes.forEach(issue => {
-                issueTypeCounts[issue] = periodTickets.filter(t => t.issueType === issue).length;
-            });
-            
-            // Calculate priority distribution
-            const priorities = ['P1', 'P2', 'P3', 'P4'];
-            const priorityCounts = {};
-            priorities.forEach(priority => {
-                priorityCounts[priority] = periodTickets.filter(t => t.priority === priority).length;
-            });
-            
-            // Calculate environment distribution
-            const environments = ['Prod', 'UAT', 'N/A'];
-            const environmentCounts = {};
-            environments.forEach(environment => {
-                environmentCounts[environment] = periodTickets.filter(t => t.environment === environment).length;
-            });
-            
-            // Get period display information
-            let periodDisplay = '';
-            if (period === 'daily') {
-                periodDisplay = `Daily Report - ${now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
-            } else if (period === 'weekly') {
-                const startOfWeek = new Date(now);
-                startOfWeek.setDate(now.getDate() - 7);
-                const endOfWeek = new Date(now);
-                
-                periodDisplay = `Weekly Report - ${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} to ${endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
-            } else if (period === 'monthly') {
-                periodDisplay = `Monthly Report - ${now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`;
-            }
-            
-            // Update the period display
-            reportPeriodDisplay.innerHTML = periodDisplay;
+            // Update period display
+            reportPeriodDisplay.textContent = periodText;
             reportPeriodDisplay.classList.remove('hidden');
             
-            // Show screenshot button
-            takeScreenshotBtn.classList.remove('hidden');
-            
-            reportData = {
-                period,
-                totalResolved,
-                totalInProgress,
-                dayTickets,
-                nightTickets,
-                avgAgeInProgress,
-                issueTypeCounts,
-                priorityCounts,
-                environmentCounts,
-                resolvedList: resolvedInPeriod.map(t => ({...t, 
-                    createdAt: t.createdAt ? t.createdAt.toDate().toISOString() : new Date().toISOString(), 
-                    resolvedAt: t.resolvedAt ? t.resolvedAt.toDate().toISOString() : new Date().toISOString(),
-                    ticketDate: t.ticketDate || (t.createdAt ? t.createdAt.toDate().toISOString().split('T')[0] : new Date().toISOString().split('T')[0])
-                })),
-                inProgressList: inProgressInPeriod.map(t => ({...t, 
-                    createdAt: t.createdAt ? t.createdAt.toDate().toISOString() : new Date().toISOString(),
-                    ticketDate: t.ticketDate || (t.createdAt ? t.createdAt.toDate().toISOString().split('T')[0] : new Date().toISOString().split('T')[0])
-                }))
-            };
-
-            renderReport(reportData, periodDisplay);
-            
-            // Show real-time indicator for report updates
-            if (document.getElementById('reports-content').classList.contains('hidden') === false) {
-                showNotification('Report updated with latest data', 'info');
-            }
+            // Generate report content
+            generateReportContent(reportTickets, periodText);
         }
-
-        let charts = [];
-        function renderReport(data, periodDisplay) {
-            const output = document.getElementById('report-output');
-            output.innerHTML = '';
-            charts.forEach(chart => chart.destroy()); // Clear previous charts
-            charts = [];
+        
+        function generateReportContent(tickets, periodText) {
+            const reportOutput = document.getElementById('report-output');
             
-            // Stats cards
-            const stats = [
-                { label: 'Total Resolved', value: data.totalResolved, color: 'stats-resolved' },
-                { label: 'Total In Progress', value: data.totalInProgress, color: 'stats-in-progress' },
-                { label: 'Avg. In Progress Age', value: data.avgAgeInProgress, color: 'stats-age' },
-            ];
+            // Calculate statistics
+            const totalTickets = tickets.length;
+            const resolvedTickets = tickets.filter(t => t.status === 'Resolved').length;
+            const inProgressTickets = totalTickets - resolvedTickets;
+            const resolutionRate = totalTickets > 0 ? Math.round((resolvedTickets / totalTickets) * 100) : 0;
             
-            stats.forEach(stat => {
-                output.innerHTML += `
-                    <div class="${stat.color} stats-card">
-                        <h3 class="text-gray-500 text-sm font-medium">${stat.label}</h3>
-                        <p class="text-2xl font-semibold">${stat.value}</p>
-                    </div>`;
+            // Calculate average resolution time
+            let totalResolutionTime = 0;
+            let resolvedWithTime = 0;
+            
+            tickets.filter(t => t.status === 'Resolved' && t.createdAt && t.resolvedAt).forEach(ticket => {
+                const created = ticket.createdAt.toDate();
+                const resolved = ticket.resolvedAt.toDate();
+                totalResolutionTime += (resolved - created) / (1000 * 60 * 60); // Hours
+                resolvedWithTime++;
             });
-
-            // 1. Ticket Trend Chart
-            const trendChartContainer = document.createElement('div');
-            trendChartContainer.className = "chart-card trend-chart";
-            trendChartContainer.innerHTML = '<div class="chart-container"><canvas id="trendChart"></canvas></div>';
-            output.appendChild(trendChartContainer);
             
-            // Calculate trends based on period
-            const trendData = calculateTrendData(data.period, data.resolvedList.concat(data.inProgressList));
+            const avgResolutionTime = resolvedWithTime > 0 ? Math.round(totalResolutionTime / resolvedWithTime) : 0;
             
+            // Priority distribution
+            const priorityCounts = { P1: 0, P2: 0, P3: 0, P4: 0 };
+            tickets.forEach(ticket => {
+                if (ticket.priority && priorityCounts.hasOwnProperty(ticket.priority)) {
+                    priorityCounts[ticket.priority]++;
+                }
+            });
+            
+            // Shift distribution
+            const shiftCounts = { Day: 0, Night: 0 };
+            tickets.forEach(ticket => {
+                if (ticket.shift && shiftCounts.hasOwnProperty(ticket.shift)) {
+                    shiftCounts[ticket.shift]++;
+                }
+            });
+            
+            // Issue type distribution
+            const issueCounts = {};
+            tickets.forEach(ticket => {
+                if (ticket.issueType) {
+                    issueCounts[ticket.issueType] = (issueCounts[ticket.issueType] || 0) + 1;
+                }
+            });
+            
+            // Environment distribution
+            const environmentCounts = {};
+            tickets.forEach(ticket => {
+                const env = ticket.environment || 'N/A';
+                environmentCounts[env] = (environmentCounts[env] || 0) + 1;
+            });
+            
+            // Status trend (last 7 days)
+            const statusTrend = {};
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                
+                const dayTickets = tickets.filter(t => {
+                    const ticketDate = t.ticketDate ? new Date(t.ticketDate).toISOString().split('T')[0] : 
+                                      (t.createdAt ? t.createdAt.toDate().toISOString().split('T')[0] : '');
+                    return ticketDate === dateStr;
+                });
+                
+                statusTrend[dateStr] = {
+                    resolved: dayTickets.filter(t => t.status === 'Resolved').length,
+                    inProgress: dayTickets.filter(t => t.status !== 'Resolved').length
+                };
+            }
+            
+            // Generate HTML for the report
+            reportOutput.innerHTML = `
+                <!-- Key Statistics -->
+                <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="stats-card stats-resolved">
+                        <h3 class="text-lg font-bold mb-2">Resolved Tickets</h3>
+                        <div class="text-3xl font-bold">${resolvedTickets}</div>
+                        <div class="text-sm text-gray-600 mt-1">${resolutionRate}% resolution rate</div>
+                    </div>
+                    <div class="stats-card stats-in-progress">
+                        <h3 class="text-lg font-bold mb-2">In Progress</h3>
+                        <div class="text-3xl font-bold">${inProgressTickets}</div>
+                        <div class="text-sm text-gray-600 mt-1">${totalTickets} total tickets</div>
+                    </div>
+                    <div class="stats-card stats-age">
+                        <h3 class="text-lg font-bold mb-2">Avg. Resolution Time</h3>
+                        <div class="text-3xl font-bold">${avgResolutionTime}h</div>
+                        <div class="text-sm text-gray-600 mt-1">Based on ${resolvedWithTime} resolved tickets</div>
+                    </div>
+                </div>
+                
+                <!-- Charts Row 1 -->
+                <div class="chart-card trend-chart">
+                    <h3 class="text-lg font-bold mb-4">Ticket Trend (Last 7 Days)</h3>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card shift-chart">
+                    <h3 class="text-lg font-bold mb-4">Tickets by Shift</h3>
+                    <div class="chart-container">
+                        <canvas id="shiftChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card status-chart">
+                    <h3 class="text-lg font-bold mb-4">Tickets by Status</h3>
+                    <div class="chart-container">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Charts Row 2 -->
+                <div class="chart-card issue-chart">
+                    <h3 class="text-lg font-bold mb-4">Tickets by Issue Type</h3>
+                    <div class="chart-container">
+                        <canvas id="issueChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card priority-chart">
+                    <h3 class="text-lg font-bold mb-4">Tickets by Priority</h3>
+                    <div class="chart-container">
+                        <canvas id="priorityChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card environment-chart">
+                    <h3 class="text-lg font-bold mb-4">Tickets by Environment</h3>
+                    <div class="chart-container">
+                        <canvas id="environmentChart"></canvas>
+                    </div>
+                </div>
+            `;
+            
+            // Render charts after a brief delay to ensure DOM is ready
+            setTimeout(() => {
+                renderCharts({
+                    trend: statusTrend,
+                    shift: shiftCounts,
+                    status: { 'Resolved': resolvedTickets, 'In Progress': inProgressTickets },
+                    issue: issueCounts,
+                    priority: priorityCounts,
+                    environment: environmentCounts
+                });
+            }, 100);
+        }
+        
+        function renderCharts(data) {
+            // Trend Chart (Line Chart)
             const trendCtx = document.getElementById('trendChart').getContext('2d');
-            charts.push(new Chart(trendCtx, {
+            const trendLabels = Object.keys(data.trend);
+            const resolvedData = trendLabels.map(date => data.trend[date].resolved);
+            const inProgressData = trendLabels.map(date => data.trend[date].inProgress);
+            
+            new Chart(trendCtx, {
                 type: 'line',
                 data: {
-                    labels: trendData.labels,
-                    datasets: [{
-                        label: 'Tickets Created',
-                        data: trendData.values,
-                        borderColor: '#0ea5e9',
-                        backgroundColor: 'rgba(14, 165, 233, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
+                    labels: trendLabels,
+                    datasets: [
+                        {
+                            label: 'Resolved',
+                            data: resolvedData,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'In Progress',
+                            data: inProgressData,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        title: { 
-                            display: true, 
-                            text: `Ticket Trend - ${data.period.charAt(0).toUpperCase() + data.period.slice(1)}`
+                        legend: {
+                            position: 'top',
                         }
                     },
                     scales: {
@@ -3119,514 +3302,261 @@ Saved on: ${turnover.savedAt ? turnover.savedAt.toDate().toLocaleString() : 'N/A
                         }
                     }
                 }
-            }));
-
-            // 2. Shift Breakdown Chart
-            const shiftChartContainer = document.createElement('div');
-            shiftChartContainer.className = "chart-card shift-chart";
-            shiftChartContainer.innerHTML = '<div class="chart-container"><canvas id="shiftChart"></canvas></div>';
-            output.appendChild(shiftChartContainer);
+            });
             
+            // Shift Chart (Doughnut)
             const shiftCtx = document.getElementById('shiftChart').getContext('2d');
-            charts.push(new Chart(shiftCtx, {
+            new Chart(shiftCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Day Shift', 'Night Shift'],
+                    labels: Object.keys(data.shift),
                     datasets: [{
-                        data: [data.dayTickets, data.nightTickets],
-                        backgroundColor: ['#22c55e', '#15803d'],
+                        data: Object.values(data.shift),
+                        backgroundColor: ['#f59e0b', '#1e40af'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { position: 'top' }, title: { display: true, text: 'Tickets by Shift' } }
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
                 }
-            }));
-
-            // 3. Status Breakdown Chart
-            const statusChartContainer = document.createElement('div');
-            statusChartContainer.className = "chart-card status-chart";
-            statusChartContainer.innerHTML = '<div class="chart-container"><canvas id="statusChart"></canvas></div>';
-            output.appendChild(statusChartContainer);
+            });
             
-            const statusData = { 'Resolved': data.totalResolved, 'In Progress': data.totalInProgress };
+            // Status Chart (Doughnut)
             const statusCtx = document.getElementById('statusChart').getContext('2d');
-            charts.push(new Chart(statusCtx, {
-                type: 'bar',
+            new Chart(statusCtx, {
+                type: 'doughnut',
                 data: {
-                    labels: ['Resolved', 'In Progress'],
+                    labels: Object.keys(data.status),
                     datasets: [{
-                        label: 'Ticket Count',
-                        data: [statusData['Resolved'], statusData['In Progress']],
-                        backgroundColor: ['#a855f7', '#7e22ce'],
+                        data: Object.values(data.status),
+                        backgroundColor: ['#10b981', '#3b82f6'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
                     }]
                 },
-                 options: {
+                options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false }, title: { display: true, text: 'Ticket Status Overview' } }
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
                 }
-            }));
-
-            // 4. Issue Type Distribution Chart
-            const issueChartContainer = document.createElement('div');
-            issueChartContainer.className = "chart-card issue-chart";
-            issueChartContainer.innerHTML = '<div class="chart-container"><canvas id="issueChart"></canvas></div>';
-            output.appendChild(issueChartContainer);
+            });
             
-            const issueTypes = Object.keys(data.issueTypeCounts);
-            const issueCounts = Object.values(data.issueTypeCounts);
-            
-            // Create a color palette for issue types
-            const issueColors = [
-                '#f97316', '#c2410c', '#fb923c', '#fdba74',
-                '#eab308', '#ca8a04', '#f59e0b', '#d97706'
-            ];
-            
+            // Issue Chart (Bar)
             const issueCtx = document.getElementById('issueChart').getContext('2d');
-            charts.push(new Chart(issueCtx, {
+            const issueLabels = Object.keys(data.issue);
+            const issueData = Object.values(data.issue);
+            
+            // Sort issues by count (descending) and take top 10
+            const sortedIssues = issueLabels.map((label, index) => ({
+                label,
+                count: issueData[index]
+            })).sort((a, b) => b.count - a.count).slice(0, 10);
+            
+            new Chart(issueCtx, {
                 type: 'bar',
                 data: {
-                    labels: issueTypes,
+                    labels: sortedIssues.map(i => i.label),
                     datasets: [{
-                        label: 'Number of Tickets',
-                        data: issueCounts,
-                        backgroundColor: issueColors,
-                        borderColor: issueColors.map(color => color.replace('0.8', '1')),
+                        label: 'Tickets',
+                        data: sortedIssues.map(i => i.count),
+                        backgroundColor: '#f97316',
+                        borderColor: '#c2410c',
                         borderWidth: 1
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    indexAxis: 'y', // Horizontal bar chart for better readability
                     plugins: {
-                        legend: { display: false },
-                        title: { 
-                            display: true, 
-                            text: `Issue/Request Distribution`
+                        legend: {
+                            display: false
                         }
                     },
                     scales: {
-                        x: {
+                        y: {
                             beginAtZero: true,
                             ticks: {
                                 stepSize: 1
                             }
                         }
-                    }
+                    },
+                    indexAxis: 'y'
                 }
-            }));
-
-            // 5. Priority Distribution Chart
-            const priorityChartContainer = document.createElement('div');
-            priorityChartContainer.className = "chart-card priority-chart";
-            priorityChartContainer.innerHTML = '<div class="chart-container"><canvas id="priorityChart"></canvas></div>';
-            output.appendChild(priorityChartContainer);
+            });
             
-            const priorities = Object.keys(data.priorityCounts);
-            const priorityCounts = Object.values(data.priorityCounts);
-            
-            // Priority colors matching the CSS classes
-            const priorityColors = {
-                'P1': '#ef4444',
-                'P2': '#f97316', 
-                'P3': '#eab308',
-                'P4': '#3b82f6'
-            };
-            
-            const priorityBorderColors = {
-                'P1': '#dc2626',
-                'P2': '#ea580c',
-                'P3': '#ca8a04',
-                'P4': '#1d4ed8'
-            };
-            
+            // Priority Chart (Pie)
             const priorityCtx = document.getElementById('priorityChart').getContext('2d');
-            charts.push(new Chart(priorityCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: priorities,
-                    datasets: [{
-                        data: priorityCounts,
-                        backgroundColor: priorities.map(p => priorityColors[p]),
-                        borderColor: priorities.map(p => priorityBorderColors[p]),
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'top' },
-                        title: { 
-                            display: true, 
-                            text: 'Priority Distribution'
-                        }
-                    }
-                }
-            }));
-
-            // 6. Environment Distribution Chart
-            const environmentChartContainer = document.createElement('div');
-            environmentChartContainer.className = "chart-card environment-chart";
-            environmentChartContainer.innerHTML = '<div class="chart-container"><canvas id="environmentChart"></canvas></div>';
-            output.appendChild(environmentChartContainer);
-            
-            const environments = Object.keys(data.environmentCounts);
-            const environmentCounts = Object.values(data.environmentCounts);
-            
-            const environmentCtx = document.getElementById('environmentChart').getContext('2d');
-            charts.push(new Chart(environmentCtx, {
+            new Chart(priorityCtx, {
                 type: 'pie',
                 data: {
-                    labels: environments,
+                    labels: Object.keys(data.priority),
                     datasets: [{
-                        data: environmentCounts,
-                        backgroundColor: ['#dcfce7', '#fef3c7', '#e5e7eb'],
-                        borderColor: ['#166534', '#92400e', '#4b5563'],
-                        borderWidth: 2
+                        data: Object.values(data.priority),
+                        backgroundColor: ['#dc2626', '#ea580c', '#ca8a04', '#1d4ed8'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'top' },
-                        title: { 
-                            display: true, 
-                            text: 'Environment Distribution'
+                        legend: {
+                            position: 'bottom'
                         }
                     }
                 }
-            }));
-
-            document.getElementById('downloadReportBtn').classList.remove('hidden');
-        }
-        
-        function calculateTrendData(period, tickets) {
-            const now = new Date();
-            const labels = [];
-            const values = [];
+            });
             
-            if (period === 'daily') {
-                // Last 24 hours in 4-hour intervals
-                for (let i = 5; i >= 0; i--) {
-                    const startHour = i * 4;
-                    const endHour = (i + 1) * 4;
-                    const currentHour = new Date().getHours();
-                    
-                    let label;
-                    if (i === 5) {
-                        label = `Now (${currentHour}:00)`;
-                    } else {
-                        label = `${startHour}:00 - ${endHour}:00`;
+            // Environment Chart (Doughnut)
+            const environmentCtx = document.getElementById('environmentChart').getContext('2d');
+            new Chart(environmentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(data.environment),
+                    datasets: [{
+                        data: Object.values(data.environment),
+                        backgroundColor: ['#166534', '#92400e', '#4b5563'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
                     }
-                    
-                    labels.push(label);
-                    
-                    const count = tickets.filter(ticket => {
-                        const ticketDate = new Date(ticket.ticketDate || ticket.createdAt);
-                        const ticketHour = ticketDate.getHours();
-                        return ticketHour >= startHour && ticketHour < endHour && 
-                               ticketDate.toDateString() === now.toDateString();
-                    }).length;
-                    
-                    values.push(count);
                 }
-            } else if (period === 'weekly') {
-                // Last 7 days
-                for (let i = 6; i >= 0; i--) {
-                    const date = new Date();
-                    date.setDate(now.getDate() - i);
-                    const dateStr = date.toISOString().split('T')[0];
-                    labels.push(date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }));
-                    
-                    const count = tickets.filter(ticket => {
-                        const ticketDate = new Date(ticket.ticketDate || ticket.createdAt);
-                        const ticketDateStr = ticketDate.toISOString().split('T')[0];
-                        return ticketDateStr === dateStr;
-                    }).length;
-                    
-                    values.push(count);
-                }
-            } else if (period === 'monthly') {
-                // Last 4 weeks
-                for (let i = 3; i >= 0; i--) {
-                    const startDate = new Date();
-                    startDate.setDate(now.getDate() - (i + 1) * 7);
-                    const endDate = new Date();
-                    endDate.setDate(now.getDate() - i * 7);
-                    
-                    labels.push(`Week ${4 - i}`);
-                    
-                    const count = tickets.filter(ticket => {
-                        const ticketDate = new Date(ticket.ticketDate || ticket.createdAt);
-                        return ticketDate >= startDate && ticketDate < endDate;
-                    }).length;
-                    
-                    values.push(count);
-                }
-            }
-            
-            return { labels, values };
+            });
         }
         
-        function downloadReport() {
-            if (!reportData) {
-                showNotification('Please generate a report first.', 'warning');
-                return;
-            }
-            
-            const wb = XLSX.utils.book_new();
-
-            // Summary Sheet
-            const summary = [
-                ["Report Period", reportData.period],
-                ["Total Resolved", reportData.totalResolved],
-                ["Total In Progress", reportData.totalInProgress],
-                ["Day Shift Tickets", reportData.dayTickets],
-                ["Night Shift Tickets", reportData.nightTickets],
-                ["Average In Progress Age", reportData.avgAgeInProgress],
-            ];
-            
-            // Add issue type breakdown to summary
-            summary.push(["", ""]);
-            summary.push(["Issue Type Breakdown", ""]);
-            Object.entries(reportData.issueTypeCounts).forEach(([issue, count]) => {
-                summary.push([issue, count]);
-            });
-
-            // Add priority breakdown to summary
-            summary.push(["", ""]);
-            summary.push(["Priority Breakdown", ""]);
-            Object.entries(reportData.priorityCounts).forEach(([priority, count]) => {
-                summary.push([priority, count]);
-            });
-            
-            // Add environment breakdown to summary
-            summary.push(["", ""]);
-            summary.push(["Environment Breakdown", ""]);
-            Object.entries(reportData.environmentCounts).forEach(([environment, count]) => {
-                summary.push([environment, count]);
-            });
-            
-            const wsSummary = XLSX.utils.aoa_to_sheet(summary);
-            XLSX.utils.book_append_sheet(wb, wsSummary, "Summary");
-
-            // In Progress Sheet
-            const wsInProgress = XLSX.utils.json_to_sheet(reportData.inProgressList);
-            XLSX.utils.book_append_sheet(wb, wsInProgress, "In Progress Tickets");
-            
-            // Resolved Sheet
-            const wsResolved = XLSX.utils.json_to_sheet(reportData.resolvedList);
-            XLSX.utils.book_append_sheet(wb, wsResolved, "Resolved Tickets");
-            
-            XLSX.writeFile(wb, `Ticket_Report_${reportData.period}_${new Date().toISOString().split('T')[0]}.xlsx`);
-            showNotification('Report downloaded!', 'success');
-        }
-
-        // --- SCREENSHOT FUNCTIONALITY ---
-        async function takeScreenshot() {
-            if (!reportData) {
-                showNotification('Please generate a report first.', 'warning');
-                return;
-            }
-
+        async function takeReportScreenshot() {
             try {
-                showNotification('Taking screenshot...', 'info');
+                showNotification('Taking report screenshot...', 'info');
                 
-                // Get the report content to capture
                 const reportContent = document.getElementById('report-screenshot-content');
-                
-                // Use html2canvas to capture the report content
                 const canvas = await html2canvas(reportContent, {
                     backgroundColor: '#ffffff',
-                    scale: 2, // Higher quality
+                    scale: 2,
                     useCORS: true,
                     allowTaint: true,
                     logging: false
                 });
                 
-                // Convert canvas to image and download
                 const image = canvas.toDataURL('image/png');
                 const link = document.createElement('a');
-                link.download = `Ticket_Report_${reportData.period}_${new Date().toISOString().split('T')[0]}.png`;
+                link.download = `TicketReport_${currentReportType}_${new Date().toISOString().split('T')[0]}.png`;
                 link.href = image;
                 link.click();
                 
-                showNotification('Screenshot downloaded!', 'success');
+                showNotification('Report screenshot downloaded!', 'success');
             } catch (error) {
-                console.error('Error taking screenshot:', error);
-                showNotification('Error taking screenshot.', 'error');
+                console.error('Error taking report screenshot:', error);
+                showNotification('Error taking report screenshot.', 'error');
             }
         }
-
-        // --- UPDATED: EXPORT TO EXCEL FUNCTIONALITY ---
-        function exportTickets(type, period, tab) {
-            const now = new Date();
-            let startDate, endDate;
-            
-            if (period === 'day') {
-                startDate = new Date(now);
-                startDate.setHours(0, 0, 0, 0);
-                endDate = new Date(now);
-                endDate.setHours(23, 59, 59, 999);
-            } else if (period === 'month') {
-                startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-                endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
-            } else if (period === 'year') {
-                startDate = new Date(now.getFullYear(), 0, 1);
-                endDate = new Date(now.getFullYear(), 11, 31, 23, 59, 59, 999);
-            }
-            
-            // Filter tickets based on tab and period
-            let filteredTickets = [];
-            if (tab === 'in-progress') {
-                filteredTickets = allTickets.filter(t => {
-                    const ticketDate = t.ticketDate ? new Date(t.ticketDate) : (t.createdAt?.toDate() || new Date(0));
-                    return t.status !== 'Resolved' && ticketDate >= startDate && ticketDate <= endDate;
-                });
-            } else if (tab === 'resolved') {
-                filteredTickets = allTickets.filter(t => {
-                    const ticketDate = t.ticketDate ? new Date(t.ticketDate) : (t.createdAt?.toDate() || new Date(0));
-                    return t.status === 'Resolved' && ticketDate >= startDate && ticketDate <= endDate;
-                });
-            }
-            
-            if (filteredTickets.length === 0) {
-                showNotification(`No ${tab === 'in-progress' ? 'In Progress' : 'Resolved'} tickets found for the selected period.`, 'warning');
+        
+        function downloadReport() {
+            if (!reportData) {
+                showNotification('No report data to download.', 'info');
                 return;
             }
             
-            // Format tickets for export
-            const formattedTickets = filteredTickets.map(ticket => ({
-                'Date': ticket.ticketDate ? new Date(ticket.ticketDate).toLocaleDateString() : (ticket.createdAt ? ticket.createdAt.toDate().toLocaleDateString() : 'N/A'),
-                'Shift': ticket.shift || '',
-                'Handled By': ticket.handledBy || '',
-                'Ticket Number': ticket.ticketNumber || '',
-                'Priority': ticket.priority || '',
-                'Environment': ticket.environment || '',
-                'Status': ticket.status || '',
-                'Issue/Request': ticket.issueType || '',
-                'Description': ticket.description || '',
-                'Resolution': ticket.resolution || '',
-                'Resolved On': ticket.resolvedAt ? ticket.resolvedAt.toDate().toLocaleDateString() : '',
-                'Created At': ticket.createdAt ? ticket.createdAt.toDate().toLocaleString() : '',
-                'Updated At': ticket.updatedAt ? ticket.updatedAt.toDate().toLocaleString() : ''
-            }));
+            // Prepare data for Excel export
+            const headers = ['Date', 'Shift', 'Handled By', 'Ticket #', 'Priority', 'Environment', 'Status', 'Issue/Request', 'Description', 'Resolution', 'Created', 'Resolved'];
             
-            // Create workbook and worksheet
+            const data = reportData.tickets.map(ticket => {
+                const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toLocaleDateString() : 
+                                  (ticket.createdAt ? ticket.createdAt.toDate().toLocaleDateString() : 'N/A');
+                const createdDate = ticket.createdAt ? ticket.createdAt.toDate().toLocaleDateString() : 'N/A';
+                const resolvedDate = ticket.resolvedAt ? ticket.resolvedAt.toDate().toLocaleDateString() : 'N/A';
+                
+                return [
+                    ticketDate,
+                    ticket.shift,
+                    ticket.handledBy,
+                    ticket.ticketNumber,
+                    ticket.priority,
+                    ticket.environment || 'N/A',
+                    ticket.status,
+                    ticket.issueType || 'Not specified',
+                    ticket.description || 'No description',
+                    ticket.resolution || 'No resolution',
+                    createdDate,
+                    resolvedDate
+                ];
+            });
+            
+            // Create worksheet and workbook
+            const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
             const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.json_to_sheet(formattedTickets);
+            XLSX.utils.book_append_sheet(wb, ws, 'Ticket Report');
             
-            // Add worksheet to workbook
-            XLSX.utils.book_append_sheet(wb, ws, `${tab === 'in-progress' ? 'In Progress' : 'Resolved'} Tickets`);
-            
-            // Generate filename
-            const periodLabel = period === 'day' ? 'Today' : (period === 'month' ? 'This_Month' : 'This_Year');
-            const tabLabel = tab === 'in-progress' ? 'In_Progress' : 'Resolved';
-            const filename = `${tabLabel}_Tickets_${periodLabel}_${new Date().toISOString().split('T')[0]}.xlsx`;
-            
-            // Download the file
-            XLSX.writeFile(wb, filename);
-            showNotification(`${tab === 'in-progress' ? 'In Progress' : 'Resolved'} tickets exported!`, 'success');
-        }
-
-        // --- EVENT LISTENERS ---
-        function setupEventListeners() {
-            // Tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    switchTab(e.target.dataset.tab);
-                });
-            });
-            
-            // Modal
-            addTicketBtn.addEventListener('click', () => openModal());
-            cancelModalBtn.addEventListener('click', closeModal);
-            deleteTicketBtn.addEventListener('click', handleDeleteTicket);
-            ticketForm.addEventListener('submit', handleFormSubmit);
-            
-            // Report generation
-            generateDailyReportBtn.addEventListener('click', () => generateReport('daily'));
-            generateWeeklyReportBtn.addEventListener('click', () => generateReport('weekly'));
-            generateMonthlyReportBtn.addEventListener('click', () => generateReport('monthly'));
-            takeScreenshotBtn.addEventListener('click', takeScreenshot);
-            downloadReportBtn.addEventListener('click', downloadReport);
-            
-            // UPDATED: Export buttons
-            exportInProgressBtn.addEventListener('click', () => {
-                const period = exportInProgressPeriod.value;
-                exportTickets('in-progress', period, 'in-progress');
-            });
-            
-            exportResolvedBtn.addEventListener('click', () => {
-                const period = exportResolvedPeriod.value;
-                exportTickets('resolved', period, 'resolved');
-            });
-            
-            // NEW: User selection modal
-            confirmUserBtn.addEventListener('click', confirmUserSelection);
-            
-            // NEW: Past Turnover events
-            applyPastTurnoverFilter.addEventListener('click', applyPastTurnoverFilters);
-            clearPastTurnoverFilter.addEventListener('click', clearPastTurnoverFilters);
-            
-            // Sorting and filtering
-            const sortElements = [
-                'sort-in-progress-date', 'sort-in-progress-shift', 'sort-in-progress-assignee', 'sort-in-progress-priority', 'sort-in-progress-environment', 'sort-in-progress-issue', 'filter-in-progress-specific-date',
-                'sort-resolved-date', 'sort-resolved-shift', 'sort-resolved-assignee', 'sort-resolved-priority', 'sort-resolved-environment', 'sort-resolved-issue', 'filter-resolved-specific-date'
+            // Add summary sheet
+            const summaryData = [
+                ['Report Type', reportData.type],
+                ['Report Period', reportData.period],
+                ['Total Tickets', reportData.tickets.length],
+                ['Resolved Tickets', reportData.tickets.filter(t => t.status === 'Resolved').length],
+                ['In Progress Tickets', reportData.tickets.filter(t => t.status !== 'Resolved').length],
+                ['Generated At', reportData.generatedAt.toLocaleString()]
             ];
             
-            sortElements.forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.addEventListener('change', () => {
-                        renderTickets();
-                    });
-                }
-            });
+            const summaryWs = XLSX.utils.aoa_to_sheet(summaryData);
+            XLSX.utils.book_append_sheet(wb, summaryWs, 'Summary');
+            
+            // Generate file name
+            const fileName = `TicketReport_${currentReportType}_${new Date().toISOString().split('T')[0]}.xlsx`;
+            
+            // Export
+            XLSX.writeFile(wb, fileName);
+            showNotification('Report downloaded as Excel file', 'success');
         }
 
         // --- UTILITY FUNCTIONS ---
         function formatDistanceToNow(date) {
             const now = new Date();
-            const diffMs = now - date;
-            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-            const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+            const diffInMs = now - date;
+            const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
             
-            if (diffDays > 0) {
-                return `${diffDays}d ${diffHours}h`;
-            } else if (diffHours > 0) {
-                return `${diffHours}h ${diffMinutes}m`;
+            if (diffInDays === 0) {
+                const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+                if (diffInHours === 0) {
+                    const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+                    return `${diffInMinutes}m`;
+                }
+                return `${diffInHours}h`;
+            } else if (diffInDays === 1) {
+                return '1d';
             } else {
-                return `${diffMinutes}m`;
-            }
-        }
-        
-        function formatDuration(ms) {
-            const days = Math.floor(ms / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-            
-            if (days > 0) {
-                return `${days}d ${hours}h`;
-            } else if (hours > 0) {
-                return `${hours}h ${minutes}m`;
-            } else {
-                return `${minutes}m`;
+                return `${diffInDays}d`;
             }
         }
         
         function getStatusColor(status) {
-            return status === 'Resolved' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800';
+            switch(status) {
+                case 'Resolved': return 'bg-green-100 text-green-800';
+                case 'In Progress': return 'bg-blue-100 text-blue-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
         }
 
-        // Initialize the app
-        initApp();
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
