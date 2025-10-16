@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Real-Time Ticket Tracker</title>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Chart.js for reports -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- SheetJS (xlsx) for Excel export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    
+
     <!-- html2canvas for screenshot functionality -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
+
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -116,7 +116,7 @@
             color: #1e293b; /* Dark slate text color */
             border: 1px solid #cbd5e1; /* Border color */
         }
-        
+
         textarea:focus {
             background-color: #ffffff; /* White when focused */
             outline: 2px solid #3b82f6; /* Blue focus ring */
@@ -711,11 +711,11 @@
             cursor: pointer;
             margin-left: 0.5rem;
         }
-        
+
         .clear-filter-btn:hover {
             background-color: #4b5563;
         }
-        
+
         .team-selection {
             margin-top: 0.5rem;
         }
@@ -724,7 +724,7 @@
 <body class="antialiased text-gray-800">
 
     <!-- NEW: User Selection Modal -->
-    <div id="userSelectionModal" class="user-selection-modal hidden">
+    <div id="userSelectionModal" class="user-selection-modal">
         <div class="user-selection-content">
             <h2 class="user-selection-title">Select Your Username</h2>
             <div id="userOptionsGrid" class="user-grid">
@@ -742,8 +742,8 @@
     </div>
 
     <!-- Main Container -->
-    <div id="app" class="container mx-auto p-4 md:p-6 lg:p-8">
-        
+    <div id="app" class="container mx-auto p-4 md:p-6 lg:p-8 hidden">
+
         <!-- Header -->
         <header class="flex flex-col sm:flex-row justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-blue-900">Ticket Tracker</h1>
@@ -787,7 +787,7 @@
             <div id="in-progress-content" class="tab-content">
                 <div class="bg-white p-6 rounded-xl shadow-lg">
                     <h2 class="section-header">In Progress Tickets</h2>
-                    
+
                     <!-- UPDATED: Compact filter and export controls with clear filter button -->
                     <div class="compact-filter-container mb-4">
                         <span class="compact-filter-label">Sort by:</span>
@@ -828,10 +828,10 @@
                             <option value="Service Request - Data Center Access">Service Request - Data Center Access</option>
                         </select>
                         <input type="date" id="filter-in-progress-specific-date" class="compact-filter-date">
-                        
+
                         <!-- NEW: Clear Filter Button for In Progress -->
                         <button id="clearInProgressFilter" class="clear-filter-btn">Clear Filters</button>
-                        
+
                         <div class="compact-export-container">
                             <span class="compact-filter-label">Export:</span>
                             <select id="exportInProgressPeriod" class="compact-export-select">
@@ -844,7 +844,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white">
                             <thead class="bg-blue-50">
@@ -879,7 +879,7 @@
             <div id="resolved-content" class="tab-content hidden">
                  <div class="bg-white p-6 rounded-xl shadow-lg">
                     <h2 class="section-header">Resolved Tickets</h2>
-                    
+
                     <!-- UPDATED: Compact filter and export controls with clear filter button -->
                     <div class="compact-filter-container mb-4">
                         <span class="compact-filter-label">Sort by:</span>
@@ -920,10 +920,10 @@
                             <option value="Service Request - Data Center Access">Service Request - Data Center Access</option>
                         </select>
                         <input type="date" id="filter-resolved-specific-date" class="compact-filter-date">
-                        
+
                         <!-- NEW: Clear Filter Button for Resolved -->
                         <button id="clearResolvedFilter" class="clear-filter-btn">Clear Filters</button>
-                        
+
                         <div class="compact-export-container">
                             <span class="compact-filter-label">Export:</span>
                             <select id="exportResolvedPeriod" class="compact-export-select">
@@ -936,7 +936,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="overflow-x-auto">
                          <table class="min-w-full bg-white">
                             <thead class="bg-blue-50">
@@ -979,7 +979,7 @@
                             Save Turnover
                         </button>
                     </div>
-                    
+
                     <!-- Section 1: Date and Shift - UPDATED WITH TEAM SELECTION -->
                     <div class="turnover-section turnover-date-section">
                         <h3 class="turnover-section-header">Date and Shift</h3>
@@ -1009,7 +1009,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <!-- Section 2: Tickets Handled - UPDATED WITH NEW COLOR SCHEME -->
                     <div class="turnover-section turnover-tickets-section">
                         <h3 class="turnover-section-header">Tickets Handled</h3>
@@ -1032,7 +1032,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Section 3: Scheduled Events - UPDATED -->
                     <div class="turnover-section turnover-scheduled-section">
                         <h3 class="turnover-section-header">Scheduled Events</h3>
@@ -1045,7 +1045,7 @@
                             <button id="add-scheduled-event" class="turnover-add-btn bg-amber-600">Add Event</button>
                         </div>
                     </div>
-                    
+
                     <!-- Section 4: General Information - UPDATED -->
                     <div class="turnover-section turnover-general-section">
                         <h3 class="turnover-section-header">General Information</h3>
@@ -1058,7 +1058,7 @@
                             <button id="add-general-info" class="turnover-add-btn bg-purple-600">Add Information</button>
                         </div>
                     </div>
-                    
+
                     <!-- Section 5: Reminders - UPDATED -->
                     <div class="turnover-section turnover-reminders-section">
                         <h3 class="turnover-section-header">Reminders</h3>
@@ -1071,7 +1071,7 @@
                             <button id="add-reminder" class="turnover-add-btn bg-pink-600">Add Reminder</button>
                         </div>
                     </div>
-                    
+
                     <!-- Section 6: On-call Updates - UPDATED -->
                     <div class="turnover-section turnover-oncall-section">
                         <h3 class="turnover-section-header">On-call Updates</h3>
@@ -1091,7 +1091,7 @@
             <div id="past-turnover-content" class="tab-content hidden">
                 <div class="bg-white p-6 rounded-xl shadow-lg">
                     <h2 class="section-header">Past Turnover</h2>
-                    
+
                     <!-- Filter Controls -->
                     <div class="compact-filter-container mb-4">
                         <span class="compact-filter-label">Filter by:</span>
@@ -1115,7 +1115,7 @@
                             Clear Filter
                         </button>
                     </div>
-                    
+
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white">
                             <thead class="bg-blue-50">
@@ -1137,7 +1137,7 @@
                             </tbody>
                         </table>
                     </div>
-                    
+
                     <!-- Pagination for Past Turnover -->
                     <div id="past-turnover-pagination" class="pagination mt-4 hidden">
                         <!-- Pagination buttons will be inserted here by JavaScript -->
@@ -1156,12 +1156,12 @@
                         <button id="takeScreenshotBtn" class="screenshot-btn font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105 hidden">Take Screenshot</button>
                         <button id="downloadReportBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105 hidden">Download Report (Excel)</button>
                     </div>
-                    
+
                     <!-- Report Period Display -->
                     <div id="report-period-display" class="report-period hidden">
                         <!-- Period information will be displayed here -->
                     </div>
-                    
+
                     <!-- Report content for screenshot -->
                     <div id="report-screenshot-content">
                         <div id="report-output" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1269,7 +1269,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Edit Conflict Modal -->
     <div id="editConflictModal" class="edit-conflict-modal hidden">
         <div class="edit-conflict-content">
@@ -1282,7 +1282,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Notification Container -->
     <div id="notification-container" class="fixed top-5 right-5 z-[100]"></div>
 
@@ -1314,13 +1314,13 @@
         let allTickets = [];
         let reportData = null; // To store generated report data for download
         let currentReportType = null; // Track current report type
-        
+
         // Pagination state
         const itemsPerPage = 15;
         let currentPageInProgress = 1;
         let currentPageResolved = 1;
         let currentPagePastTurnover = 1;
-        
+
         // Real-time collaboration state
         let currentUser = null;
         let onlineUsers = {};
@@ -1328,7 +1328,7 @@
         let editingTicketId = null;
         let editingTicketVersion = 0;
 
-        // Turnover state 
+        // Turnover state
         let turnoverData = {
             date: new Date().toISOString().split('T')[0],
             shift: '',
@@ -1372,13 +1372,13 @@
         const generateMonthlyReportBtn = document.getElementById('generateMonthlyReportBtn');
         const downloadReportBtn = document.getElementById('downloadReportBtn');
         const takeTurnoverScreenshotBtn = document.getElementById('takeTurnoverScreenshotBtn');
-        
+
         // UPDATED: Export dropdowns and buttons
         const exportInProgressPeriod = document.getElementById('exportInProgressPeriod');
         const exportInProgressBtn = document.getElementById('exportInProgressBtn');
         const exportResolvedPeriod = document.getElementById('exportResolvedPeriod');
         const exportResolvedBtn = document.getElementById('exportResolvedBtn');
-        
+
         // NEW: Turnover DOM Elements
         const turnoverDateInput = document.getElementById('turnover-date');
         const turnoverShiftSelect = document.getElementById('turnover-shift');
@@ -1397,15 +1397,15 @@
         const addReminderBtn = document.getElementById('add-reminder');
         const newOncallUpdateInput = document.getElementById('new-oncall-update');
         const addOncallUpdateBtn = document.getElementById('add-oncall-update');
-        
+
         // NEW: User Selection Modal Elements
         const userSelectionModal = document.getElementById('userSelectionModal');
         const userOptionsGrid = document.getElementById('userOptionsGrid');
         const confirmUserBtn = document.getElementById('confirmUserBtn');
-        
+
         // NEW: Save Turnover Button
         const saveTurnoverBtn = document.getElementById('saveTurnoverBtn');
-        
+
         // NEW: Past Turnover DOM Elements
         const pastTurnoverTable = document.getElementById('past-turnover-table');
         const filterPastTurnoverDate = document.getElementById('filter-past-turnover-date');
@@ -1413,13 +1413,16 @@
         const filterPastTurnoverTeam = document.getElementById('filter-past-turnover-team'); // NEW
         const applyPastTurnoverFilter = document.getElementById('applyPastTurnoverFilter');
         const clearPastTurnoverFilter = document.getElementById('clearPastTurnoverFilter');
-        
+
         // NEW: Clear Filter Buttons
         const clearInProgressFilterBtn = document.getElementById('clearInProgressFilter');
         const clearResolvedFilterBtn = document.getElementById('clearResolvedFilter');
-        
+
         // --- MAIN APP INITIALIZATION ---
         function initApp() {
+            // Set up the confirm button event listener for user selection
+            confirmUserBtn.addEventListener('click', confirmUserSelection);
+
             // Check if user is already selected
             const storedUser = localStorage.getItem('ticketTrackerUserName');
             if (storedUser) {
@@ -1432,68 +1435,75 @@
                 setupOnlineUsersPanel();
                 initializeTurnover();
                 setupPastTurnover();
+
+                // Hide user selection modal and show main app
+                userSelectionModal.classList.add('hidden');
+                document.getElementById('app').classList.remove('hidden');
             } else {
                 // Show user selection modal
                 showUserSelectionModal();
             }
         }
-        
+
         // --- USER SELECTION FUNCTIONALITY ---
         function showUserSelectionModal() {
             // Shuffle the user list for random order
             const shuffledUsers = [...availableUsers].sort(() => Math.random() - 0.5);
-            
+
             // Clear previous options
             userOptionsGrid.innerHTML = '';
-            
+
             // Create user option elements
             shuffledUsers.forEach(user => {
                 const userOption = document.createElement('div');
                 userOption.className = 'user-option';
                 userOption.dataset.username = user;
-                
+
                 const avatar = document.createElement('div');
                 avatar.className = 'user-option-avatar';
                 avatar.style.backgroundColor = generateUserColor(user);
                 avatar.textContent = user.charAt(0);
-                
+
                 const name = document.createElement('div');
                 name.className = 'user-option-name';
                 name.textContent = user;
-                
+
                 userOption.appendChild(avatar);
                 userOption.appendChild(name);
-                
+
                 userOption.addEventListener('click', () => {
                     // Remove selected class from all options
                     document.querySelectorAll('.user-option').forEach(opt => {
                         opt.classList.remove('selected');
                     });
-                    
+
                     // Add selected class to clicked option
                     userOption.classList.add('selected');
                     selectedUserName = user;
                 });
-                
+
                 userOptionsGrid.appendChild(userOption);
             });
-            
+
             // Show the modal
             userSelectionModal.classList.remove('hidden');
         }
-        
+
         function confirmUserSelection() {
             if (!selectedUserName) {
                 alert('Please select a username to continue.');
                 return;
             }
-            
+
             // Store the selected user
             localStorage.setItem('ticketTrackerUserName', selectedUserName);
-            
+
             // Hide the modal
             userSelectionModal.classList.add('hidden');
-            
+
+            // Show the main app
+            document.getElementById('app').classList.remove('hidden');
+
             // Initialize the app with the selected user
             initializeUserSession(selectedUserName);
             setupRealtimeListeners();
@@ -1503,54 +1513,54 @@
             setupOnlineUsersPanel();
             initializeTurnover();
             setupPastTurnover();
-            
+
             showNotification(`Welcome, ${selectedUserName}!`, 'success');
         }
-        
+
         // --- REAL-TIME COLLABORATION ---
         function initializeUserSession(userName) {
             // Generate a unique session ID for this user
             userSessionId = 'user-' + Math.random().toString(36).substring(2, 15);
-            
+
             currentUser = {
                 id: userSessionId,
                 name: userName,
                 lastSeen: serverTimestamp(),
                 online: true
             };
-            
+
             // Update UI with user info
             currentUserName.textContent = currentUser.name;
             currentUserAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
             currentUserAvatar.style.backgroundColor = generateUserColor(currentUser.id);
-            
+
             // Register user in the online users collection
             registerUserPresence();
         }
-        
+
         function generateUserColor(userId) {
             // Generate a consistent color based on user ID
             let hash = 0;
             for (let i = 0; i < userId.length; i++) {
                 hash = userId.charCodeAt(i) + ((hash << 5) - hash);
             }
-            
+
             const hue = hash % 360;
             return `hsl(${hue}, 70%, 60%)`;
         }
-        
+
         function registerUserPresence() {
             if (!currentUser) return;
-            
+
             const userRef = doc(db, `/artifacts/${appId}/public/data/onlineUsers`, currentUser.id);
-            
+
             // Set user as online
             setDoc(userRef, {
                 ...currentUser,
                 lastSeen: serverTimestamp(),
                 online: true
             });
-            
+
             // Set up cleanup on page unload
             window.addEventListener('beforeunload', () => {
                 setDoc(userRef, {
@@ -1560,7 +1570,7 @@
                 }, { merge: true });
             });
         }
-        
+
         function setupRealtimeListeners() {
             // Tickets collection listener
             const ticketsCollectionRef = collection(db, `/artifacts/${appId}/public/data/tickets`);
@@ -1568,25 +1578,25 @@
 
             onSnapshot(q, (snapshot) => {
                 const previousTicketCount = allTickets.length;
-                allTickets = snapshot.docs.map(doc => ({ 
-                    id: doc.id, 
+                allTickets = snapshot.docs.map(doc => ({
+                    id: doc.id,
                     ...doc.data(),
                     // Add version for optimistic concurrency control
                     _version: doc.data()._version || 0
                 }));
-                
+
                 // Show real-time update indicator if this isn't the initial load
                 if (previousTicketCount > 0) {
                     showRealTimeUpdate();
                 }
-                
+
                 renderTickets();
-                
+
                 // NEW: Update turnover tickets if turnover tab is active
                 if (!document.getElementById('turnover-content').classList.contains('hidden')) {
                     updateTurnoverTickets();
                 }
-                
+
                 // Auto-refresh report if reports tab is active and a report type is selected
                 if (!document.getElementById('reports-content').classList.contains('hidden') && currentReportType) {
                     generateReport(currentReportType);
@@ -1611,10 +1621,10 @@
                         }
                     }
                 });
-                
+
                 updateOnlineUsersDisplay();
             });
-            
+
             // NEW: Turnover data listener
             const turnoverRef = doc(db, `/artifacts/${appId}/public/data/turnover`, 'current');
             onSnapshot(turnoverRef, (doc) => {
@@ -1628,78 +1638,78 @@
                 }
             });
         }
-        
+
         function showRealTimeUpdate() {
             updateMessage.textContent = 'Ticket data updated in real-time';
             realTimeIndicator.style.display = 'block';
-            
+
             setTimeout(() => {
                 realTimeIndicator.style.display = 'none';
             }, 3000);
         }
-        
+
         function updateOnlineUsersDisplay() {
             const currentUserCount = Object.keys(onlineUsers).length;
-            
+
             // Update user count in header
             document.querySelectorAll('.user-count').forEach(el => el.remove());
-            
+
             const userCountBadge = document.createElement('span');
             userCountBadge.className = 'user-count bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full ml-2';
             userCountBadge.textContent = `${currentUserCount} online`;
             currentUserName.parentNode.appendChild(userCountBadge);
-            
+
             // Update online users panel
             onlineUsersList.innerHTML = '';
-            
+
             Object.values(onlineUsers).forEach(user => {
                 const userEl = document.createElement('div');
                 userEl.className = 'online-user';
-                
+
                 const avatar = document.createElement('div');
                 avatar.className = 'user-avatar';
                 avatar.style.backgroundColor = generateUserColor(user.id);
                 avatar.textContent = user.name.charAt(0).toUpperCase();
-                
+
                 const name = document.createElement('span');
                 name.className = 'text-sm';
                 name.textContent = user.name;
-                
+
                 const status = document.createElement('div');
                 status.className = 'user-status';
-                
+
                 userEl.appendChild(avatar);
                 userEl.appendChild(name);
                 userEl.appendChild(status);
                 onlineUsersList.appendChild(userEl);
             });
         }
-        
+
         function setupOnlineUsersPanel() {
             let hideTimeout;
-            
+
             currentUserName.parentNode.addEventListener('mouseenter', () => {
                 clearTimeout(hideTimeout);
                 onlineUsersPanel.classList.remove('hidden');
             });
-            
+
             currentUserName.parentNode.addEventListener('mouseleave', () => {
                 hideTimeout = setTimeout(() => {
                     onlineUsersPanel.classList.add('hidden');
                 }, 500);
             });
-            
+
             onlineUsersPanel.addEventListener('mouseenter', () => {
                 clearTimeout(hideTimeout);
             });
-            
+
             onlineUsersPanel.addEventListener('mouseleave', () => {
                 hideTimeout = setTimeout(() => {
                     onlineUsersPanel.classList.add('hidden');
                 }, 500);
             });
         }
-        
+
         // --- OPTIMISTIC CONCURRENCY CONTROL ---
         async function handleFormSubmit(e) {
             e.preventDefault();
@@ -1733,31 +1743,31 @@
             // If no conflict, proceed with save
             await saveTicketData(ticketId, ticketData, currentVersion);
         }
-        
+
         function showEditConflictModal(ticketId, localData, serverData) {
             editingTicketId = ticketId;
             editConflictModal.classList.remove('hidden');
-            
+
             // Set up conflict resolution buttons
             overwriteChangesBtn.onclick = () => {
                 // Overwrite server changes with local changes
                 saveTicketData(ticketId, localData, serverData._version);
                 editConflictModal.classList.add('hidden');
             };
-            
+
             reloadTicketBtn.onclick = () => {
                 // Reload the server version into the form
                 openModal(serverData);
                 editConflictModal.classList.add('hidden');
             };
-            
+
             cancelEditBtn.onclick = () => {
                 // Just close the modal and form
                 editConflictModal.classList.add('hidden');
                 closeModal();
             };
         }
-        
+
         async function saveTicketData(ticketId, ticketData, currentVersion) {
             // Add timestamps and version
             const isResolved = ticketData.status === 'Resolved';
@@ -1765,7 +1775,7 @@
 
             ticketData.updatedAt = serverTimestamp();
             ticketData._version = (currentVersion || 0) + 1;
-            
+
             if (isResolved && !wasPreviouslyResolved) {
                 ticketData.resolvedAt = serverTimestamp();
             }
@@ -1793,69 +1803,69 @@
         function renderTickets() {
             const inProgressTable = document.getElementById('in-progress-tickets-table');
             const resolvedTable = document.getElementById('resolved-tickets-table');
-            
+
             // Display ALL tickets in both tabs by default
             let inProgressTickets = allTickets.filter(t => t.status !== 'Resolved');
             let resolvedTickets = allTickets.filter(t => t.status === 'Resolved');
-            
+
             // Apply sorting (but don't filter by default)
             inProgressTickets = sortTickets(inProgressTickets, 'in-progress');
             resolvedTickets = sortTickets(resolvedTickets, 'resolved');
-            
+
             // Apply pagination
             const inProgressTotalPages = Math.ceil(inProgressTickets.length / itemsPerPage);
             const resolvedTotalPages = Math.ceil(resolvedTickets.length / itemsPerPage);
-            
+
             // Ensure current page is valid
             currentPageInProgress = Math.min(currentPageInProgress, Math.max(1, inProgressTotalPages));
             currentPageResolved = Math.min(currentPageResolved, Math.max(1, resolvedTotalPages));
-            
+
             // Get current page items
             const inProgressStartIndex = (currentPageInProgress - 1) * itemsPerPage;
             const inProgressEndIndex = inProgressStartIndex + itemsPerPage;
             const inProgressPageItems = inProgressTickets.slice(inProgressStartIndex, inProgressEndIndex);
-            
+
             const resolvedStartIndex = (currentPageResolved - 1) * itemsPerPage;
             const resolvedEndIndex = resolvedStartIndex + itemsPerPage;
             const resolvedPageItems = resolvedTickets.slice(resolvedStartIndex, resolvedEndIndex);
-            
+
             // Render tables
             inProgressTable.innerHTML = inProgressPageItems.map(ticket => createInProgressRow(ticket)).join('');
             resolvedTable.innerHTML = resolvedPageItems.map(ticket => createResolvedRow(ticket)).join('');
-            
+
             // Render pagination
             renderPagination('in-progress', inProgressTickets.length, currentPageInProgress, inProgressTotalPages);
             renderPagination('resolved', resolvedTickets.length, currentPageResolved, resolvedTotalPages);
-            
+
             // Event listeners for dropdowns - using event delegation instead
             setupDropdownEventListeners();
         }
-        
+
         function renderPagination(type, totalItems, currentPage, totalPages) {
             const paginationContainer = document.getElementById(`${type}-pagination`);
-            
+
             if (totalPages <= 1) {
                 paginationContainer.classList.add('hidden');
                 return;
             }
-            
+
             paginationContainer.classList.remove('hidden');
-            
+
             let paginationHTML = '';
-            
+
             // Previous button
             paginationHTML += `<button class="pagination-btn" ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}">Previous</button>`;
-            
+
             // Page numbers
             const maxVisiblePages = 5;
             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-            
+
             // Adjust if we're at the end
             if (endPage - startPage + 1 < maxVisiblePages) {
                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
             }
-            
+
             // First page
             if (startPage > 1) {
                 paginationHTML += `<button class="pagination-btn" data-page="1">1</button>`;
@@ -1863,12 +1873,12 @@
                     paginationHTML += `<span class="pagination-info">...</span>`;
                 }
             }
-            
+
             // Page numbers
             for (let i = startPage; i <= endPage; i++) {
                 paginationHTML += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
             }
-            
+
             // Last page
             if (endPage < totalPages) {
                 if (endPage < totalPages - 1) {
@@ -1876,15 +1886,15 @@
                 }
                 paginationHTML += `<button class="pagination-btn" data-page="${totalPages}">${totalPages}</button>`;
             }
-            
+
             // Next button
             paginationHTML += `<button class="pagination-btn" ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">Next</button>`;
-            
+
             // Info
             paginationHTML += `<span class="pagination-info">Showing ${Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)}-${Math.min(currentPage * itemsPerPage, totalItems)} of ${totalItems}</span>`;
-            
+
             paginationContainer.innerHTML = paginationHTML;
-            
+
             // Add event listeners to pagination buttons
             paginationContainer.querySelectorAll('.pagination-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -1905,12 +1915,12 @@
             const age = ticket.createdAt ? formatDistanceToNow(ticket.createdAt.toDate()) : 'N/A';
             const status = ticket.status === 'Resolved' ? 'Resolved' : 'In Progress'; // Normalize status
             const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toLocaleDateString() : (ticket.createdAt ? ticket.createdAt.toDate().toLocaleDateString() : 'N/A');
-            
+
             // Truncate long text
             const shortIssueType = ticket.issueType ? (ticket.issueType.length > 30 ? ticket.issueType.substring(0, 30) + '...' : ticket.issueType) : '-';
             const shortDescription = ticket.description ? (ticket.description.length > 50 ? ticket.description.substring(0, 50) + '...' : ticket.description) : '-';
             const shortResolution = ticket.resolution ? (ticket.resolution.length > 50 ? ticket.resolution.substring(0, 50) + '...' : ticket.resolution) : '-';
-            
+
             return `
                 <tr class="hover:bg-gray-50 text-sm">
                     <td class="py-3 px-4 text-xs text-gray-500">${ticketDate}</td>
@@ -1936,16 +1946,16 @@
                 </tr>
             `;
         }
-        
+
         function createResolvedRow(ticket) {
             const resolvedDate = ticket.resolvedAt ? ticket.resolvedAt.toDate().toLocaleDateString() : 'N/A';
             const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toLocaleDateString() : (ticket.createdAt ? ticket.createdAt.toDate().toLocaleDateString() : 'N/A');
-            
+
             // Truncate long text
             const shortIssueType = ticket.issueType ? (ticket.issueType.length > 30 ? ticket.issueType.substring(0, 30) + '...' : ticket.issueType) : '-';
             const shortDescription = ticket.description ? (ticket.description.length > 50 ? ticket.description.substring(0, 50) + '...' : ticket.description) : '-';
             const shortResolution = ticket.resolution ? (ticket.resolution.length > 50 ? ticket.resolution.substring(0, 50) + '...' : ticket.resolution) : '-';
-            
+
             return `
                 <tr class="hover:bg-gray-50 text-sm">
                     <td class="py-3 px-4 text-xs text-gray-500">${ticketDate}</td>
@@ -1996,12 +2006,12 @@
                     const dropdown = e.target.nextElementSibling;
                     dropdown.classList.toggle('show');
                 }
-                
+
                 // Handle dropdown item clicks for tickets
                 if (e.target.classList.contains('dropdown-item')) {
                     e.stopPropagation();
                     const ticketId = e.target.dataset.id;
-                    
+
                     if (e.target.classList.contains('edit')) {
                         const ticket = allTickets.find(t => t.id === ticketId);
                         if (ticket) {
@@ -2010,11 +2020,11 @@
                     } else if (e.target.classList.contains('resolve')) {
                         markAsResolved(ticketId);
                     }
-                    
+
                     // Close dropdown
                     e.target.closest('.dropdown-menu').classList.remove('show');
                 }
-                
+
                 // Handle dropdown item clicks for past turnover
                 if (e.target.classList.contains('view-past-turnover')) {
                     e.stopPropagation();
@@ -2034,7 +2044,7 @@
         async function markAsResolved(ticketId) {
             try {
                 const ticket = allTickets.find(t => t.id === ticketId);
-                
+
                 // NEW: Validate that description and resolution are not empty
                 if (!ticket.description || ticket.description.trim() === '') {
                     showNotification('Cannot resolve ticket: Description is empty.', 'error');
@@ -2044,7 +2054,7 @@
                     showNotification('Cannot resolve ticket: Resolution is empty.', 'error');
                     return;
                 }
-                
+
                 const docRef = doc(db, `/artifacts/${appId}/public/data/tickets`, ticketId);
                 await setDoc(docRef, {
                     status: 'Resolved',
@@ -2067,11 +2077,11 @@
             // Shuffle the assignees list for random order
             const shuffledAssignees = [...assigneesList].sort(() => Math.random() - 0.5);
             const options = shuffledAssignees.map(a => `<option value="${a}">${a}</option>`).join('');
-            
+
             // Add assignee options to sorting dropdowns
             inProgressDropdown.innerHTML = '<option value="default">All Assignees</option>' + options;
             resolvedDropdown.innerHTML = '<option value="default">All Assignees</option>' + options;
-            
+
             // Populate handledBy dropdown in modal with blank default
             handledByDropdown.innerHTML = '<option value="" disabled selected>Select Assignee</option>' + options;
         }
@@ -2080,11 +2090,11 @@
         function openModal(ticket = null) {
             ticketForm.reset();
             deleteTicketBtn.classList.add('hidden');
-            
+
             // Set default date to today
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('ticketDate').value = today;
-            
+
             if (ticket) {
                 modalTitle.textContent = 'Edit Ticket';
                 document.getElementById('ticketId').value = ticket.id;
@@ -2099,7 +2109,7 @@
                 document.getElementById('resolution').value = ticket.resolution || '';
                 document.getElementById('status').value = ticket.status === 'Resolved' ? 'Resolved' : 'In Progress';
                 document.getElementById('ticketVersion').value = ticket._version || 0;
-                
+
                 deleteTicketBtn.classList.remove('hidden');
             } else {
                 modalTitle.textContent = 'New Ticket';
@@ -2138,7 +2148,7 @@
                 }
             }
         }
-        
+
         // --- SORTING ---
         function sortTickets(tickets, type) {
             const dateSort = document.getElementById(type === 'in-progress' ? 'sort-in-progress-date' : 'sort-resolved-date').value;
@@ -2148,13 +2158,13 @@
             const environmentSort = document.getElementById(type === 'in-progress' ? 'sort-in-progress-environment' : 'sort-resolved-environment').value;
             const issueSort = document.getElementById(type === 'in-progress' ? 'sort-in-progress-issue' : 'sort-resolved-issue').value;
             const specificDateFilter = document.getElementById(type === 'in-progress' ? 'filter-in-progress-specific-date' : 'filter-resolved-specific-date').value;
-            
+
             let sorted = [...tickets];
 
             // Filter by specific date if selected
             if (specificDateFilter) {
                 sorted = sorted.filter(t => {
-                    const ticketDate = t.ticketDate ? new Date(t.ticketDate).toISOString().split('T')[0] : 
+                    const ticketDate = t.ticketDate ? new Date(t.ticketDate).toISOString().split('T')[0] :
                                           (t.createdAt ? t.createdAt.toDate().toISOString().split('T')[0] : '');
                     return ticketDate === specificDateFilter;
                 });
@@ -2164,27 +2174,27 @@
             if(shiftSort !== 'default') {
                 sorted = sorted.filter(t => t.shift === shiftSort);
             }
-            
+
             // Filter by assignee (only if not default)
             if(assigneeSort !== 'default') {
                 sorted = sorted.filter(t => t.handledBy === assigneeSort);
             }
-            
+
             // Filter by priority (only if not default)
             if(prioritySort !== 'default') {
                 sorted = sorted.filter(t => t.priority === prioritySort);
             }
-            
+
             // Filter by environment (only if not default)
             if(environmentSort !== 'default') {
                 sorted = sorted.filter(t => t.environment === environmentSort);
             }
-            
+
             // Filter by issue type (only if not default)
             if(issueSort !== 'default') {
                 sorted = sorted.filter(t => t.issueType === issueSort);
             }
-            
+
             // Sort by date (always apply date sorting)
             sorted.sort((a, b) => {
                 // Use ticketDate if available, otherwise use createdAt
@@ -2192,7 +2202,7 @@
                 const dateB = b.ticketDate ? new Date(b.ticketDate) : (b.createdAt?.toDate() || new Date(0));
                 return dateSort === 'newest' ? dateB - dateA : dateA - dateB;
             });
-            
+
             return sorted;
         }
 
@@ -2200,20 +2210,20 @@
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('tab-active'));
-            
+
             document.getElementById(`${tabName}-content`).classList.remove('hidden');
             document.querySelector(`[data-tab="${tabName}"]`).classList.add('tab-active');
-            
+
             // NEW: Update turnover when switching to turnover tab
             if (tabName === 'turnover') {
                 updateTurnoverTickets();
             }
-            
+
             // NEW: Load past turnovers when switching to past turnover tab
             if (tabName === 'past-turnover') {
                 renderPastTurnovers();
             }
-            
+
             // Auto-generate daily report when switching to reports tab
             if (tabName === 'reports' && !currentReportType) {
                 generateReport('daily');
@@ -2245,21 +2255,21 @@
         function initializeTurnover() {
             // Set default date to today
             turnoverDateInput.value = new Date().toISOString().split('T')[0];
-            
+
             // Set up event listeners for turnover
             turnoverDateInput.addEventListener('change', updateTurnoverTickets);
             turnoverShiftSelect.addEventListener('change', updateTurnoverTickets);
             turnoverTeamSelect.addEventListener('change', updateTurnoverTickets); // NEW
-            
+
             addScheduledEventBtn.addEventListener('click', addScheduledEvent);
             addGeneralInfoBtn.addEventListener('click', addGeneralInfo);
             addReminderBtn.addEventListener('click', addReminder);
             addOncallUpdateBtn.addEventListener('click', addOncallUpdate);
-            
+
             // NEW: Clear filter buttons
             clearInProgressFilterBtn.addEventListener('click', clearInProgressFilters);
             clearResolvedFilterBtn.addEventListener('click', clearResolvedFilters);
-            
+
             // UPDATED: Allow Shift+Enter for multiple lines, Enter to submit
             newScheduledEventInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -2267,68 +2277,68 @@
                     addScheduledEvent();
                 }
             });
-            
+
             newGeneralInfoInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
                     addGeneralInfo();
                 }
             });
-            
+
             newReminderInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
                     addReminder();
                 }
             });
-            
+
             newOncallUpdateInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
                     addOncallUpdate();
                 }
             });
-            
+
             takeTurnoverScreenshotBtn.addEventListener('click', takeTurnoverScreenshot);
             saveTurnoverBtn.addEventListener('click', saveCurrentTurnover);
         }
-        
+
         function updateTurnoverTickets() {
             const selectedDate = turnoverDateInput.value;
             const selectedShift = turnoverShiftSelect.value;
-            
+
             // Filter tickets by date and shift
             const inProgressTickets = allTickets.filter(ticket => {
-                const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toISOString().split('T')[0] : 
+                const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toISOString().split('T')[0] :
                                   (ticket.createdAt ? ticket.createdAt.toDate().toISOString().split('T')[0] : '');
-                return ticketDate === selectedDate && 
-                       ticket.shift === selectedShift.replace(' Shift', '') && 
+                return ticketDate === selectedDate &&
+                       ticket.shift === selectedShift.replace(' Shift', '') &&
                        ticket.status !== 'Resolved';
             });
-            
+
             const resolvedTickets = allTickets.filter(ticket => {
-                const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toISOString().split('T')[0] : 
+                const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toISOString().split('T')[0] :
                                   (ticket.createdAt ? ticket.createdAt.toDate().toISOString().split('T')[0] : '');
-                return ticketDate === selectedDate && 
-                       ticket.shift === selectedShift.replace(' Shift', '') && 
+                return ticketDate === selectedDate &&
+                       ticket.shift === selectedShift.replace(' Shift', '') &&
                        ticket.status === 'Resolved';
             });
-            
+
             // Update the display with counts only
             turnoverInProgressCount.innerHTML = `
                 <div class="text-3xl font-bold tickets-in-progress-count">${inProgressTickets.length}</div>
                 <div class="text-sm tickets-in-progress-label">Tickets</div>
             `;
-            
+
             turnoverResolvedCount.innerHTML = `
                 <div class="text-3xl font-bold tickets-resolved-count">${resolvedTickets.length}</div>
                 <div class="text-sm tickets-resolved-label">Tickets</div>
             `;
         }
-        
+
         function renderTurnoverData() {
             // Render scheduled events
-            turnoverScheduledEvents.innerHTML = turnoverData.scheduledEvents.length > 0 ? 
+            turnoverScheduledEvents.innerHTML = turnoverData.scheduledEvents.length > 0 ?
                 turnoverData.scheduledEvents.map((event, index) => `
                     <div class="turnover-item">
                         <div class="turnover-item-content">${event}</div>
@@ -2337,11 +2347,11 @@
                             <button class="text-red-600 hover:text-red-800 delete-turnover-item" data-section="scheduledEvents" data-index="${index}">Delete</button>
                         </div>
                     </div>
-                `).join('') : 
+                `).join('') :
                 '<div class="text-sm text-gray-500 italic p-2">No scheduled events</div>';
-                
+
             // Render general information
-            turnoverGeneralInfo.innerHTML = turnoverData.generalInfo.length > 0 ? 
+            turnoverGeneralInfo.innerHTML = turnoverData.generalInfo.length > 0 ?
                 turnoverData.generalInfo.map((info, index) => `
                     <div class="turnover-item">
                         <div class="turnover-item-content">${info}</div>
@@ -2350,11 +2360,11 @@
                             <button class="text-red-600 hover:text-red-800 delete-turnover-item" data-section="generalInfo" data-index="${index}">Delete</button>
                         </div>
                     </div>
-                `).join('') : 
+                `).join('') :
                 '<div class="text-sm text-gray-500 italic p-2">No general information</div>';
-                
+
             // Render reminders
-            turnoverReminders.innerHTML = turnoverData.reminders.length > 0 ? 
+            turnoverReminders.innerHTML = turnoverData.reminders.length > 0 ?
                 turnoverData.reminders.map((reminder, index) => `
                     <div class="turnover-item">
                         <div class="turnover-item-content">${reminder}</div>
@@ -2363,11 +2373,11 @@
                             <button class="text-red-600 hover:text-red-800 delete-turnover-item" data-section="reminders" data-index="${index}">Delete</button>
                         </div>
                     </div>
-                `).join('') : 
+                `).join('') :
                 '<div class="text-sm text-gray-500 italic p-2">No reminders</div>';
-                
+
             // Render on-call updates
-            turnoverOncallUpdates.innerHTML = turnoverData.onCallUpdates.length > 0 ? 
+            turnoverOncallUpdates.innerHTML = turnoverData.onCallUpdates.length > 0 ?
                 turnoverData.onCallUpdates.map((update, index) => `
                     <div class="turnover-item">
                         <div class="turnover-item-content">${update}</div>
@@ -2376,13 +2386,13 @@
                             <button class="text-red-600 hover:text-red-800 delete-turnover-item" data-section="onCallUpdates" data-index="${index}">Delete</button>
                         </div>
                     </div>
-                `).join('') : 
+                `).join('') :
                 '<div class="text-sm text-gray-500 italic p-2">No on-call updates</div>';
-                
+
             // Attach event listeners to the new buttons
             attachTurnoverItemEventListeners();
         }
-        
+
         function attachTurnoverItemEventListeners() {
             // Edit buttons
             document.querySelectorAll('.edit-turnover-item').forEach(btn => {
@@ -2392,7 +2402,7 @@
                     editTurnoverItem(section, index);
                 });
             });
-            
+
             // Delete buttons
             document.querySelectorAll('.delete-turnover-item').forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -2402,7 +2412,7 @@
                 });
             });
         }
-        
+
         async function addScheduledEvent() {
             const event = newScheduledEventInput.value.trim();
             if (event) {
@@ -2412,7 +2422,7 @@
                 showNotification('Scheduled event added', 'success');
             }
         }
-        
+
         async function addGeneralInfo() {
             const info = newGeneralInfoInput.value.trim();
             if (info) {
@@ -2422,7 +2432,7 @@
                 showNotification('General information added', 'success');
             }
         }
-        
+
         async function addReminder() {
             const reminder = newReminderInput.value.trim();
             if (reminder) {
@@ -2432,7 +2442,7 @@
                 showNotification('Reminder added', 'success');
             }
         }
-        
+
         async function addOncallUpdate() {
             const update = newOncallUpdateInput.value.trim();
             if (update) {
@@ -2442,18 +2452,18 @@
                 showNotification('On-call update added', 'success');
             }
         }
-        
+
         function editTurnoverItem(section, index) {
             const currentValue = turnoverData[section][index];
             const newValue = prompt(`Edit ${section.replace(/([A-Z])/g, ' $1').toLowerCase()}:`, currentValue);
-            
+
             if (newValue !== null && newValue.trim() !== '') {
                 turnoverData[section][index] = newValue.trim();
                 saveTurnoverData();
                 showNotification('Item updated', 'success');
             }
         }
-        
+
         async function deleteTurnoverItem(section, index) {
             if (confirm('Are you sure you want to delete this item?')) {
                 turnoverData[section].splice(index, 1);
@@ -2461,7 +2471,7 @@
                 showNotification('Item deleted', 'warning');
             }
         }
-        
+
         async function saveTurnoverData() {
             try {
                 const turnoverRef = doc(db, `/artifacts/${appId}/public/data/turnover`, 'current');
@@ -2471,7 +2481,7 @@
                 showNotification('Error saving turnover data.', 'error');
             }
         }
-        
+
         // NEW: Save Current Turnover to Past Turnovers
         async function saveCurrentTurnover() {
             try {
@@ -2479,30 +2489,30 @@
                 const selectedDate = turnoverDateInput.value;
                 const selectedShift = turnoverShiftSelect.value;
                 const selectedTeam = turnoverTeamSelect.value; // NEW
-                
+
                 // Validate required fields
                 if (!selectedDate || !selectedShift || !selectedTeam) {
                     showNotification('Please fill in Date, Shift, and Team before saving turnover.', 'error');
                     return;
                 }
-                
+
                 // Calculate ticket counts
                 const inProgressTickets = allTickets.filter(ticket => {
-                    const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toISOString().split('T')[0] : 
+                    const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toISOString().split('T')[0] :
                                       (ticket.createdAt ? ticket.createdAt.toDate().toISOString().split('T')[0] : '');
-                    return ticketDate === selectedDate && 
-                           ticket.shift === selectedShift.replace(' Shift', '') && 
+                    return ticketDate === selectedDate &&
+                           ticket.shift === selectedShift.replace(' Shift', '') &&
                            ticket.status !== 'Resolved';
                 });
-                
+
                 const resolvedTickets = allTickets.filter(ticket => {
-                    const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toISOString().split('T')[0] : 
+                    const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toISOString().split('T')[0] :
                                       (ticket.createdAt ? ticket.createdAt.toDate().toISOString().split('T')[0] : '');
-                    return ticketDate === selectedDate && 
-                           ticket.shift === selectedShift.replace(' Shift', '') && 
+                    return ticketDate === selectedDate &&
+                           ticket.shift === selectedShift.replace(' Shift', '') &&
                            ticket.status === 'Resolved';
                 });
-                
+
                 // Create turnover object
                 const turnoverToSave = {
                     date: selectedDate,
@@ -2517,33 +2527,33 @@
                     savedBy: currentUser.name,
                     savedAt: serverTimestamp()
                 };
-                
+
                 // Save to Firestore
                 await addDoc(collection(db, `/artifacts/${appId}/public/data/pastTurnovers`), turnoverToSave);
-                
+
                 showNotification('Turnover saved successfully!', 'success');
             } catch (error) {
                 console.error("Error saving turnover: ", error);
                 showNotification('Error saving turnover.', 'error');
             }
         }
-        
+
         // Turnover screenshot to include date, shift, and team
         async function takeTurnoverScreenshot() {
             try {
                 showNotification('Taking turnover screenshot...', 'info');
-                
+
                 // Add screenshot mode class to hide edit/delete buttons
                 document.getElementById('turnover-content').classList.add('screenshot-mode');
-                
+
                 // Small delay to ensure CSS is applied
                 await new Promise(resolve => setTimeout(resolve, 100));
-                
+
                 // Create a temporary container for the screenshot that includes date, shift and team info
                 const tempContainer = document.createElement('div');
                 tempContainer.style.padding = '20px';
                 tempContainer.style.backgroundColor = '#ffffff';
-                
+
                 // Add header with date, shift and team information
                 const headerSection = document.createElement('div');
                 headerSection.style.marginBottom = '20px';
@@ -2552,12 +2562,12 @@
                 headerSection.style.color = 'white';
                 headerSection.style.borderRadius = '8px';
                 headerSection.style.textAlign = 'center';
-                
+
                 // Get current selected values for the screenshot
                 const date = document.getElementById('turnover-date').value;
                 const shift = document.getElementById('turnover-shift').value;
                 const team = document.getElementById('turnover-team').value;
-                
+
                 headerSection.innerHTML = `
                     <h2 style="margin: 0 0 10px 0; font-size: 24px; font-weight: bold;">Turnover Report</h2>
                     <div style="display: flex; justify-content: center; gap: 30px; font-size: 16px;">
@@ -2566,27 +2576,27 @@
                         <div><strong>Team:</strong> ${team ? 'Team ' + team : 'Not selected'}</div>
                     </div>
                 `;
-                
+
                 // Clone the turnover content
                 const turnoverContent = document.getElementById('turnover-content');
                 const turnoverClone = turnoverContent.cloneNode(true);
-                
+
                 // Remove the screenshot button and save button from the clone
                 const screenshotBtn = turnoverClone.querySelector('#takeTurnoverScreenshotBtn');
                 if (screenshotBtn) screenshotBtn.remove();
                 const saveBtn = turnoverClone.querySelector('#saveTurnoverBtn');
                 if (saveBtn) saveBtn.remove();
-                
+
                 // Append header and content to temp container
                 tempContainer.appendChild(headerSection);
                 tempContainer.appendChild(turnoverClone);
-                
+
                 // Add temp container to body (off-screen)
                 tempContainer.style.position = 'fixed';
                 tempContainer.style.left = '-9999px';
                 tempContainer.style.top = '0';
                 document.body.appendChild(tempContainer);
-                
+
                 // Use html2canvas to capture the temp container
                 const canvas = await html2canvas(tempContainer, {
                     backgroundColor: '#ffffff',
@@ -2595,10 +2605,10 @@
                     allowTaint: true,
                     logging: false
                 });
-                
+
                 // Remove temp container
                 document.body.removeChild(tempContainer);
-                
+
                 // Convert canvas to image and download
                 const image = canvas.toDataURL('image/png');
                 const link = document.createElement('a');
@@ -2608,7 +2618,7 @@
                 link.download = `Turnover_${formattedDate}_${formattedShift}${formattedTeam}.png`;
                 link.href = image;
                 link.click();
-                
+
                 showNotification('Turnover screenshot downloaded!', 'success');
             } catch (error) {
                 console.error('Error taking turnover screenshot:', error);
@@ -2616,7 +2626,7 @@
             } finally {
                 // Remove screenshot mode class to show edit/delete buttons again
                 document.getElementById('turnover-content').classList.remove('screenshot-mode');
-                
+
                 // Clean up any remaining temp containers
                 const tempContainers = document.querySelectorAll('[style*="left: -9999px"]');
                 tempContainers.forEach(container => container.remove());
@@ -2628,71 +2638,71 @@
             // Set up real-time listener for past turnovers
             const pastTurnoversRef = collection(db, `/artifacts/${appId}/public/data/pastTurnovers`);
             const q = query(pastTurnoversRef, orderBy('savedAt', 'desc'));
-            
+
             onSnapshot(q, (snapshot) => {
                 pastTurnovers = snapshot.docs.map(doc => ({
                     id: doc.id,
                     ...doc.data()
                 }));
-                
+
                 renderPastTurnovers();
             });
         }
-        
+
         function renderPastTurnovers() {
             let filteredTurnovers = [...pastTurnovers];
-            
+
             // Apply filters
             const dateFilter = filterPastTurnoverDate.value;
             const shiftFilter = filterPastTurnoverShift.value;
             const teamFilter = filterPastTurnoverTeam.value; // NEW
-            
+
             if (dateFilter) {
                 filteredTurnovers = filteredTurnovers.filter(t => t.date === dateFilter);
             }
-            
+
             if (shiftFilter !== 'all') {
                 filteredTurnovers = filteredTurnovers.filter(t => t.shift === shiftFilter);
             }
-            
+
             // NEW: Filter by team
             if (teamFilter !== 'all') {
                 filteredTurnovers = filteredTurnovers.filter(t => t.team === teamFilter);
             }
-            
+
             // Apply pagination
             const totalPages = Math.ceil(filteredTurnovers.length / itemsPerPage);
             currentPagePastTurnover = Math.min(currentPagePastTurnover, Math.max(1, totalPages));
-            
+
             const startIndex = (currentPagePastTurnover - 1) * itemsPerPage;
             const endIndex = startIndex + itemsPerPage;
             const pageItems = filteredTurnovers.slice(startIndex, endIndex);
-            
+
             // Render table
             pastTurnoverTable.innerHTML = pageItems.map(turnover => createPastTurnoverRow(turnover)).join('');
-            
+
             // Render pagination
             renderPastTurnoverPagination(filteredTurnovers.length, currentPagePastTurnover, totalPages);
         }
-        
+
         function createPastTurnoverRow(turnover) {
             const savedDate = turnover.savedAt ? turnover.savedAt.toDate().toLocaleDateString() : 'N/A';
-            
+
             // Truncate long text for table display
             const truncateText = (text, maxLength = 30) => {
                 if (!text) return '-';
                 return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
             };
-            
-            const scheduledEventsText = turnover.scheduledEvents.length > 0 ? 
+
+            const scheduledEventsText = turnover.scheduledEvents.length > 0 ?
                 truncateText(turnover.scheduledEvents.join(', ')) : '-';
-            const generalInfoText = turnover.generalInfo.length > 0 ? 
+            const generalInfoText = turnover.generalInfo.length > 0 ?
                 truncateText(turnover.generalInfo.join(', ')) : '-';
-            const remindersText = turnover.reminders.length > 0 ? 
+            const remindersText = turnover.reminders.length > 0 ?
                 truncateText(turnover.reminders.join(', ')) : '-';
-            const onCallUpdatesText = turnover.onCallUpdates.length > 0 ? 
+            const onCallUpdatesText = turnover.onCallUpdates.length > 0 ?
                 truncateText(turnover.onCallUpdates.join(', ')) : '-';
-            
+
             return `
                 <tr class="hover:bg-gray-50 text-sm">
                     <td class="py-3 px-4 text-xs text-gray-500">${turnover.date}</td>
@@ -2716,32 +2726,32 @@
                 </tr>
             `;
         }
-        
+
         function renderPastTurnoverPagination(totalItems, currentPage, totalPages) {
             const paginationContainer = document.getElementById('past-turnover-pagination');
-            
+
             if (totalPages <= 1) {
                 paginationContainer.classList.add('hidden');
                 return;
             }
-            
+
             paginationContainer.classList.remove('hidden');
-            
+
             let paginationHTML = '';
-            
+
             // Previous button
             paginationHTML += `<button class="pagination-btn" ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}">Previous</button>`;
-            
+
             // Page numbers
             const maxVisiblePages = 5;
             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-            
+
             // Adjust if we're at the end
             if (endPage - startPage + 1 < maxVisiblePages) {
                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
             }
-            
+
             // First page
             if (startPage > 1) {
                 paginationHTML += `<button class="pagination-btn" data-page="1">1</button>`;
@@ -2749,12 +2759,12 @@
                     paginationHTML += `<span class="pagination-info">...</span>`;
                 }
             }
-            
+
             // Page numbers
             for (let i = startPage; i <= endPage; i++) {
                 paginationHTML += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
             }
-            
+
             // Last page
             if (endPage < totalPages) {
                 if (endPage < totalPages - 1) {
@@ -2762,15 +2772,15 @@
                 }
                 paginationHTML += `<button class="pagination-btn" data-page="${totalPages}">${totalPages}</button>`;
             }
-            
+
             // Next button
             paginationHTML += `<button class="pagination-btn" ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">Next</button>`;
-            
+
             // Info
             paginationHTML += `<span class="pagination-info">Showing ${Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)}-${Math.min(currentPage * itemsPerPage, totalItems)} of ${totalItems}</span>`;
-            
+
             paginationContainer.innerHTML = paginationHTML;
-            
+
             // Add event listeners to pagination buttons
             paginationContainer.querySelectorAll('.pagination-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -2782,10 +2792,10 @@
                 });
             });
         }
-        
+
         function viewPastTurnoverDetails(turnover) {
             if (!turnover) return;
-            
+
             // Create a modal to show turnover details
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50';
@@ -2806,49 +2816,49 @@
                                 <p class="text-2xl font-bold">${turnover.resolvedCount}</p>
                             </div>
                         </div>
-                        
+
                         <div>
                             <h4 class="font-semibold mb-2">Scheduled Events</h4>
-                            ${turnover.scheduledEvents.length > 0 ? 
-                                `<div class="bg-yellow-50 p-3 rounded-md whitespace-pre-line">${turnover.scheduledEvents.join('\n')}</div>` : 
+                            ${turnover.scheduledEvents.length > 0 ?
+                                `<div class="bg-yellow-50 p-3 rounded-md whitespace-pre-line">${turnover.scheduledEvents.join('\n')}</div>` :
                                 '<p class="text-gray-500 italic">No scheduled events</p>'}
                         </div>
-                        
+
                         <div>
                             <h4 class="font-semibold mb-2">General Information</h4>
-                            ${turnover.generalInfo.length > 0 ? 
-                                `<div class="bg-purple-50 p-3 rounded-md whitespace-pre-line">${turnover.generalInfo.join('\n')}</div>` : 
+                            ${turnover.generalInfo.length > 0 ?
+                                `<div class="bg-purple-50 p-3 rounded-md whitespace-pre-line">${turnover.generalInfo.join('\n')}</div>` :
                                 '<p class="text-gray-500 italic">No general information</p>'}
                         </div>
-                        
+
                         <div>
                             <h4 class="font-semibold mb-2">Reminders</h4>
-                            ${turnover.reminders.length > 0 ? 
-                                `<div class="bg-pink-50 p-3 rounded-md whitespace-pre-line">${turnover.reminders.join('\n')}</div>` : 
+                            ${turnover.reminders.length > 0 ?
+                                `<div class="bg-pink-50 p-3 rounded-md whitespace-pre-line">${turnover.reminders.join('\n')}</div>` :
                                 '<p class="text-gray-500 italic">No reminders</p>'}
                         </div>
-                        
+
                         <div>
                             <h4 class="font-semibold mb-2">On-call Updates</h4>
-                            ${turnover.onCallUpdates.length > 0 ? 
-                                `<div class="bg-blue-50 p-3 rounded-md whitespace-pre-line">${turnover.onCallUpdates.join('\n')}</div>` : 
+                            ${turnover.onCallUpdates.length > 0 ?
+                                `<div class="bg-blue-50 p-3 rounded-md whitespace-pre-line">${turnover.onCallUpdates.join('\n')}</div>` :
                                 '<p class="text-gray-500 italic">No on-call updates</p>'}
                         </div>
-                        
+
                         <div class="text-sm text-gray-500 mt-4">
                             Saved by: ${turnover.savedBy} on ${turnover.savedAt ? turnover.savedAt.toDate().toLocaleString() : 'N/A'}
                         </div>
                     </div>
                 </div>
             `;
-            
+
             document.body.appendChild(modal);
-            
+
             // Close modal event
             modal.querySelector('.close-turnover-modal').addEventListener('click', () => {
                 document.body.removeChild(modal);
             });
-            
+
             // Close on background click
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
@@ -2856,7 +2866,7 @@
                 }
             });
         }
-        
+
         async function deletePastTurnover(turnoverId) {
             if (confirm('Are you sure you want to delete this turnover record? This action cannot be undone.')) {
                 try {
@@ -2878,11 +2888,11 @@
             document.getElementById('sort-in-progress-environment').value = 'default';
             document.getElementById('sort-in-progress-issue').value = 'default';
             document.getElementById('filter-in-progress-specific-date').value = '';
-            
+
             renderTickets();
             showNotification('In Progress filters cleared', 'info');
         }
-        
+
         function clearResolvedFilters() {
             document.getElementById('sort-resolved-date').value = 'newest';
             document.getElementById('sort-resolved-shift').value = 'default';
@@ -2891,7 +2901,7 @@
             document.getElementById('sort-resolved-environment').value = 'default';
             document.getElementById('sort-resolved-issue').value = 'default';
             document.getElementById('filter-resolved-specific-date').value = '';
-            
+
             renderTickets();
             showNotification('Resolved filters cleared', 'info');
         }
@@ -2902,36 +2912,33 @@
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.addEventListener('click', () => switchTab(tab.dataset.tab));
             });
-            
+
             // Modal
             addTicketBtn.addEventListener('click', () => openModal());
             cancelModalBtn.addEventListener('click', closeModal);
             ticketForm.addEventListener('submit', handleFormSubmit);
             deleteTicketBtn.addEventListener('click', handleDeleteTicket);
-            
+
             // Sorting and filtering
             document.querySelectorAll('#sort-in-progress-date, #sort-in-progress-shift, #sort-in-progress-assignee, #sort-in-progress-priority, #sort-in-progress-environment, #sort-in-progress-issue, #filter-in-progress-specific-date').forEach(el => {
                 el.addEventListener('change', renderTickets);
             });
-            
+
             document.querySelectorAll('#sort-resolved-date, #sort-resolved-shift, #sort-resolved-assignee, #sort-resolved-priority, #sort-resolved-environment, #sort-resolved-issue, #filter-resolved-specific-date').forEach(el => {
                 el.addEventListener('change', renderTickets);
             });
-            
+
             // Export buttons
             exportInProgressBtn.addEventListener('click', () => exportTickets('in-progress'));
             exportResolvedBtn.addEventListener('click', () => exportTickets('resolved'));
-            
+
             // Report generation
             generateDailyReportBtn.addEventListener('click', () => generateReport('daily'));
             generateWeeklyReportBtn.addEventListener('click', () => generateReport('weekly'));
             generateMonthlyReportBtn.addEventListener('click', () => generateReport('monthly'));
             takeScreenshotBtn.addEventListener('click', takeReportScreenshot);
             downloadReportBtn.addEventListener('click', downloadReport);
-            
-            // User selection
-            confirmUserBtn.addEventListener('click', confirmUserSelection);
-            
+
             // Past turnover filters
             applyPastTurnoverFilter.addEventListener('click', renderPastTurnovers);
             clearPastTurnoverFilter.addEventListener('click', () => {
@@ -2947,7 +2954,7 @@
         function exportTickets(type) {
             let ticketsToExport = [];
             let period = '';
-            
+
             if (type === 'in-progress') {
                 ticketsToExport = allTickets.filter(t => t.status !== 'Resolved');
                 period = exportInProgressPeriod.value;
@@ -2955,7 +2962,7 @@
                 ticketsToExport = allTickets.filter(t => t.status === 'Resolved');
                 period = exportResolvedPeriod.value;
             }
-            
+
             // Filter by period
             const now = new Date();
             ticketsToExport = ticketsToExport.filter(ticket => {
@@ -2967,320 +2974,274 @@
                 } else {
                     return false;
                 }
-                
+
                 if (period === 'day') {
                     return ticketDate.toDateString() === now.toDateString();
                 } else if (period === 'month') {
-                    return ticketDate.getMonth() === now.getMonth() && 
+                    return ticketDate.getMonth() === now.getMonth() &&
                            ticketDate.getFullYear() === now.getFullYear();
                 } else if (period === 'year') {
                     return ticketDate.getFullYear() === now.getFullYear();
                 }
                 return true;
             });
-            
+
             if (ticketsToExport.length === 0) {
                 showNotification('No tickets to export for the selected period.', 'info');
                 return;
             }
-            
-            // Prepare data for export
-            const headers = type === 'in-progress' ? 
-                ['Date', 'Shift', 'Handled By', 'Ticket #', 'Priority', 'Environment', 'Status', 'Issue/Request', 'Description', 'Resolution', 'Age'] :
-                ['Date', 'Shift', 'Handled By', 'Ticket #', 'Priority', 'Environment', 'Issue/Request', 'Description', 'Resolution', 'Resolved On'];
-                
-            const data = ticketsToExport.map(ticket => {
-                const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toLocaleDateString() : 
-                                  (ticket.createdAt ? ticket.createdAt.toDate().toLocaleDateString() : 'N/A');
-                const resolvedDate = ticket.resolvedAt ? ticket.resolvedAt.toDate().toLocaleDateString() : 'N/A';
-                const age = ticket.createdAt ? formatDistanceToNow(ticket.createdAt.toDate()) : 'N/A';
-                
-                if (type === 'in-progress') {
-                    return [
-                        ticketDate,
-                        ticket.shift,
-                        ticket.handledBy,
-                        ticket.ticketNumber,
-                        ticket.priority,
-                        ticket.environment || 'N/A',
-                        ticket.status,
-                        ticket.issueType || 'Not specified',
-                        ticket.description || 'No description',
-                        ticket.resolution || 'No resolution yet',
-                        age
-                    ];
-                } else {
-                    return [
-                        ticketDate,
-                        ticket.shift,
-                        ticket.handledBy,
-                        ticket.ticketNumber,
-                        ticket.priority,
-                        ticket.environment || 'N/A',
-                        ticket.issueType || 'Not specified',
-                        ticket.description || 'No description',
-                        ticket.resolution || 'No resolution',
-                        resolvedDate
-                    ];
-                }
-            });
-            
-            // Create worksheet and workbook
-            const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+
+            // Convert to worksheet
+            const ws = XLSX.utils.json_to_sheet(ticketsToExport.map(t => ({
+                'Ticket Number': t.ticketNumber,
+                'Date': t.ticketDate || (t.createdAt ? t.createdAt.toDate().toLocaleDateString() : ''),
+                'Shift': t.shift,
+                'Handled By': t.handledBy,
+                'Priority': t.priority,
+                'Environment': t.environment,
+                'Issue/Request': t.issueType,
+                'Description': t.description,
+                'Resolution': t.resolution,
+                'Status': t.status,
+                'Created': t.createdAt ? t.createdAt.toDate().toLocaleString() : '',
+                'Resolved': t.resolvedAt ? t.resolvedAt.toDate().toLocaleString() : ''
+            })));
+
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, type === 'in-progress' ? 'In Progress Tickets' : 'Resolved Tickets');
-            
-            // Generate file name
-            const periodText = period === 'day' ? 'Today' : period === 'month' ? 'ThisMonth' : 'ThisYear';
-            const fileName = `${type === 'in-progress' ? 'InProgress' : 'Resolved'}Tickets_${periodText}_${new Date().toISOString().split('T')[0]}.xlsx`;
-            
-            // Export
+            XLSX.utils.book_append_sheet(wb, ws, 'Tickets');
+
+            const fileName = `${type}_tickets_${period}_${new Date().toISOString().split('T')[0]}.xlsx`;
             XLSX.writeFile(wb, fileName);
-            showNotification(`Exported ${ticketsToExport.length} ${type.replace('-', ' ')} tickets`, 'success');
+            showNotification(`${ticketsToExport.length} ${type} tickets exported!`, 'success');
         }
 
         // --- REPORTING ---
         function generateReport(type) {
             currentReportType = type;
-            
-            // Show/hide buttons based on report type
+
+            // Show screenshot and download buttons
             takeScreenshotBtn.classList.remove('hidden');
             downloadReportBtn.classList.remove('hidden');
-            
-            // Calculate date range based on report type
+
+            let periodText = '';
+            let filteredTickets = [...allTickets];
+
             const now = new Date();
-            let startDate, endDate, periodText;
-            
-            switch(type) {
-                case 'daily':
-                    startDate = new Date(now);
-                    startDate.setHours(0, 0, 0, 0);
-                    endDate = new Date(now);
-                    endDate.setHours(23, 59, 59, 999);
-                    periodText = `Daily Report - ${now.toLocaleDateString()}`;
-                    break;
-                case 'weekly':
-                    startDate = new Date(now);
-                    startDate.setDate(now.getDate() - now.getDay()); // Start of week (Sunday)
-                    startDate.setHours(0, 0, 0, 0);
-                    endDate = new Date(now);
-                    endDate.setDate(now.getDate() + (6 - now.getDay())); // End of week (Saturday)
-                    endDate.setHours(23, 59, 59, 999);
-                    periodText = `Weekly Report - ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}`;
-                    break;
-                case 'monthly':
-                    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-                    endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
-                    periodText = `Monthly Report - ${now.toLocaleString('default', { month: 'long' })} ${now.getFullYear()}`;
-                    break;
+            const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const startOfWeek = new Date(now);
+            startOfWeek.setDate(now.getDate() - now.getDay());
+            startOfWeek.setHours(0, 0, 0, 0);
+            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+            const startOfYear = new Date(now.getFullYear(), 0, 1);
+
+            if (type === 'daily') {
+                filteredTickets = allTickets.filter(ticket => {
+                    const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate) :
+                                      (ticket.createdAt ? ticket.createdAt.toDate() : new Date(0));
+                    return ticketDate >= startOfDay;
+                });
+                periodText = `Daily Report - ${now.toLocaleDateString()}`;
+            } else if (type === 'weekly') {
+                filteredTickets = allTickets.filter(ticket => {
+                    const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate) :
+                                      (ticket.createdAt ? ticket.createdAt.toDate() : new Date(0));
+                    return ticketDate >= startOfWeek;
+                });
+                periodText = `Weekly Report - Week of ${startOfWeek.toLocaleDateString()}`;
+            } else if (type === 'monthly') {
+                filteredTickets = allTickets.filter(ticket => {
+                    const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate) :
+                                      (ticket.createdAt ? ticket.createdAt.toDate() : new Date(0));
+                    return ticketDate >= startOfMonth;
+                });
+                periodText = `Monthly Report - ${now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`;
             }
-            
-            // Filter tickets for the report period
-            const reportTickets = allTickets.filter(ticket => {
-                let ticketDate;
-                if (ticket.ticketDate) {
-                    ticketDate = new Date(ticket.ticketDate);
-                } else if (ticket.createdAt) {
-                    ticketDate = ticket.createdAt.toDate();
-                } else {
-                    return false;
-                }
-                return ticketDate >= startDate && ticketDate <= endDate;
-            });
-            
-            // Store report data for download
-            reportData = {
-                type: type,
-                period: periodText,
-                tickets: reportTickets,
-                generatedAt: new Date()
-            };
-            
-            // Update period display
+
+            reportData = filteredTickets;
+
+            // Update report period display
             reportPeriodDisplay.textContent = periodText;
             reportPeriodDisplay.classList.remove('hidden');
-            
-            // Generate report content
-            generateReportContent(reportTickets, periodText);
-        }
-        
-        function generateReportContent(tickets, periodText) {
-            const reportOutput = document.getElementById('report-output');
-            
-            // Calculate statistics
-            const totalTickets = tickets.length;
-            const resolvedTickets = tickets.filter(t => t.status === 'Resolved').length;
-            const inProgressTickets = totalTickets - resolvedTickets;
-            const resolutionRate = totalTickets > 0 ? Math.round((resolvedTickets / totalTickets) * 100) : 0;
-            
-            // Calculate average resolution time
-            let totalResolutionTime = 0;
-            let resolvedWithTime = 0;
-            
-            tickets.filter(t => t.status === 'Resolved' && t.createdAt && t.resolvedAt).forEach(ticket => {
-                const created = ticket.createdAt.toDate();
-                const resolved = ticket.resolvedAt.toDate();
-                totalResolutionTime += (resolved - created) / (1000 * 60 * 60); // Hours
-                resolvedWithTime++;
-            });
-            
-            const avgResolutionTime = resolvedWithTime > 0 ? Math.round(totalResolutionTime / resolvedWithTime) : 0;
-            
+
+            // Generate stats
+            const resolvedCount = filteredTickets.filter(t => t.status === 'Resolved').length;
+            const inProgressCount = filteredTickets.filter(t => t.status !== 'Resolved').length;
+            const totalCount = filteredTickets.length;
+
+            // Calculate average resolution time for resolved tickets
+            const resolvedTickets = filteredTickets.filter(t => t.status === 'Resolved' && t.createdAt && t.resolvedAt);
+            let avgResolutionHours = 0;
+            if (resolvedTickets.length > 0) {
+                const totalHours = resolvedTickets.reduce((sum, ticket) => {
+                    const created = ticket.createdAt.toDate();
+                    const resolved = ticket.resolvedAt.toDate();
+                    return sum + (resolved - created) / (1000 * 60 * 60); // Convert to hours
+                }, 0);
+                avgResolutionHours = totalHours / resolvedTickets.length;
+            }
+
             // Priority distribution
-            const priorityCounts = { P1: 0, P2: 0, P3: 0, P4: 0 };
-            tickets.forEach(ticket => {
-                if (ticket.priority && priorityCounts.hasOwnProperty(ticket.priority)) {
-                    priorityCounts[ticket.priority]++;
-                }
+            const priorityCounts = {};
+            filteredTickets.forEach(ticket => {
+                const priority = ticket.priority || 'Uncategorized';
+                priorityCounts[priority] = (priorityCounts[priority] || 0) + 1;
             });
-            
+
             // Shift distribution
-            const shiftCounts = { Day: 0, Night: 0 };
-            tickets.forEach(ticket => {
-                if (ticket.shift && shiftCounts.hasOwnProperty(ticket.shift)) {
-                    shiftCounts[ticket.shift]++;
-                }
+            const shiftCounts = {};
+            filteredTickets.forEach(ticket => {
+                const shift = ticket.shift || 'Not specified';
+                shiftCounts[shift] = (shiftCounts[shift] || 0) + 1;
             });
-            
+
+            // Status distribution (for pie chart)
+            const statusCounts = {
+                'Resolved': resolvedCount,
+                'In Progress': inProgressCount
+            };
+
             // Issue type distribution
             const issueCounts = {};
-            tickets.forEach(ticket => {
-                if (ticket.issueType) {
-                    issueCounts[ticket.issueType] = (issueCounts[ticket.issueType] || 0) + 1;
-                }
+            filteredTickets.forEach(ticket => {
+                const issue = ticket.issueType || 'Not specified';
+                issueCounts[issue] = (issueCounts[issue] || 0) + 1;
             });
-            
+
             // Environment distribution
             const environmentCounts = {};
-            tickets.forEach(ticket => {
-                const env = ticket.environment || 'N/A';
-                environmentCounts[env] = (environmentCounts[env] || 0) + 1;
+            filteredTickets.forEach(ticket => {
+                const environment = ticket.environment || 'Not specified';
+                environmentCounts[environment] = (environmentCounts[environment] || 0) + 1;
             });
-            
-            // Status trend (last 7 days)
-            const statusTrend = {};
-            for (let i = 6; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                const dateStr = date.toISOString().split('T')[0];
-                
-                const dayTickets = tickets.filter(t => {
-                    const ticketDate = t.ticketDate ? new Date(t.ticketDate).toISOString().split('T')[0] : 
-                                      (t.createdAt ? t.createdAt.toDate().toISOString().split('T')[0] : '');
-                    return ticketDate === dateStr;
-                });
-                
-                statusTrend[dateStr] = {
-                    resolved: dayTickets.filter(t => t.status === 'Resolved').length,
-                    inProgress: dayTickets.filter(t => t.status !== 'Resolved').length
-                };
-            }
-            
-            // Generate HTML for the report
+
+            // Generate charts
+            const reportOutput = document.getElementById('report-output');
             reportOutput.innerHTML = `
-                <!-- Key Statistics -->
-                <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <!-- Stats Cards -->
+                <div class="col-span-1 md:col-span-2 lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div class="stats-card stats-resolved">
                         <h3 class="text-lg font-bold mb-2">Resolved Tickets</h3>
-                        <div class="text-3xl font-bold">${resolvedTickets}</div>
-                        <div class="text-sm text-gray-600 mt-1">${resolutionRate}% resolution rate</div>
+                        <div class="text-3xl font-bold">${resolvedCount}</div>
+                        <div class="text-sm text-gray-600 mt-1">${totalCount > 0 ? Math.round((resolvedCount / totalCount) * 100) : 0}% of total</div>
                     </div>
                     <div class="stats-card stats-in-progress">
                         <h3 class="text-lg font-bold mb-2">In Progress</h3>
-                        <div class="text-3xl font-bold">${inProgressTickets}</div>
-                        <div class="text-sm text-gray-600 mt-1">${totalTickets} total tickets</div>
+                        <div class="text-3xl font-bold">${inProgressCount}</div>
+                        <div class="text-sm text-gray-600 mt-1">${totalCount > 0 ? Math.round((inProgressCount / totalCount) * 100) : 0}% of total</div>
                     </div>
                     <div class="stats-card stats-age">
                         <h3 class="text-lg font-bold mb-2">Avg. Resolution Time</h3>
-                        <div class="text-3xl font-bold">${avgResolutionTime}h</div>
-                        <div class="text-sm text-gray-600 mt-1">Based on ${resolvedWithTime} resolved tickets</div>
+                        <div class="text-3xl font-bold">${avgResolutionHours.toFixed(1)}</div>
+                        <div class="text-sm text-gray-600 mt-1">hours</div>
                     </div>
                 </div>
-                
+
                 <!-- Charts Row 1 -->
                 <div class="chart-card trend-chart">
-                    <h3 class="text-lg font-bold mb-4">Ticket Trend (Last 7 Days)</h3>
+                    <h3 class="text-lg font-bold mb-4">Ticket Trend</h3>
                     <div class="chart-container">
                         <canvas id="trendChart"></canvas>
                     </div>
                 </div>
-                
+
                 <div class="chart-card shift-chart">
                     <h3 class="text-lg font-bold mb-4">Tickets by Shift</h3>
                     <div class="chart-container">
                         <canvas id="shiftChart"></canvas>
                     </div>
                 </div>
-                
+
                 <div class="chart-card status-chart">
-                    <h3 class="text-lg font-bold mb-4">Tickets by Status</h3>
+                    <h3 class="text-lg font-bold mb-4">Status Distribution</h3>
                     <div class="chart-container">
                         <canvas id="statusChart"></canvas>
                     </div>
                 </div>
-                
+
                 <!-- Charts Row 2 -->
                 <div class="chart-card issue-chart">
-                    <h3 class="text-lg font-bold mb-4">Tickets by Issue Type</h3>
+                    <h3 class="text-lg font-bold mb-4">Issue Types</h3>
                     <div class="chart-container">
                         <canvas id="issueChart"></canvas>
                     </div>
                 </div>
-                
+
                 <div class="chart-card priority-chart">
-                    <h3 class="text-lg font-bold mb-4">Tickets by Priority</h3>
+                    <h3 class="text-lg font-bold mb-4">Priority Distribution</h3>
                     <div class="chart-container">
                         <canvas id="priorityChart"></canvas>
                     </div>
                 </div>
-                
+
                 <div class="chart-card environment-chart">
-                    <h3 class="text-lg font-bold mb-4">Tickets by Environment</h3>
+                    <h3 class="text-lg font-bold mb-4">Environment Distribution</h3>
                     <div class="chart-container">
                         <canvas id="environmentChart"></canvas>
                     </div>
                 </div>
             `;
-            
+
             // Render charts after a brief delay to ensure DOM is ready
             setTimeout(() => {
-                renderCharts({
-                    trend: statusTrend,
-                    shift: shiftCounts,
-                    status: { 'Resolved': resolvedTickets, 'In Progress': inProgressTickets },
-                    issue: issueCounts,
-                    priority: priorityCounts,
-                    environment: environmentCounts
-                });
+                renderTrendChart(filteredTickets, type);
+                renderShiftChart(shiftCounts);
+                renderStatusChart(statusCounts);
+                renderIssueChart(issueCounts);
+                renderPriorityChart(priorityCounts);
+                renderEnvironmentChart(environmentCounts);
             }, 100);
+
+            showNotification(`${type} report generated!`, 'success');
         }
-        
-        function renderCharts(data) {
-            // Trend Chart (Line Chart)
-            const trendCtx = document.getElementById('trendChart').getContext('2d');
-            const trendLabels = Object.keys(data.trend);
-            const resolvedData = trendLabels.map(date => data.trend[date].resolved);
-            const inProgressData = trendLabels.map(date => data.trend[date].inProgress);
-            
-            new Chart(trendCtx, {
+
+        function renderTrendChart(tickets, periodType) {
+            const ctx = document.getElementById('trendChart').getContext('2d');
+
+            // Group tickets by date
+            const dateGroups = {};
+            tickets.forEach(ticket => {
+                let date;
+                if (ticket.ticketDate) {
+                    date = new Date(ticket.ticketDate).toDateString();
+                } else if (ticket.createdAt) {
+                    date = ticket.createdAt.toDate().toDateString();
+                } else {
+                    return;
+                }
+
+                if (!dateGroups[date]) {
+                    dateGroups[date] = { resolved: 0, inProgress: 0 };
+                }
+
+                if (ticket.status === 'Resolved') {
+                    dateGroups[date].resolved++;
+                } else {
+                    dateGroups[date].inProgress++;
+                }
+            });
+
+            // Sort dates
+            const sortedDates = Object.keys(dateGroups).sort((a, b) => new Date(a) - new Date(b));
+
+            new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: trendLabels,
+                    labels: sortedDates.map(date => new Date(date).toLocaleDateString()),
                     datasets: [
                         {
                             label: 'Resolved',
-                            data: resolvedData,
+                            data: sortedDates.map(date => dateGroups[date].resolved),
                             borderColor: '#10b981',
                             backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            tension: 0.3,
+                            tension: 0.4,
                             fill: true
                         },
                         {
                             label: 'In Progress',
-                            data: inProgressData,
+                            data: sortedDates.map(date => dateGroups[date].inProgress),
                             borderColor: '#3b82f6',
                             backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                            tension: 0.3,
+                            tension: 0.4,
                             fill: true
                         }
                     ]
@@ -3291,87 +3252,44 @@
                     plugins: {
                         legend: {
                             position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Ticket Trend Over Time'
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                stepSize: 1
+                                precision: 0
                             }
                         }
                     }
                 }
             });
-            
-            // Shift Chart (Doughnut)
-            const shiftCtx = document.getElementById('shiftChart').getContext('2d');
-            new Chart(shiftCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(data.shift),
-                    datasets: [{
-                        data: Object.values(data.shift),
-                        backgroundColor: ['#f59e0b', '#1e40af'],
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
-            
-            // Status Chart (Doughnut)
-            const statusCtx = document.getElementById('statusChart').getContext('2d');
-            new Chart(statusCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(data.status),
-                    datasets: [{
-                        data: Object.values(data.status),
-                        backgroundColor: ['#10b981', '#3b82f6'],
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
-            
-            // Issue Chart (Bar)
-            const issueCtx = document.getElementById('issueChart').getContext('2d');
-            const issueLabels = Object.keys(data.issue);
-            const issueData = Object.values(data.issue);
-            
-            // Sort issues by count (descending) and take top 10
-            const sortedIssues = issueLabels.map((label, index) => ({
-                label,
-                count: issueData[index]
-            })).sort((a, b) => b.count - a.count).slice(0, 10);
-            
-            new Chart(issueCtx, {
+        }
+
+        function renderShiftChart(shiftCounts) {
+            const ctx = document.getElementById('shiftChart').getContext('2d');
+
+            new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: sortedIssues.map(i => i.label),
+                    labels: Object.keys(shiftCounts),
                     datasets: [{
-                        label: 'Tickets',
-                        data: sortedIssues.map(i => i.count),
-                        backgroundColor: '#f97316',
-                        borderColor: '#c2410c',
+                        label: 'Tickets by Shift',
+                        data: Object.values(shiftCounts),
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(107, 114, 128, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgb(59, 130, 246)',
+                            'rgb(16, 185, 129)',
+                            'rgb(107, 114, 128)'
+                        ],
                         borderWidth: 1
                     }]
                 },
@@ -3387,166 +3305,245 @@
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                stepSize: 1
+                                precision: 0
                             }
-                        }
-                    },
-                    indexAxis: 'y'
-                }
-            });
-            
-            // Priority Chart (Pie)
-            const priorityCtx = document.getElementById('priorityChart').getContext('2d');
-            new Chart(priorityCtx, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(data.priority),
-                    datasets: [{
-                        data: Object.values(data.priority),
-                        backgroundColor: ['#dc2626', '#ea580c', '#ca8a04', '#1d4ed8'],
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
-            
-            // Environment Chart (Doughnut)
-            const environmentCtx = document.getElementById('environmentChart').getContext('2d');
-            new Chart(environmentCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(data.environment),
-                    datasets: [{
-                        data: Object.values(data.environment),
-                        backgroundColor: ['#166534', '#92400e', '#4b5563'],
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
                         }
                     }
                 }
             });
         }
-        
+
+        function renderStatusChart(statusCounts) {
+            const ctx = document.getElementById('statusChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(statusCounts),
+                    datasets: [{
+                        data: Object.values(statusCounts),
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(59, 130, 246, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgb(16, 185, 129)',
+                            'rgb(59, 130, 246)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderIssueChart(issueCounts) {
+            const ctx = document.getElementById('issueChart').getContext('2d');
+
+            // Sort by count and take top 10
+            const sortedIssues = Object.entries(issueCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sortedIssues.map(item => item[0]),
+                    datasets: [{
+                        label: 'Ticket Count',
+                        data: sortedIssues.map(item => item[1]),
+                        backgroundColor: 'rgba(249, 115, 22, 0.7)',
+                        borderColor: 'rgb(249, 115, 22)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderPriorityChart(priorityCounts) {
+            const ctx = document.getElementById('priorityChart').getContext('2d');
+
+            // Ensure all priorities are included, even if count is 0
+            const allPriorities = ['P1', 'P2', 'P3', 'P4'];
+            const data = allPriorities.map(p => priorityCounts[p] || 0);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: allPriorities,
+                    datasets: [{
+                        label: 'Ticket Count',
+                        data: data,
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.7)',
+                            'rgba(249, 115, 22, 0.7)',
+                            'rgba(234, 179, 8, 0.7)',
+                            'rgba(59, 130, 246, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgb(239, 68, 68)',
+                            'rgb(249, 115, 22)',
+                            'rgb(234, 179, 8)',
+                            'rgb(59, 130, 246)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderEnvironmentChart(environmentCounts) {
+            const ctx = document.getElementById('environmentChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(environmentCounts),
+                    datasets: [{
+                        data: Object.values(environmentCounts),
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(234, 179, 8, 0.7)',
+                            'rgba(107, 114, 128, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgb(16, 185, 129)',
+                            'rgb(234, 179, 8)',
+                            'rgb(107, 114, 128)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        }
+
         async function takeReportScreenshot() {
             try {
                 showNotification('Taking report screenshot...', 'info');
-                
+
                 const reportContent = document.getElementById('report-screenshot-content');
                 const canvas = await html2canvas(reportContent, {
                     backgroundColor: '#ffffff',
-                    scale: 2,
+                    scale: 2, // Higher quality
                     useCORS: true,
                     allowTaint: true,
                     logging: false
                 });
-                
+
                 const image = canvas.toDataURL('image/png');
                 const link = document.createElement('a');
-                link.download = `TicketReport_${currentReportType}_${new Date().toISOString().split('T')[0]}.png`;
+                link.download = `Ticket_Report_${currentReportType}_${new Date().toISOString().split('T')[0]}.png`;
                 link.href = image;
                 link.click();
-                
+
                 showNotification('Report screenshot downloaded!', 'success');
             } catch (error) {
                 console.error('Error taking report screenshot:', error);
                 showNotification('Error taking report screenshot.', 'error');
             }
         }
-        
+
         function downloadReport() {
-            if (!reportData) {
+            if (!reportData || reportData.length === 0) {
                 showNotification('No report data to download.', 'info');
                 return;
             }
-            
-            // Prepare data for Excel export
-            const headers = ['Date', 'Shift', 'Handled By', 'Ticket #', 'Priority', 'Environment', 'Status', 'Issue/Request', 'Description', 'Resolution', 'Created', 'Resolved'];
-            
-            const data = reportData.tickets.map(ticket => {
-                const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toLocaleDateString() : 
-                                  (ticket.createdAt ? ticket.createdAt.toDate().toLocaleDateString() : 'N/A');
-                const createdDate = ticket.createdAt ? ticket.createdAt.toDate().toLocaleDateString() : 'N/A';
-                const resolvedDate = ticket.resolvedAt ? ticket.resolvedAt.toDate().toLocaleDateString() : 'N/A';
-                
-                return [
-                    ticketDate,
-                    ticket.shift,
-                    ticket.handledBy,
-                    ticket.ticketNumber,
-                    ticket.priority,
-                    ticket.environment || 'N/A',
-                    ticket.status,
-                    ticket.issueType || 'Not specified',
-                    ticket.description || 'No description',
-                    ticket.resolution || 'No resolution',
-                    createdDate,
-                    resolvedDate
-                ];
-            });
-            
-            // Create worksheet and workbook
-            const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+
+            const ws = XLSX.utils.json_to_sheet(reportData.map(t => ({
+                'Ticket Number': t.ticketNumber,
+                'Date': t.ticketDate || (t.createdAt ? t.createdAt.toDate().toLocaleDateString() : ''),
+                'Shift': t.shift,
+                'Handled By': t.handledBy,
+                'Priority': t.priority,
+                'Environment': t.environment,
+                'Issue/Request': t.issueType,
+                'Description': t.description,
+                'Resolution': t.resolution,
+                'Status': t.status,
+                'Created': t.createdAt ? t.createdAt.toDate().toLocaleString() : '',
+                'Resolved': t.resolvedAt ? t.resolvedAt.toDate().toLocaleString() : ''
+            })));
+
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Ticket Report');
-            
-            // Add summary sheet
-            const summaryData = [
-                ['Report Type', reportData.type],
-                ['Report Period', reportData.period],
-                ['Total Tickets', reportData.tickets.length],
-                ['Resolved Tickets', reportData.tickets.filter(t => t.status === 'Resolved').length],
-                ['In Progress Tickets', reportData.tickets.filter(t => t.status !== 'Resolved').length],
-                ['Generated At', reportData.generatedAt.toLocaleString()]
-            ];
-            
-            const summaryWs = XLSX.utils.aoa_to_sheet(summaryData);
-            XLSX.utils.book_append_sheet(wb, summaryWs, 'Summary');
-            
-            // Generate file name
-            const fileName = `TicketReport_${currentReportType}_${new Date().toISOString().split('T')[0]}.xlsx`;
-            
-            // Export
+            XLSX.utils.book_append_sheet(wb, ws, 'Report Data');
+
+            const fileName = `Ticket_Report_${currentReportType}_${new Date().toISOString().split('T')[0]}.xlsx`;
             XLSX.writeFile(wb, fileName);
-            showNotification('Report downloaded as Excel file', 'success');
+            showNotification('Report downloaded!', 'success');
         }
 
         // --- UTILITY FUNCTIONS ---
         function formatDistanceToNow(date) {
             const now = new Date();
-            const diffInMs = now - date;
-            const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-            
-            if (diffInDays === 0) {
-                const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-                if (diffInHours === 0) {
-                    const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
-                    return `${diffInMinutes}m`;
+            const diffMs = now - date;
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 0) {
+                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                if (diffHours === 0) {
+                    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+                    return `${diffMinutes}m`;
                 }
-                return `${diffInHours}h`;
-            } else if (diffInDays === 1) {
+                return `${diffHours}h`;
+            } else if (diffDays === 1) {
                 return '1d';
             } else {
-                return `${diffInDays}d`;
+                return `${diffDays}d`;
             }
         }
-        
+
         function getStatusColor(status) {
             switch(status) {
                 case 'Resolved': return 'bg-green-100 text-green-800';
