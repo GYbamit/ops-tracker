@@ -221,7 +221,7 @@
         .filter-label {
             color: #1e3a8a; /* Dark Blue */
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
         }
         /* Report period display */
         .report-period {
@@ -325,41 +325,39 @@
             z-index: 50;
             display: none;
         }
-        /* Turnover section styles */
+        /* Turnover section styles - UPDATED */
         .turnover-section {
             margin-bottom: 2rem;
             padding: 1.5rem;
-            background: white;
             border-radius: 0.5rem;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
         .turnover-section-header {
-            color: #1e3a8a;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 1.25rem;
             margin-bottom: 1rem;
-            border-bottom: 2px solid #dbeafe;
+            border-bottom: 2px solid;
             padding-bottom: 0.5rem;
         }
         .turnover-item {
             padding: 0.75rem;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
             display: flex;
-            justify-content: between;
-            align-items: center;
+            justify-content: space-between;
+            align-items: flex-start;
         }
         .turnover-item:last-child {
             border-bottom: none;
         }
         .turnover-item-content {
             flex-grow: 1;
+            white-space: pre-line; /* Preserve line breaks */
         }
         .turnover-item-actions {
             display: flex;
             gap: 0.5rem;
         }
         .turnover-add-btn {
-            background-color: #1d4ed8;
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 0.375rem;
@@ -367,7 +365,7 @@
             margin-top: 0.5rem;
         }
         .turnover-add-btn:hover {
-            background-color: #1e40af;
+            opacity: 0.9;
         }
         .turnover-input-group {
             margin-bottom: 1rem;
@@ -382,9 +380,361 @@
         .screenshot-mode #takeTurnoverScreenshotBtn {
             display: none !important;
         }
+        .screenshot-mode #saveTurnoverBtn {
+            display: none !important;
+        }
+        /* Environment label colors */
+        .environment-Prod { background-color: #dcfce7; color: #166534; }
+        .environment-UAT { background-color: #fef3c7; color: #92400e; }
+        .environment-N\/A { background-color: #e5e7eb; color: #4b5563; }
+        /* Compact export button */
+        .compact-export-btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.7rem;
+        }
+        /* COMPACT FILTER STYLES */
+        .compact-filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .compact-filter-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            white-space: nowrap;
+            margin-right: 0.25rem;
+        }
+        .compact-filter-select {
+            padding: 0.2rem 0.4rem;
+            font-size: 0.7rem;
+            border-radius: 0.25rem;
+            border: 1px solid #cbd5e1;
+            min-width: 80px;
+        }
+        .compact-filter-date {
+            padding: 0.2rem 0.4rem;
+            font-size: 0.7rem;
+            border-radius: 0.25rem;
+            border: 1px solid #cbd5e1;
+            width: 110px;
+        }
+        .compact-export-container {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-left: auto;
+        }
+        .compact-export-select {
+            padding: 0.2rem 0.4rem;
+            font-size: 0.7rem;
+            border-radius: 0.25rem;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* NEW: Turnover section-specific color schemes */
+        .turnover-date-section {
+            background-color: #e0f2fe; /* Light blue */
+        }
+        .turnover-date-section .turnover-section-header {
+            color: #0369a1; /* Darker blue */
+            border-bottom-color: #0369a1;
+        }
+
+        /* UPDATED: Tickets Handled section with new color scheme */
+        .turnover-tickets-section {
+            background-color: #f0fdf4; /* Light green */
+        }
+        .turnover-tickets-section .turnover-section-header {
+            color: #15803d; /* Darker green */
+            border-bottom-color: #15803d;
+        }
+        /* NEW: Color scheme for tickets handled boxes */
+        .tickets-in-progress-box {
+            background-color: #fef3c7; /* Light amber */
+            border-left: 4px solid #d97706; /* Amber border */
+        }
+        .tickets-resolved-box {
+            background-color: #dbeafe; /* Light blue */
+            border-left: 4px solid #1d4ed8; /* Blue border */
+        }
+        .tickets-in-progress-count {
+            color: #92400e; /* Dark amber */
+        }
+        .tickets-resolved-count {
+            color: #1e40af; /* Dark blue */
+        }
+        .tickets-in-progress-label {
+            color: #92400e; /* Dark amber */
+        }
+        .tickets-resolved-label {
+            color: #1e40af; /* Dark blue */
+        }
+
+        .turnover-scheduled-section {
+            background-color: #fefce8; /* Light yellow */
+        }
+        .turnover-scheduled-section .turnover-section-header {
+            color: #a16207; /* Darker yellow/brown */
+            border-bottom-color: #a16207;
+        }
+
+        .turnover-general-section {
+            background-color: #fef7ff; /* Light purple */
+        }
+        .turnover-general-section .turnover-section-header {
+            color: #7e22ce; /* Darker purple */
+            border-bottom-color: #7e22ce;
+        }
+
+        .turnover-reminders-section {
+            background-color: #fff1f2; /* Light pink */
+        }
+        .turnover-reminders-section .turnover-section-header {
+            color: #be123c; /* Darker pink/red */
+            border-bottom-color: #be123c;
+        }
+
+        .turnover-oncall-section {
+            background-color: #f0f9ff; /* Light blue */
+        }
+        .turnover-oncall-section .turnover-section-header {
+            color: #0c4a6e; /* Darker blue */
+            border-bottom-color: #0c4a6e;
+        }
+
+        /* Enhanced turnover text areas */
+        .turnover-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid #cbd5e1;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Enhanced turnover labels */
+        .turnover-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.875rem;
+        }
+
+        /* NEW: Enhanced color schemes for Reports tab charts */
+        .chart-card {
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .trend-chart {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        .trend-chart::before {
+            background: linear-gradient(90deg, #0ea5e9, #0369a1);
+        }
+
+        .shift-chart {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+
+        .shift-chart::before {
+            background: linear-gradient(90deg, #22c55e, #15803d);
+        }
+
+        .status-chart {
+            background: linear-gradient(135deg, #fef7ff 0%, #f3e8ff 100%);
+        }
+
+        .status-chart::before {
+            background: linear-gradient(90deg, #a855f7, #7e22ce);
+        }
+
+        .issue-chart {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+        }
+
+        .issue-chart::before {
+            background: linear-gradient(90deg, #f97316, #c2410c);
+        }
+
+        .priority-chart {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        }
+
+        .priority-chart::before {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+
+        .environment-chart {
+            background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+        }
+
+        .environment-chart::before {
+            background: linear-gradient(90deg, #eab308, #a16207);
+        }
+
+        .stats-card {
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .stats-resolved {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+
+        .stats-resolved::before {
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+        }
+
+        .stats-in-progress {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        }
+
+        .stats-in-progress::before {
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+        }
+
+        .stats-age {
+            background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+        }
+
+        .stats-age::before {
+            background: linear-gradient(90deg, #eab308, #ca8a04);
+        }
+
+        /* NEW: User Selection Modal Styles */
+        .user-selection-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .user-selection-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .user-selection-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 1.5rem;
+        }
+        .user-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .user-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .user-option:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+        .user-option.selected {
+            border-color: #1d4ed8;
+            background-color: #eff6ff;
+        }
+        .user-option-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .user-option-name {
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+
+        /* NEW: Clear filter button styles */
+        .clear-filter-btn {
+            background-color: #6b7280;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.7rem;
+            border-radius: 0.25rem;
+            border: none;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+        
+        .clear-filter-btn:hover {
+            background-color: #4b5563;
+        }
+        
+        .team-selection {
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body class="antialiased text-gray-800">
+
+    <!-- NEW: User Selection Modal -->
+    <div id="userSelectionModal" class="user-selection-modal hidden">
+        <div class="user-selection-content">
+            <h2 class="user-selection-title">Select Your Username</h2>
+            <div id="userOptionsGrid" class="user-grid">
+                <!-- User options will be populated by JavaScript -->
+            </div>
+            <button id="confirmUserBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105 w-full">
+                Confirm Selection
+            </button>
+        </div>
+    </div>
 
     <!-- Real-time Update Indicator -->
     <div id="realTimeIndicator" class="real-time-indicator">
@@ -418,9 +768,12 @@
                 <button class="tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-blue-600 hover:border-blue-300" data-tab="resolved">
                     Resolved
                 </button>
-                <!-- NEW: Turnover Tab -->
                 <button class="tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-blue-600 hover:border-blue-300" data-tab="turnover">
                     Turnover
+                </button>
+                <!-- NEW: Past Turnover Tab -->
+                <button class="tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-blue-600 hover:border-blue-300" data-tab="past-turnover">
+                    Past Turnover
                 </button>
                 <button class="tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-blue-600 hover:border-blue-300" data-tab="reports">
                     Reports
@@ -434,28 +787,36 @@
             <div id="in-progress-content" class="tab-content">
                 <div class="bg-white p-6 rounded-xl shadow-lg">
                     <h2 class="section-header">In Progress Tickets</h2>
-                    <div class="mb-4 flex flex-wrap gap-4 items-center">
-                       <span class="filter-label">Sort by:</span>
-                        <select id="sort-in-progress-date" class="sort-control border rounded-md p-2 text-sm">
+                    
+                    <!-- UPDATED: Compact filter and export controls with clear filter button -->
+                    <div class="compact-filter-container mb-4">
+                        <span class="compact-filter-label">Sort by:</span>
+                        <select id="sort-in-progress-date" class="compact-filter-select">
                             <option value="newest">Newest First</option>
                             <option value="oldest">Oldest First</option>
                         </select>
-                        <select id="sort-in-progress-shift" class="sort-control border rounded-md p-2 text-sm">
+                        <select id="sort-in-progress-shift" class="compact-filter-select">
                             <option value="default">All Shifts</option>
                             <option value="Day">Day</option>
                             <option value="Night">Night</option>
                         </select>
-                        <select id="sort-in-progress-assignee" class="sort-control border rounded-md p-2 text-sm">
+                        <select id="sort-in-progress-assignee" class="compact-filter-select">
                             <option value="default">All Assignees</option>
                         </select>
-                        <select id="sort-in-progress-priority" class="sort-control border rounded-md p-2 text-sm">
+                        <select id="sort-in-progress-priority" class="compact-filter-select">
                             <option value="default">All Priorities</option>
                             <option value="P1">P1</option>
                             <option value="P2">P2</option>
                             <option value="P3">P3</option>
                             <option value="P4">P4</option>
                         </select>
-                        <select id="sort-in-progress-issue" class="sort-control border rounded-md p-2 text-sm">
+                        <select id="sort-in-progress-environment" class="compact-filter-select">
+                            <option value="default">All Environments</option>
+                            <option value="Prod">Prod</option>
+                            <option value="UAT">UAT</option>
+                            <option value="N/A">N/A</option>
+                        </select>
+                        <select id="sort-in-progress-issue" class="compact-filter-select">
                             <option value="default">All Issues</option>
                             <option value="Zena Failed Jobs - BPI">Zena Failed Jobs - BPI</option>
                             <option value="Zena Failed Jobs - DB">Zena Failed Jobs - DB</option>
@@ -466,8 +827,24 @@
                             <option value="CSOC - Phishing Email">CSOC - Phishing Email</option>
                             <option value="Service Request - Data Center Access">Service Request - Data Center Access</option>
                         </select>
-                        <input type="date" id="filter-in-progress-specific-date" class="sort-control border rounded-md p-2 text-sm">
+                        <input type="date" id="filter-in-progress-specific-date" class="compact-filter-date">
+                        
+                        <!-- NEW: Clear Filter Button for In Progress -->
+                        <button id="clearInProgressFilter" class="clear-filter-btn">Clear Filters</button>
+                        
+                        <div class="compact-export-container">
+                            <span class="compact-filter-label">Export:</span>
+                            <select id="exportInProgressPeriod" class="compact-export-select">
+                                <option value="day">Today</option>
+                                <option value="month">This Month</option>
+                                <option value="year">This Year</option>
+                            </select>
+                            <button id="exportInProgressBtn" class="compact-export-btn bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-transform transform hover:scale-105">
+                                Export
+                            </button>
+                        </div>
                     </div>
+                    
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white">
                             <thead class="bg-blue-50">
@@ -477,6 +854,7 @@
                                     <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Handled By</th>
                                     <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Ticket #</th>
                                     <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Priority</th>
+                                    <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Environment</th>
                                     <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Status</th>
                                     <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Issue/Request</th>
                                     <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Description</th>
@@ -501,28 +879,36 @@
             <div id="resolved-content" class="tab-content hidden">
                  <div class="bg-white p-6 rounded-xl shadow-lg">
                     <h2 class="section-header">Resolved Tickets</h2>
-                     <div class="mb-4 flex flex-wrap gap-4 items-center">
-                       <span class="filter-label">Sort by:</span>
-                        <select id="sort-resolved-date" class="sort-control border rounded-md p-2 text-sm">
+                    
+                    <!-- UPDATED: Compact filter and export controls with clear filter button -->
+                    <div class="compact-filter-container mb-4">
+                        <span class="compact-filter-label">Sort by:</span>
+                        <select id="sort-resolved-date" class="compact-filter-select">
                             <option value="newest">Newest First</option>
                             <option value="oldest">Oldest First</option>
                         </select>
-                        <select id="sort-resolved-shift" class="sort-control border rounded-md p-2 text-sm">
+                        <select id="sort-resolved-shift" class="compact-filter-select">
                             <option value="default">All Shifts</option>
                             <option value="Day">Day</option>
                             <option value="Night">Night</option>
                         </select>
-                        <select id="sort-resolved-assignee" class="sort-control border rounded-md p-2 text-sm">
+                        <select id="sort-resolved-assignee" class="compact-filter-select">
                             <option value="default">All Assignees</option>
                         </select>
-                        <select id="sort-resolved-priority" class="sort-control border rounded-md p-2 text-sm">
+                        <select id="sort-resolved-priority" class="compact-filter-select">
                             <option value="default">All Priorities</option>
                             <option value="P1">P1</option>
                             <option value="P2">P2</option>
                             <option value="P3">P3</option>
                             <option value="P4">P4</option>
                         </select>
-                        <select id="sort-resolved-issue" class="sort-control border rounded-md p-2 text-sm">
+                        <select id="sort-resolved-environment" class="compact-filter-select">
+                            <option value="default">All Environments</option>
+                            <option value="Prod">Prod</option>
+                            <option value="UAT">UAT</option>
+                            <option value="N/A">N/A</option>
+                        </select>
+                        <select id="sort-resolved-issue" class="compact-filter-select">
                             <option value="default">All Issues</option>
                             <option value="Zena Failed Jobs - BPI">Zena Failed Jobs - BPI</option>
                             <option value="Zena Failed Jobs - DB">Zena Failed Jobs - DB</option>
@@ -533,8 +919,24 @@
                             <option value="CSOC - Phishing Email">CSOC - Phishing Email</option>
                             <option value="Service Request - Data Center Access">Service Request - Data Center Access</option>
                         </select>
-                        <input type="date" id="filter-resolved-specific-date" class="sort-control border rounded-md p-2 text-sm">
+                        <input type="date" id="filter-resolved-specific-date" class="compact-filter-date">
+                        
+                        <!-- NEW: Clear Filter Button for Resolved -->
+                        <button id="clearResolvedFilter" class="clear-filter-btn">Clear Filters</button>
+                        
+                        <div class="compact-export-container">
+                            <span class="compact-filter-label">Export:</span>
+                            <select id="exportResolvedPeriod" class="compact-export-select">
+                                <option value="day">Today</option>
+                                <option value="month">This Month</option>
+                                <option value="year">This Year</option>
+                            </select>
+                            <button id="exportResolvedBtn" class="compact-export-btn bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-transform transform hover:scale-105">
+                                Export
+                            </button>
+                        </div>
                     </div>
+                    
                     <div class="overflow-x-auto">
                          <table class="min-w-full bg-white">
                             <thead class="bg-blue-50">
@@ -544,6 +946,7 @@
                                     <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Handled By</th>
                                     <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Ticket #</th>
                                     <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Priority</th>
+                                    <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Environment</th>
                                     <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Issue/Request</th>
                                     <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Description</th>
                                     <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Resolution</th>
@@ -563,101 +966,179 @@
                 </div>
             </div>
 
-            <!-- NEW: Turnover Tab -->
+            <!-- NEW: Turnover Tab - UPDATED -->
             <div id="turnover-content" class="tab-content hidden">
                 <div class="bg-white p-6 rounded-xl shadow-lg">
                     <h2 class="section-header">Turnover</h2>
-                    <button id="takeTurnoverScreenshotBtn" class="screenshot-btn font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105 mb-4">
-                        Take Turnover Screenshot
-                    </button>
+                    <div class="flex gap-2 mb-4">
+                        <button id="takeTurnoverScreenshotBtn" class="screenshot-btn font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">
+                            Take Turnover Screenshot
+                        </button>
+                        <!-- NEW: Save Turnover Button -->
+                        <button id="saveTurnoverBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">
+                            Save Turnover
+                        </button>
+                    </div>
                     
-                    <!-- Section 1: Date and Shift -->
-                    <div class="turnover-section">
+                    <!-- Section 1: Date and Shift - UPDATED WITH TEAM SELECTION -->
+                    <div class="turnover-section turnover-date-section">
                         <h3 class="turnover-section-header">Date and Shift</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="turnover-input-group">
-                                <label for="turnover-date" class="enhanced-label">Date</label>
+                                <label for="turnover-date" class="turnover-label">Date</label>
                                 <input type="date" id="turnover-date" class="w-full p-2 border rounded-md">
                             </div>
                             <div class="turnover-input-group">
-                                <label for="turnover-shift" class="enhanced-label">Shift</label>
+                                <label for="turnover-shift" class="turnover-label">Shift</label>
                                 <select id="turnover-shift" class="w-full p-2 border rounded-md">
                                     <option value="Day Shift">Day Shift</option>
                                     <option value="Night Shift">Night Shift</option>
                                 </select>
                             </div>
                         </div>
+                        <!-- NEW: Team Selection -->
+                        <div class="team-selection">
+                            <label for="turnover-team" class="turnover-label">Team</label>
+                            <select id="turnover-team" class="w-full p-2 border rounded-md">
+                                <option value="A">Team A</option>
+                                <option value="B">Team B</option>
+                                <option value="C">Team C</option>
+                                <option value="D">Team D</option>
+                            </select>
+                        </div>
                     </div>
                     
-                    <!-- Section 2: Tickets Handled - UPDATED TO SHOW COUNTS ONLY -->
-                    <div class="turnover-section">
+                    <!-- Section 2: Tickets Handled - UPDATED WITH NEW COLOR SCHEME -->
+                    <div class="turnover-section turnover-tickets-section">
                         <h3 class="turnover-section-header">Tickets Handled</h3>
                         <div id="turnover-tickets-container">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <h4 class="font-semibold text-blue-800 mb-2">In Progress Tickets</h4>
-                                    <div id="turnover-in-progress-count" class="bg-blue-50 p-4 rounded-md text-center">
-                                        <div class="text-3xl font-bold text-blue-700">0</div>
-                                        <div class="text-sm text-blue-600">Tickets</div>
+                                    <h4 class="font-semibold text-amber-800 mb-2">In Progress Tickets</h4>
+                                    <div id="turnover-in-progress-count" class="tickets-in-progress-box p-4 rounded-md text-center">
+                                        <div class="text-3xl font-bold tickets-in-progress-count">0</div>
+                                        <div class="text-sm tickets-in-progress-label">Tickets</div>
                                     </div>
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-green-800 mb-2">Resolved Tickets</h4>
-                                    <div id="turnover-resolved-count" class="bg-green-50 p-4 rounded-md text-center">
-                                        <div class="text-3xl font-bold text-green-700">0</div>
-                                        <div class="text-sm text-green-600">Tickets</div>
+                                    <h4 class="font-semibold text-blue-800 mb-2">Resolved Tickets</h4>
+                                    <div id="turnover-resolved-count" class="tickets-resolved-box p-4 rounded-md text-center">
+                                        <div class="text-3xl font-bold tickets-resolved-count">0</div>
+                                        <div class="text-sm tickets-resolved-label">Tickets</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Section 3: Scheduled Events -->
-                    <div class="turnover-section">
+                    <!-- Section 3: Scheduled Events - UPDATED -->
+                    <div class="turnover-section turnover-scheduled-section">
                         <h3 class="turnover-section-header">Scheduled Events</h3>
                         <div id="turnover-scheduled-events">
                             <!-- Will be populated by JavaScript -->
                         </div>
                         <div class="turnover-input-group">
-                            <input type="text" id="new-scheduled-event" placeholder="Add new scheduled event" class="w-full p-2 border rounded-md">
-                            <button id="add-scheduled-event" class="turnover-add-btn">Add Event</button>
+                            <label for="new-scheduled-event" class="turnover-label">Add New Scheduled Event</label>
+                            <textarea id="new-scheduled-event" placeholder="Enter scheduled event details..." class="turnover-textarea"></textarea>
+                            <button id="add-scheduled-event" class="turnover-add-btn bg-amber-600">Add Event</button>
                         </div>
                     </div>
                     
-                    <!-- Section 4: General Information -->
-                    <div class="turnover-section">
+                    <!-- Section 4: General Information - UPDATED -->
+                    <div class="turnover-section turnover-general-section">
                         <h3 class="turnover-section-header">General Information</h3>
                         <div id="turnover-general-info">
                             <!-- Will be populated by JavaScript -->
                         </div>
                         <div class="turnover-input-group">
-                            <input type="text" id="new-general-info" placeholder="Add new general information" class="w-full p-2 border rounded-md">
-                            <button id="add-general-info" class="turnover-add-btn">Add Information</button>
+                            <label for="new-general-info" class="turnover-label">Add New General Information</label>
+                            <textarea id="new-general-info" placeholder="Enter general information..." class="turnover-textarea"></textarea>
+                            <button id="add-general-info" class="turnover-add-btn bg-purple-600">Add Information</button>
                         </div>
                     </div>
                     
-                    <!-- Section 5: Reminders -->
-                    <div class="turnover-section">
+                    <!-- Section 5: Reminders - UPDATED -->
+                    <div class="turnover-section turnover-reminders-section">
                         <h3 class="turnover-section-header">Reminders</h3>
                         <div id="turnover-reminders">
                             <!-- Will be populated by JavaScript -->
                         </div>
                         <div class="turnover-input-group">
-                            <input type="text" id="new-reminder" placeholder="Add new reminder" class="w-full p-2 border rounded-md">
-                            <button id="add-reminder" class="turnover-add-btn">Add Reminder</button>
+                            <label for="new-reminder" class="turnover-label">Add New Reminder</label>
+                            <textarea id="new-reminder" placeholder="Enter reminder details..." class="turnover-textarea"></textarea>
+                            <button id="add-reminder" class="turnover-add-btn bg-pink-600">Add Reminder</button>
                         </div>
                     </div>
                     
-                    <!-- Section 6: On-call Updates -->
-                    <div class="turnover-section">
+                    <!-- Section 6: On-call Updates - UPDATED -->
+                    <div class="turnover-section turnover-oncall-section">
                         <h3 class="turnover-section-header">On-call Updates</h3>
                         <div id="turnover-oncall-updates">
                             <!-- Will be populated by JavaScript -->
                         </div>
                         <div class="turnover-input-group">
-                            <input type="text" id="new-oncall-update" placeholder="Add new on-call update" class="w-full p-2 border rounded-md">
-                            <button id="add-oncall-update" class="turnover-add-btn">Add Update</button>
+                            <label for="new-oncall-update" class="turnover-label">Add New On-call Update</label>
+                            <textarea id="new-oncall-update" placeholder="Enter on-call update details..." class="turnover-textarea"></textarea>
+                            <button id="add-oncall-update" class="turnover-add-btn bg-sky-700">Add Update</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW: Past Turnover Tab Content - UPDATED WITH TEAM COLUMN -->
+            <div id="past-turnover-content" class="tab-content hidden">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h2 class="section-header">Past Turnover</h2>
+                    
+                    <!-- Filter Controls -->
+                    <div class="compact-filter-container mb-4">
+                        <span class="compact-filter-label">Filter by:</span>
+                        <input type="date" id="filter-past-turnover-date" class="compact-filter-date">
+                        <select id="filter-past-turnover-shift" class="compact-filter-select">
+                            <option value="all">All Shifts</option>
+                            <option value="Day Shift">Day Shift</option>
+                            <option value="Night Shift">Night Shift</option>
+                        </select>
+                        <select id="filter-past-turnover-team" class="compact-filter-select">
+                            <option value="all">All Teams</option>
+                            <option value="A">Team A</option>
+                            <option value="B">Team B</option>
+                            <option value="C">Team C</option>
+                            <option value="D">Team D</option>
+                        </select>
+                        <button id="applyPastTurnoverFilter" class="compact-export-btn bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-transform transform hover:scale-105">
+                            Apply Filter
+                        </button>
+                        <button id="clearPastTurnoverFilter" class="compact-export-btn bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-lg transition-transform transform hover:scale-105">
+                            Clear Filter
+                        </button>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-blue-50">
+                                <tr>
+                                    <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Date</th>
+                                    <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Shift</th>
+                                    <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Team</th>
+                                    <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">In Progress Tickets</th>
+                                    <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Resolved Tickets</th>
+                                    <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Scheduled Events</th>
+                                    <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">General Info</th>
+                                    <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Reminders</th>
+                                    <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">On-call Updates</th>
+                                    <th class="py-3 px-4 text-left text-xs font-medium text-blue-900 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="past-turnover-table" class="divide-y divide-gray-200">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination for Past Turnover -->
+                    <div id="past-turnover-pagination" class="pagination mt-4 hidden">
+                        <!-- Pagination buttons will be inserted here by JavaScript -->
                     </div>
                 </div>
             </div>
@@ -735,6 +1216,16 @@
                             <option>P2</option>
                             <option>P3</option>
                             <option>P4</option>
+                        </select>
+                    </div>
+                    <!-- NEW: Environment Field -->
+                    <div>
+                        <label for="environment" class="enhanced-label">Environment</label>
+                        <select id="environment" name="environment" required class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md modal-select">
+                            <option value="" disabled selected>Select Environment</option>
+                            <option>Prod</option>
+                            <option>UAT</option>
+                            <option>N/A</option>
                         </select>
                     </div>
                     <div>
@@ -826,6 +1317,7 @@
         const itemsPerPage = 15;
         let currentPageInProgress = 1;
         let currentPageResolved = 1;
+        let currentPagePastTurnover = 1;
         
         // Real-time collaboration state
         let currentUser = null;
@@ -838,11 +1330,19 @@
         let turnoverData = {
             date: new Date().toISOString().split('T')[0],
             shift: 'Day Shift',
+            team: 'A', // NEW: Default team
             scheduledEvents: [],
             generalInfo: [],
             reminders: [],
             onCallUpdates: []
         };
+
+        // NEW: User selection state
+        let selectedUserName = null;
+        const availableUsers = ['Geron', 'John Mick', 'Nelson', 'Joseph', 'Danica', 'Jeremiah', 'Judy', 'Anna', 'Joyce', 'Jake', 'Jonnie', 'Ceriaco'];
+
+        // NEW: Past Turnovers state
+        let pastTurnovers = [];
 
         // DOM Elements
         const addTicketBtn = document.getElementById('addTicketBtn');
@@ -871,9 +1371,16 @@
         const downloadReportBtn = document.getElementById('downloadReportBtn');
         const takeTurnoverScreenshotBtn = document.getElementById('takeTurnoverScreenshotBtn');
         
+        // UPDATED: Export dropdowns and buttons
+        const exportInProgressPeriod = document.getElementById('exportInProgressPeriod');
+        const exportInProgressBtn = document.getElementById('exportInProgressBtn');
+        const exportResolvedPeriod = document.getElementById('exportResolvedPeriod');
+        const exportResolvedBtn = document.getElementById('exportResolvedBtn');
+        
         // NEW: Turnover DOM Elements
         const turnoverDateInput = document.getElementById('turnover-date');
         const turnoverShiftSelect = document.getElementById('turnover-shift');
+        const turnoverTeamSelect = document.getElementById('turnover-team'); // NEW
         const turnoverInProgressCount = document.getElementById('turnover-in-progress-count');
         const turnoverResolvedCount = document.getElementById('turnover-resolved-count');
         const turnoverScheduledEvents = document.getElementById('turnover-scheduled-events');
@@ -889,36 +1396,119 @@
         const newOncallUpdateInput = document.getElementById('new-oncall-update');
         const addOncallUpdateBtn = document.getElementById('add-oncall-update');
         
+        // NEW: User Selection Modal Elements
+        const userSelectionModal = document.getElementById('userSelectionModal');
+        const userOptionsGrid = document.getElementById('userOptionsGrid');
+        const confirmUserBtn = document.getElementById('confirmUserBtn');
+        
+        // NEW: Save Turnover Button
+        const saveTurnoverBtn = document.getElementById('saveTurnoverBtn');
+        
+        // NEW: Past Turnover DOM Elements
+        const pastTurnoverTable = document.getElementById('past-turnover-table');
+        const filterPastTurnoverDate = document.getElementById('filter-past-turnover-date');
+        const filterPastTurnoverShift = document.getElementById('filter-past-turnover-shift');
+        const filterPastTurnoverTeam = document.getElementById('filter-past-turnover-team'); // NEW
+        const applyPastTurnoverFilter = document.getElementById('applyPastTurnoverFilter');
+        const clearPastTurnoverFilter = document.getElementById('clearPastTurnoverFilter');
+        
+        // NEW: Clear Filter Buttons
+        const clearInProgressFilterBtn = document.getElementById('clearInProgressFilter');
+        const clearResolvedFilterBtn = document.getElementById('clearResolvedFilter');
+        
         // --- MAIN APP INITIALIZATION ---
         function initApp() {
-            // Initialize user session
-            initializeUserSession();
+            // Check if user is already selected
+            const storedUser = localStorage.getItem('ticketTrackerUserName');
+            if (storedUser) {
+                // User already selected, proceed with app initialization
+                initializeUserSession(storedUser);
+                setupRealtimeListeners();
+                setupEventListeners();
+                populateStaticAssigneeDropdowns();
+                switchTab('in-progress');
+                setupOnlineUsersPanel();
+                initializeTurnover();
+                setupPastTurnover();
+            } else {
+                // Show user selection modal
+                showUserSelectionModal();
+            }
+        }
+        
+        // --- USER SELECTION FUNCTIONALITY ---
+        function showUserSelectionModal() {
+            // Shuffle the user list for random order
+            const shuffledUsers = [...availableUsers].sort(() => Math.random() - 0.5);
             
-            // Set up real-time listeners
+            // Clear previous options
+            userOptionsGrid.innerHTML = '';
+            
+            // Create user option elements
+            shuffledUsers.forEach(user => {
+                const userOption = document.createElement('div');
+                userOption.className = 'user-option';
+                userOption.dataset.username = user;
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'user-option-avatar';
+                avatar.style.backgroundColor = generateUserColor(user);
+                avatar.textContent = user.charAt(0);
+                
+                const name = document.createElement('div');
+                name.className = 'user-option-name';
+                name.textContent = user;
+                
+                userOption.appendChild(avatar);
+                userOption.appendChild(name);
+                
+                userOption.addEventListener('click', () => {
+                    // Remove selected class from all options
+                    document.querySelectorAll('.user-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked option
+                    userOption.classList.add('selected');
+                    selectedUserName = user;
+                });
+                
+                userOptionsGrid.appendChild(userOption);
+            });
+            
+            // Show the modal
+            userSelectionModal.classList.remove('hidden');
+        }
+        
+        function confirmUserSelection() {
+            if (!selectedUserName) {
+                alert('Please select a username to continue.');
+                return;
+            }
+            
+            // Store the selected user
+            localStorage.setItem('ticketTrackerUserName', selectedUserName);
+            
+            // Hide the modal
+            userSelectionModal.classList.add('hidden');
+            
+            // Initialize the app with the selected user
+            initializeUserSession(selectedUserName);
             setupRealtimeListeners();
-            
             setupEventListeners();
             populateStaticAssigneeDropdowns();
             switchTab('in-progress');
-            
-            // Show online users panel on hover
             setupOnlineUsersPanel();
-            
-            // NEW: Initialize turnover
             initializeTurnover();
+            setupPastTurnover();
+            
+            showNotification(`Welcome, ${selectedUserName}!`, 'success');
         }
         
         // --- REAL-TIME COLLABORATION ---
-        function initializeUserSession() {
+        function initializeUserSession(userName) {
             // Generate a unique session ID for this user
             userSessionId = 'user-' + Math.random().toString(36).substring(2, 15);
-            
-            // Get or create user name
-            let userName = localStorage.getItem('ticketTrackerUserName');
-            if (!userName) {
-                userName = prompt('Please enter your name to start collaborating:') || 'Anonymous User';
-                localStorage.setItem('ticketTrackerUserName', userName);
-            }
             
             currentUser = {
                 id: userSessionId,
@@ -1115,6 +1705,18 @@
             const formData = new FormData(ticketForm);
             const ticketData = Object.fromEntries(formData.entries());
             const currentVersion = parseInt(document.getElementById('ticketVersion').value);
+
+            // NEW: Validate that description and resolution are not empty when resolving
+            if (ticketData.status === 'Resolved') {
+                if (!ticketData.description || ticketData.description.trim() === '') {
+                    showNotification('Description cannot be empty when resolving a ticket.', 'error');
+                    return;
+                }
+                if (!ticketData.resolution || ticketData.resolution.trim() === '') {
+                    showNotification('Resolution cannot be empty when resolving a ticket.', 'error');
+                    return;
+                }
+            }
 
             // Check for edit conflicts
             if (ticketId) {
@@ -1314,6 +1916,7 @@
                     <td class="py-3 px-4 truncate-cell" title="${ticket.handledBy}">${ticket.handledBy}</td>
                     <td class="py-3 px-4 font-mono truncate-cell" title="${ticket.ticketNumber}">${ticket.ticketNumber}</td>
                     <td class="py-3 px-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full priority-${ticket.priority}">${ticket.priority}</span></td>
+                    <td class="py-3 px-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full environment-${ticket.environment || 'N/A'}">${ticket.environment || 'N/A'}</span></td>
                     <td class="py-3 px-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(status)}">${status}</span></td>
                     <td class="py-3 px-4 truncate-cell" title="${ticket.issueType || 'Not specified'}">${shortIssueType}</td>
                     <td class="py-3 px-4 truncate-description" title="${ticket.description || 'No description'}">${shortDescription}</td>
@@ -1348,6 +1951,7 @@
                     <td class="py-3 px-4 truncate-cell" title="${ticket.handledBy}">${ticket.handledBy}</td>
                     <td class="py-3 px-4 font-mono truncate-cell" title="${ticket.ticketNumber}">${ticket.ticketNumber}</td>
                     <td class="py-3 px-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full priority-${ticket.priority}">${ticket.priority}</span></td>
+                    <td class="py-3 px-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full environment-${ticket.environment || 'N/A'}">${ticket.environment || 'N/A'}</span></td>
                     <td class="py-3 px-4 truncate-cell" title="${ticket.issueType || 'Not specified'}">${shortIssueType}</td>
                     <td class="py-3 px-4 truncate-description" title="${ticket.description || 'No description'}">${shortDescription}</td>
                     <td class="py-3 px-4 truncate-description" title="${ticket.resolution || 'No resolution'}">${shortResolution}</td>
@@ -1417,6 +2021,17 @@
         async function markAsResolved(ticketId) {
             try {
                 const ticket = allTickets.find(t => t.id === ticketId);
+                
+                // NEW: Validate that description and resolution are not empty
+                if (!ticket.description || ticket.description.trim() === '') {
+                    showNotification('Cannot resolve ticket: Description is empty.', 'error');
+                    return;
+                }
+                if (!ticket.resolution || ticket.resolution.trim() === '') {
+                    showNotification('Cannot resolve ticket: Resolution is empty.', 'error');
+                    return;
+                }
+                
                 const docRef = doc(db, `/artifacts/${appId}/public/data/tickets`, ticketId);
                 await setDoc(docRef, {
                     status: 'Resolved',
@@ -1465,6 +2080,7 @@
                 document.getElementById('handledBy').value = ticket.handledBy;
                 document.getElementById('ticketNumber').value = ticket.ticketNumber;
                 document.getElementById('priority').value = ticket.priority || '';
+                document.getElementById('environment').value = ticket.environment || '';
                 document.getElementById('issueType').value = ticket.issueType || '';
                 document.getElementById('description').value = ticket.description || '';
                 document.getElementById('resolution').value = ticket.resolution || '';
@@ -1480,6 +2096,7 @@
                 document.getElementById('shift').value = '';
                 document.getElementById('handledBy').value = '';
                 document.getElementById('priority').value = '';
+                document.getElementById('environment').value = '';
                 document.getElementById('issueType').value = '';
                 document.getElementById('status').value = '';
                 // Date is already set to today above
@@ -1515,6 +2132,7 @@
             const shiftSort = document.getElementById(type === 'in-progress' ? 'sort-in-progress-shift' : 'sort-resolved-shift').value;
             const assigneeSort = document.getElementById(type === 'in-progress' ? 'sort-in-progress-assignee' : 'sort-resolved-assignee').value;
             const prioritySort = document.getElementById(type === 'in-progress' ? 'sort-in-progress-priority' : 'sort-resolved-priority').value;
+            const environmentSort = document.getElementById(type === 'in-progress' ? 'sort-in-progress-environment' : 'sort-resolved-environment').value;
             const issueSort = document.getElementById(type === 'in-progress' ? 'sort-in-progress-issue' : 'sort-resolved-issue').value;
             const specificDateFilter = document.getElementById(type === 'in-progress' ? 'filter-in-progress-specific-date' : 'filter-resolved-specific-date').value;
             
@@ -1542,6 +2160,11 @@
             // Filter by priority (only if not default)
             if(prioritySort !== 'default') {
                 sorted = sorted.filter(t => t.priority === prioritySort);
+            }
+            
+            // Filter by environment (only if not default)
+            if(environmentSort !== 'default') {
+                sorted = sorted.filter(t => t.environment === environmentSort);
             }
             
             // Filter by issue type (only if not default)
@@ -1573,6 +2196,11 @@
                 updateTurnoverTickets();
             }
             
+            // NEW: Load past turnovers when switching to past turnover tab
+            if (tabName === 'past-turnover') {
+                renderPastTurnovers();
+            }
+            
             // Auto-generate daily report when switching to reports tab
             if (tabName === 'reports' && !currentReportType) {
                 generateReport('daily');
@@ -1600,7 +2228,7 @@
             }, 4000);
         }
 
-        // --- NEW: TURNOVER FUNCTIONALITY ---
+        // --- NEW: TURNOVER FUNCTIONALITY - UPDATED ---
         function initializeTurnover() {
             // Set default date to today
             turnoverDateInput.value = new Date().toISOString().split('T')[0];
@@ -1608,27 +2236,48 @@
             // Set up event listeners for turnover
             turnoverDateInput.addEventListener('change', updateTurnoverTickets);
             turnoverShiftSelect.addEventListener('change', updateTurnoverTickets);
+            turnoverTeamSelect.addEventListener('change', updateTurnoverTickets); // NEW
             
             addScheduledEventBtn.addEventListener('click', addScheduledEvent);
             addGeneralInfoBtn.addEventListener('click', addGeneralInfo);
             addReminderBtn.addEventListener('click', addReminder);
             addOncallUpdateBtn.addEventListener('click', addOncallUpdate);
             
-            // Allow Enter key to add items
-            newScheduledEventInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') addScheduledEvent();
+            // NEW: Clear filter buttons
+            clearInProgressFilterBtn.addEventListener('click', clearInProgressFilters);
+            clearResolvedFilterBtn.addEventListener('click', clearResolvedFilters);
+            
+            // UPDATED: Allow Shift+Enter for multiple lines, Enter to submit
+            newScheduledEventInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    addScheduledEvent();
+                }
             });
-            newGeneralInfoInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') addGeneralInfo();
+            
+            newGeneralInfoInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    addGeneralInfo();
+                }
             });
-            newReminderInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') addReminder();
+            
+            newReminderInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    addReminder();
+                }
             });
-            newOncallUpdateInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') addOncallUpdate();
+            
+            newOncallUpdateInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    addOncallUpdate();
+                }
             });
             
             takeTurnoverScreenshotBtn.addEventListener('click', takeTurnoverScreenshot);
+            saveTurnoverBtn.addEventListener('click', saveCurrentTurnover);
         }
         
         function updateTurnoverTickets() {
@@ -1654,13 +2303,13 @@
             
             // Update the display with counts only
             turnoverInProgressCount.innerHTML = `
-                <div class="text-3xl font-bold text-blue-700">${inProgressTickets.length}</div>
-                <div class="text-sm text-blue-600">Tickets</div>
+                <div class="text-3xl font-bold tickets-in-progress-count">${inProgressTickets.length}</div>
+                <div class="text-sm tickets-in-progress-label">Tickets</div>
             `;
             
             turnoverResolvedCount.innerHTML = `
-                <div class="text-3xl font-bold text-green-700">${resolvedTickets.length}</div>
-                <div class="text-sm text-green-600">Tickets</div>
+                <div class="text-3xl font-bold tickets-resolved-count">${resolvedTickets.length}</div>
+                <div class="text-sm tickets-resolved-label">Tickets</div>
             `;
         }
         
@@ -1810,6 +2459,56 @@
             }
         }
         
+        // NEW: Save Current Turnover to Past Turnovers
+        async function saveCurrentTurnover() {
+            try {
+                // Get current turnover data
+                const selectedDate = turnoverDateInput.value;
+                const selectedShift = turnoverShiftSelect.value;
+                const selectedTeam = turnoverTeamSelect.value; // NEW
+                
+                // Calculate ticket counts
+                const inProgressTickets = allTickets.filter(ticket => {
+                    const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toISOString().split('T')[0] : 
+                                      (ticket.createdAt ? ticket.createdAt.toDate().toISOString().split('T')[0] : '');
+                    return ticketDate === selectedDate && 
+                           ticket.shift === selectedShift.replace(' Shift', '') && 
+                           ticket.status !== 'Resolved';
+                });
+                
+                const resolvedTickets = allTickets.filter(ticket => {
+                    const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toISOString().split('T')[0] : 
+                                      (ticket.createdAt ? ticket.createdAt.toDate().toISOString().split('T')[0] : '');
+                    return ticketDate === selectedDate && 
+                           ticket.shift === selectedShift.replace(' Shift', '') && 
+                           ticket.status === 'Resolved';
+                });
+                
+                // Create turnover object
+                const turnoverToSave = {
+                    date: selectedDate,
+                    shift: selectedShift,
+                    team: selectedTeam, // NEW
+                    inProgressCount: inProgressTickets.length,
+                    resolvedCount: resolvedTickets.length,
+                    scheduledEvents: [...turnoverData.scheduledEvents],
+                    generalInfo: [...turnoverData.generalInfo],
+                    reminders: [...turnoverData.reminders],
+                    onCallUpdates: [...turnoverData.onCallUpdates],
+                    savedBy: currentUser.name,
+                    savedAt: serverTimestamp()
+                };
+                
+                // Save to Firestore
+                await addDoc(collection(db, `/artifacts/${appId}/public/data/pastTurnovers`), turnoverToSave);
+                
+                showNotification('Turnover saved successfully!', 'success');
+            } catch (error) {
+                console.error("Error saving turnover: ", error);
+                showNotification('Error saving turnover.', 'error');
+            }
+        }
+        
         async function takeTurnoverScreenshot() {
             try {
                 showNotification('Taking turnover screenshot...', 'info');
@@ -1820,12 +2519,12 @@
                 // Small delay to ensure CSS is applied
                 await new Promise(resolve => setTimeout(resolve, 100));
                 
-                // Create a temporary container for the screenshot that includes date and shift info
+                // Create a temporary container for the screenshot that includes date, shift and team info
                 const tempContainer = document.createElement('div');
                 tempContainer.style.padding = '20px';
                 tempContainer.style.backgroundColor = '#ffffff';
                 
-                // Add header with date and shift information
+                // Add header with date, shift and team information
                 const headerSection = document.createElement('div');
                 headerSection.style.marginBottom = '20px';
                 headerSection.style.padding = '15px';
@@ -1836,12 +2535,14 @@
                 
                 const date = document.getElementById('turnover-date').value;
                 const shift = document.getElementById('turnover-shift').value;
+                const team = document.getElementById('turnover-team').value; // NEW
                 
                 headerSection.innerHTML = `
                     <h2 style="margin: 0 0 10px 0; font-size: 24px; font-weight: bold;">Turnover Report</h2>
                     <div style="display: flex; justify-content: center; gap: 30px; font-size: 16px;">
                         <div><strong>Date:</strong> ${date}</div>
                         <div><strong>Shift:</strong> ${shift}</div>
+                        <div><strong>Team:</strong> ${team}</div> <!-- NEW -->
                     </div>
                 `;
                 
@@ -1849,9 +2550,11 @@
                 const turnoverContent = document.getElementById('turnover-content');
                 const turnoverClone = turnoverContent.cloneNode(true);
                 
-                // Remove the screenshot button from the clone
+                // Remove the screenshot button and save button from the clone
                 const screenshotBtn = turnoverClone.querySelector('#takeTurnoverScreenshotBtn');
                 if (screenshotBtn) screenshotBtn.remove();
+                const saveBtn = turnoverClone.querySelector('#saveTurnoverBtn');
+                if (saveBtn) saveBtn.remove();
                 
                 // Append header and content to temp container
                 tempContainer.appendChild(headerSection);
@@ -1880,7 +2583,8 @@
                 const link = document.createElement('a');
                 const formattedDate = date || new Date().toISOString().split('T')[0];
                 const formattedShift = shift ? shift.replace(' ', '_') : 'Day_Shift';
-                link.download = `Turnover_${formattedDate}_${formattedShift}.png`;
+                const formattedTeam = team ? `_Team_${team}` : ''; // NEW
+                link.download = `Turnover_${formattedDate}_${formattedShift}${formattedTeam}.png`; // UPDATED
                 link.href = image;
                 link.click();
                 
@@ -1898,28 +2602,358 @@
             }
         }
 
-        // --- REPORTS ---
+        // --- NEW: PAST TURNOVER FUNCTIONALITY - UPDATED WITH TEAM ---
+        function setupPastTurnover() {
+            // Set up real-time listener for past turnovers
+            const pastTurnoversRef = collection(db, `/artifacts/${appId}/public/data/pastTurnovers`);
+            const q = query(pastTurnoversRef, orderBy('savedAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                pastTurnovers = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                
+                renderPastTurnovers();
+            });
+        }
+        
+        function renderPastTurnovers() {
+            let filteredTurnovers = [...pastTurnovers];
+            
+            // Apply filters
+            const dateFilter = filterPastTurnoverDate.value;
+            const shiftFilter = filterPastTurnoverShift.value;
+            const teamFilter = filterPastTurnoverTeam.value; // NEW
+            
+            if (dateFilter) {
+                filteredTurnovers = filteredTurnovers.filter(t => t.date === dateFilter);
+            }
+            
+            if (shiftFilter !== 'all') {
+                filteredTurnovers = filteredTurnovers.filter(t => t.shift === shiftFilter);
+            }
+            
+            // NEW: Filter by team
+            if (teamFilter !== 'all') {
+                filteredTurnovers = filteredTurnovers.filter(t => t.team === teamFilter);
+            }
+            
+            // Apply pagination
+            const totalPages = Math.ceil(filteredTurnovers.length / itemsPerPage);
+            currentPagePastTurnover = Math.min(currentPagePastTurnover, Math.max(1, totalPages));
+            
+            const startIndex = (currentPagePastTurnover - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageItems = filteredTurnovers.slice(startIndex, endIndex);
+            
+            // Render table
+            pastTurnoverTable.innerHTML = pageItems.map(turnover => createPastTurnoverRow(turnover)).join('');
+            
+            // Render pagination
+            renderPastTurnoverPagination(filteredTurnovers.length, currentPagePastTurnover, totalPages);
+            
+            // Re-attach event listeners for dropdowns
+            setupPastTurnoverDropdownEventListeners();
+        }
+        
+        function createPastTurnoverRow(turnover) {
+            const savedDate = turnover.savedAt ? turnover.savedAt.toDate().toLocaleDateString() : 'N/A';
+            
+            // Truncate long text for table display
+            const truncateText = (text, maxLength = 30) => {
+                if (!text) return '-';
+                return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+            };
+            
+            const scheduledEventsText = turnover.scheduledEvents.length > 0 ? 
+                truncateText(turnover.scheduledEvents.join(', ')) : '-';
+            const generalInfoText = turnover.generalInfo.length > 0 ? 
+                truncateText(turnover.generalInfo.join(', ')) : '-';
+            const remindersText = turnover.reminders.length > 0 ? 
+                truncateText(turnover.reminders.join(', ')) : '-';
+            const onCallUpdatesText = turnover.onCallUpdates.length > 0 ? 
+                truncateText(turnover.onCallUpdates.join(', ')) : '-';
+            
+            return `
+                <tr class="hover:bg-gray-50 text-sm">
+                    <td class="py-3 px-4 text-xs text-gray-500">${turnover.date}</td>
+                    <td class="py-3 px-4">${turnover.shift}</td>
+                    <td class="py-3 px-4">${turnover.team || 'N/A'}</td> <!-- NEW -->
+                    <td class="py-3 px-4 text-center">${turnover.inProgressCount}</td>
+                    <td class="py-3 px-4 text-center">${turnover.resolvedCount}</td>
+                    <td class="py-3 px-4 truncate-cell" title="${turnover.scheduledEvents.join('\n') || 'No scheduled events'}">${scheduledEventsText}</td>
+                    <td class="py-3 px-4 truncate-cell" title="${turnover.generalInfo.join('\n') || 'No general information'}">${generalInfoText}</td>
+                    <td class="py-3 px-4 truncate-cell" title="${turnover.reminders.join('\n') || 'No reminders'}">${remindersText}</td>
+                    <td class="py-3 px-4 truncate-cell" title="${turnover.onCallUpdates.join('\n') || 'No on-call updates'}">${onCallUpdatesText}</td>
+                    <td class="py-3 px-4 relative">
+                        <div class="dropdown-container relative inline-block">
+                            <button class="ellipsis-btn text-gray-600 hover:text-blue-600 text-lg font-bold" data-id="${turnover.id}">…</button>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item view-past-turnover" data-id="${turnover.id}">View Details</button>
+                                <button class="dropdown-item delete-past-turnover" data-id="${turnover.id}">Delete</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+        
+        function renderPastTurnoverPagination(totalItems, currentPage, totalPages) {
+            const paginationContainer = document.getElementById('past-turnover-pagination');
+            
+            if (totalPages <= 1) {
+                paginationContainer.classList.add('hidden');
+                return;
+            }
+            
+            paginationContainer.classList.remove('hidden');
+            
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `<button class="pagination-btn" ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}">Previous</button>`;
+            
+            // Page numbers
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Adjust if we're at the end
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // First page
+            if (startPage > 1) {
+                paginationHTML += `<button class="pagination-btn" data-page="1">1</button>`;
+                if (startPage > 2) {
+                    paginationHTML += `<span class="pagination-info">...</span>`;
+                }
+            }
+            
+            // Page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+            }
+            
+            // Last page
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    paginationHTML += `<span class="pagination-info">...</span>`;
+                }
+                paginationHTML += `<button class="pagination-btn" data-page="${totalPages}">${totalPages}</button>`;
+            }
+            
+            // Next button
+            paginationHTML += `<button class="pagination-btn" ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">Next</button>`;
+            
+            // Info
+            paginationHTML += `<span class="pagination-info">Showing ${Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)}-${Math.min(currentPage * itemsPerPage, totalItems)} of ${totalItems}</span>`;
+            
+            paginationContainer.innerHTML = paginationHTML;
+            
+            // Add event listeners to pagination buttons
+            paginationContainer.querySelectorAll('.pagination-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    if (!e.target.disabled) {
+                        const page = parseInt(e.target.dataset.page);
+                        currentPagePastTurnover = page;
+                        renderPastTurnovers();
+                    }
+                });
+            });
+        }
+        
+        function setupPastTurnoverDropdownEventListeners() {
+            // Close all dropdowns when clicking elsewhere
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.dropdown-container')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+                }
+            });
+
+            // Ellipsis button click to show dropdown
+            document.querySelectorAll('.ellipsis-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    // Close other dropdowns
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        if (menu !== e.target.nextElementSibling) {
+                            menu.classList.remove('show');
+                        }
+                    });
+                    // Toggle current dropdown
+                    const dropdown = e.target.nextElementSibling;
+                    dropdown.classList.toggle('show');
+                });
+            });
+
+            // View Past Turnover option click
+            document.querySelectorAll('.view-past-turnover').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const turnoverId = e.target.dataset.id;
+                    const turnover = pastTurnovers.find(t => t.id === turnoverId);
+                    viewPastTurnoverDetails(turnover);
+                    // Close dropdown
+                    e.target.closest('.dropdown-menu').classList.remove('show');
+                });
+            });
+
+            // Delete Past Turnover option click
+            document.querySelectorAll('.delete-past-turnover').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const turnoverId = e.target.dataset.id;
+                    deletePastTurnover(turnoverId);
+                    // Close dropdown
+                    e.target.closest('.dropdown-menu').classList.remove('show');
+                });
+            });
+        }
+        
+        function viewPastTurnoverDetails(turnover) {
+            // Create a modal or use an alert to show the full details
+            const details = `
+Date: ${turnover.date}
+Shift: ${turnover.shift}
+Team: ${turnover.team || 'N/A'} <!-- NEW -->
+In Progress Tickets: ${turnover.inProgressCount}
+Resolved Tickets: ${turnover.resolvedCount}
+
+Scheduled Events:
+${turnover.scheduledEvents.length > 0 ? turnover.scheduledEvents.map(event => `• ${event}`).join('\n') : 'None'}
+
+General Information:
+${turnover.generalInfo.length > 0 ? turnover.generalInfo.map(info => `• ${info}`).join('\n') : 'None'}
+
+Reminders:
+${turnover.reminders.length > 0 ? turnover.reminders.map(reminder => `• ${reminder}`).join('\n') : 'None'}
+
+On-call Updates:
+${turnover.onCallUpdates.length > 0 ? turnover.onCallUpdates.map(update => `• ${update}`).join('\n') : 'None'}
+
+Saved by: ${turnover.savedBy}
+Saved on: ${turnover.savedAt ? turnover.savedAt.toDate().toLocaleString() : 'N/A'}
+    `;
+            
+            alert(details);
+        }
+        
+        async function deletePastTurnover(turnoverId) {
+            if (confirm('Are you sure you want to delete this turnover record? This action cannot be undone.')) {
+                try {
+                    await deleteDoc(doc(db, `/artifacts/${appId}/public/data/pastTurnovers`, turnoverId));
+                    showNotification('Turnover record deleted.', 'warning');
+                } catch (error) {
+                    console.error("Error deleting turnover: ", error);
+                    showNotification('Error deleting turnover record.', 'error');
+                }
+            }
+        }
+        
+        function applyPastTurnoverFilters() {
+            renderPastTurnovers();
+        }
+        
+        function clearPastTurnoverFilters() {
+            filterPastTurnoverDate.value = '';
+            filterPastTurnoverShift.value = 'all';
+            filterPastTurnoverTeam.value = 'all'; // NEW
+            renderPastTurnovers();
+        }
+
+        // NEW: Clear filter functions for In Progress and Resolved tabs
+        function clearInProgressFilters() {
+            document.getElementById('sort-in-progress-date').value = 'newest';
+            document.getElementById('sort-in-progress-shift').value = 'default';
+            document.getElementById('sort-in-progress-assignee').value = 'default';
+            document.getElementById('sort-in-progress-priority').value = 'default';
+            document.getElementById('sort-in-progress-environment').value = 'default';
+            document.getElementById('sort-in-progress-issue').value = 'default';
+            document.getElementById('filter-in-progress-specific-date').value = '';
+            renderTickets();
+            showNotification('In Progress filters cleared', 'info');
+        }
+
+        function clearResolvedFilters() {
+            document.getElementById('sort-resolved-date').value = 'newest';
+            document.getElementById('sort-resolved-shift').value = 'default';
+            document.getElementById('sort-resolved-assignee').value = 'default';
+            document.getElementById('sort-resolved-priority').value = 'default';
+            document.getElementById('sort-resolved-environment').value = 'default';
+            document.getElementById('sort-resolved-issue').value = 'default';
+            document.getElementById('filter-resolved-specific-date').value = '';
+            renderTickets();
+            showNotification('Resolved filters cleared', 'info');
+        }
+
+        // --- REPORTS - FIXED VERSION ---
         function generateReport(period) {
             // Store the current report type for real-time updates
             currentReportType = period;
             
             const now = new Date();
-            const pastDate = new Date();
+            let startDate, endDate;
+            
             if (period === 'daily') {
-                pastDate.setDate(now.getDate() - 1);
+                startDate = new Date(now);
+                startDate.setHours(0, 0, 0, 0);
+                endDate = new Date(now);
+                endDate.setHours(23, 59, 59, 999);
             } else if (period === 'weekly') {
-                pastDate.setDate(now.getDate() - 7);
+                startDate = new Date(now);
+                startDate.setDate(now.getDate() - 7);
+                startDate.setHours(0, 0, 0, 0);
+                endDate = new Date(now);
+                endDate.setHours(23, 59, 59, 999);
             } else if (period === 'monthly') {
-                pastDate.setMonth(now.getMonth() - 1);
+                startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                startDate.setHours(0, 0, 0, 0);
+                endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+                endDate.setHours(23, 59, 59, 999);
             }
 
+            // FIXED: Better date filtering logic
             const periodTickets = allTickets.filter(t => {
-                // Use ticketDate if available, otherwise use createdAt
-                const ticketDate = t.ticketDate ? new Date(t.ticketDate) : (t.createdAt?.toDate() || new Date(0));
-                return ticketDate >= pastDate;
+                // Use the most appropriate date field for filtering
+                let ticketDate;
+                
+                if (t.ticketDate) {
+                    // If ticketDate exists, use it (this is the user-selected date)
+                    ticketDate = new Date(t.ticketDate);
+                } else if (t.createdAt) {
+                    // Fall back to createdAt if ticketDate doesn't exist
+                    ticketDate = t.createdAt.toDate();
+                } else {
+                    // If neither exists, skip this ticket
+                    return false;
+                }
+                
+                // Check if the ticket date falls within the report period
+                return ticketDate >= startDate && ticketDate <= endDate;
             });
             
-            const resolvedInPeriod = periodTickets.filter(t => t.status === 'Resolved' && t.resolvedAt && t.resolvedAt.toDate() >= pastDate);
+            // FIXED: Better resolved ticket filtering
+            const resolvedInPeriod = periodTickets.filter(t => {
+                if (t.status !== 'Resolved') return false;
+                
+                // Use resolvedAt date if available, otherwise use the ticket date
+                let resolvedDate;
+                if (t.resolvedAt) {
+                    resolvedDate = t.resolvedAt.toDate();
+                } else {
+                    // Fall back to ticket date if resolvedAt doesn't exist
+                    resolvedDate = t.ticketDate ? new Date(t.ticketDate) : 
+                                  (t.createdAt ? t.createdAt.toDate() : new Date(0));
+                }
+                
+                return resolvedDate >= startDate && resolvedDate <= endDate;
+            });
+
             const inProgressInPeriod = periodTickets.filter(t => t.status !== 'Resolved');
 
             const totalResolved = resolvedInPeriod.length;
@@ -1929,7 +2963,15 @@
             const nightTickets = periodTickets.filter(t => t.shift === 'Night').length;
 
             const totalAgeInProgressMs = inProgressInPeriod.reduce((acc, t) => {
-                return acc + (new Date() - (t.ticketDate ? new Date(t.ticketDate) : t.createdAt.toDate()));
+                let ticketDate;
+                if (t.ticketDate) {
+                    ticketDate = new Date(t.ticketDate);
+                } else if (t.createdAt) {
+                    ticketDate = t.createdAt.toDate();
+                } else {
+                    return acc; // Skip if no date available
+                }
+                return acc + (new Date() - ticketDate);
             }, 0);
             const avgAgeInProgress = totalInProgress > 0 ? formatDuration(totalAgeInProgressMs / totalInProgress) : 'N/A';
             
@@ -1957,17 +2999,23 @@
                 priorityCounts[priority] = periodTickets.filter(t => t.priority === priority).length;
             });
             
+            // Calculate environment distribution
+            const environments = ['Prod', 'UAT', 'N/A'];
+            const environmentCounts = {};
+            environments.forEach(environment => {
+                environmentCounts[environment] = periodTickets.filter(t => t.environment === environment).length;
+            });
+            
             // Get period display information
             let periodDisplay = '';
             if (period === 'daily') {
                 periodDisplay = `Daily Report - ${now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
             } else if (period === 'weekly') {
                 const startOfWeek = new Date(now);
-                startOfWeek.setDate(now.getDate() - now.getDay()); // Sunday
+                startOfWeek.setDate(now.getDate() - 7);
                 const endOfWeek = new Date(now);
-                endOfWeek.setDate(now.getDate() + (6 - now.getDay())); // Saturday
                 
-                periodDisplay = `Weekly Report - Week of ${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} to ${endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+                periodDisplay = `Weekly Report - ${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} to ${endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
             } else if (period === 'monthly') {
                 periodDisplay = `Monthly Report - ${now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`;
             }
@@ -1988,14 +3036,15 @@
                 avgAgeInProgress,
                 issueTypeCounts,
                 priorityCounts,
+                environmentCounts,
                 resolvedList: resolvedInPeriod.map(t => ({...t, 
-                    createdAt: t.createdAt.toDate().toISOString(), 
-                    resolvedAt: t.resolvedAt.toDate().toISOString(),
-                    ticketDate: t.ticketDate || t.createdAt.toDate().toISOString().split('T')[0]
+                    createdAt: t.createdAt ? t.createdAt.toDate().toISOString() : new Date().toISOString(), 
+                    resolvedAt: t.resolvedAt ? t.resolvedAt.toDate().toISOString() : new Date().toISOString(),
+                    ticketDate: t.ticketDate || (t.createdAt ? t.createdAt.toDate().toISOString().split('T')[0] : new Date().toISOString().split('T')[0])
                 })),
                 inProgressList: inProgressInPeriod.map(t => ({...t, 
-                    createdAt: t.createdAt.toDate().toISOString(),
-                    ticketDate: t.ticketDate || t.createdAt.toDate().toISOString().split('T')[0]
+                    createdAt: t.createdAt ? t.createdAt.toDate().toISOString() : new Date().toISOString(),
+                    ticketDate: t.ticketDate || (t.createdAt ? t.createdAt.toDate().toISOString().split('T')[0] : new Date().toISOString().split('T')[0])
                 }))
             };
 
@@ -2013,25 +3062,68 @@
             output.innerHTML = '';
             charts.forEach(chart => chart.destroy()); // Clear previous charts
             charts = [];
-
+            
             // Stats cards
             const stats = [
-                { label: 'Total Resolved', value: data.totalResolved, color: 'bg-green-100' },
-                { label: 'Total In Progress', value: data.totalInProgress, color: 'bg-blue-100' },
-                { label: 'Avg. In Progress Age', value: data.avgAgeInProgress, color: 'bg-sky-100' },
+                { label: 'Total Resolved', value: data.totalResolved, color: 'stats-resolved' },
+                { label: 'Total In Progress', value: data.totalInProgress, color: 'stats-in-progress' },
+                { label: 'Avg. In Progress Age', value: data.avgAgeInProgress, color: 'stats-age' },
             ];
             
             stats.forEach(stat => {
                 output.innerHTML += `
-                    <div class="p-4 rounded-lg shadow ${stat.color}">
+                    <div class="${stat.color} stats-card">
                         <h3 class="text-gray-500 text-sm font-medium">${stat.label}</h3>
                         <p class="text-2xl font-semibold">${stat.value}</p>
                     </div>`;
             });
 
-            // Shift Breakdown Chart
+            // 1. Ticket Trend Chart
+            const trendChartContainer = document.createElement('div');
+            trendChartContainer.className = "chart-card trend-chart";
+            trendChartContainer.innerHTML = '<div class="chart-container"><canvas id="trendChart"></canvas></div>';
+            output.appendChild(trendChartContainer);
+            
+            // Calculate trends based on period
+            const trendData = calculateTrendData(data.period, data.resolvedList.concat(data.inProgressList));
+            
+            const trendCtx = document.getElementById('trendChart').getContext('2d');
+            charts.push(new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: trendData.labels,
+                    datasets: [{
+                        label: 'Tickets Created',
+                        data: trendData.values,
+                        borderColor: '#0ea5e9',
+                        backgroundColor: 'rgba(14, 165, 233, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { 
+                            display: true, 
+                            text: `Ticket Trend - ${data.period.charAt(0).toUpperCase() + data.period.slice(1)}`
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            }));
+
+            // 2. Shift Breakdown Chart
             const shiftChartContainer = document.createElement('div');
-            shiftChartContainer.className = "p-4 rounded-lg shadow bg-gray-50";
+            shiftChartContainer.className = "chart-card shift-chart";
             shiftChartContainer.innerHTML = '<div class="chart-container"><canvas id="shiftChart"></canvas></div>';
             output.appendChild(shiftChartContainer);
             
@@ -2042,7 +3134,7 @@
                     labels: ['Day Shift', 'Night Shift'],
                     datasets: [{
                         data: [data.dayTickets, data.nightTickets],
-                        backgroundColor: ['#60a5fa', '#1e40af'],
+                        backgroundColor: ['#22c55e', '#15803d'],
                     }]
                 },
                 options: {
@@ -2051,10 +3143,10 @@
                     plugins: { legend: { position: 'top' }, title: { display: true, text: 'Tickets by Shift' } }
                 }
             }));
-            
-             // Status Breakdown Chart
+
+            // 3. Status Breakdown Chart
             const statusChartContainer = document.createElement('div');
-            statusChartContainer.className = "p-4 rounded-lg shadow bg-gray-50";
+            statusChartContainer.className = "chart-card status-chart";
             statusChartContainer.innerHTML = '<div class="chart-container"><canvas id="statusChart"></canvas></div>';
             output.appendChild(statusChartContainer);
             
@@ -2067,7 +3159,7 @@
                     datasets: [{
                         label: 'Ticket Count',
                         data: [statusData['Resolved'], statusData['In Progress']],
-                        backgroundColor: ['#4ade80', '#60a5fa'],
+                        backgroundColor: ['#a855f7', '#7e22ce'],
                     }]
                 },
                  options: {
@@ -2077,9 +3169,9 @@
                 }
             }));
 
-            // Issue Type Distribution Chart
+            // 4. Issue Type Distribution Chart
             const issueChartContainer = document.createElement('div');
-            issueChartContainer.className = "p-4 rounded-lg shadow bg-gray-50";
+            issueChartContainer.className = "chart-card issue-chart";
             issueChartContainer.innerHTML = '<div class="chart-container"><canvas id="issueChart"></canvas></div>';
             output.appendChild(issueChartContainer);
             
@@ -2088,8 +3180,8 @@
             
             // Create a color palette for issue types
             const issueColors = [
-                '#3b82f6', '#1d4ed8', '#60a5fa', '#93c5fd',
-                '#10b981', '#047857', '#f59e0b', '#d97706'
+                '#f97316', '#c2410c', '#fb923c', '#fdba74',
+                '#eab308', '#ca8a04', '#f59e0b', '#d97706'
             ];
             
             const issueCtx = document.getElementById('issueChart').getContext('2d');
@@ -2127,9 +3219,9 @@
                 }
             }));
 
-            // Priority Distribution Chart
+            // 5. Priority Distribution Chart
             const priorityChartContainer = document.createElement('div');
-            priorityChartContainer.className = "p-4 rounded-lg shadow bg-gray-50";
+            priorityChartContainer.className = "chart-card priority-chart";
             priorityChartContainer.innerHTML = '<div class="chart-container"><canvas id="priorityChart"></canvas></div>';
             output.appendChild(priorityChartContainer);
             
@@ -2138,10 +3230,10 @@
             
             // Priority colors matching the CSS classes
             const priorityColors = {
-                'P1': '#fee2e2',
-                'P2': '#fed7aa', 
-                'P3': '#fef08a',
-                'P4': '#dbeafe'
+                'P1': '#ef4444',
+                'P2': '#f97316', 
+                'P3': '#eab308',
+                'P4': '#3b82f6'
             };
             
             const priorityBorderColors = {
@@ -2176,44 +3268,35 @@
                 }
             }));
 
-            // Trend Chart - Now matching the size of other charts
-            const trendChartContainer = document.createElement('div');
-            trendChartContainer.className = "p-4 rounded-lg shadow bg-gray-50";
-            trendChartContainer.innerHTML = '<div class="chart-container"><canvas id="trendChart"></canvas></div>';
-            output.appendChild(trendChartContainer);
+            // 6. Environment Distribution Chart
+            const environmentChartContainer = document.createElement('div');
+            environmentChartContainer.className = "chart-card environment-chart";
+            environmentChartContainer.innerHTML = '<div class="chart-container"><canvas id="environmentChart"></canvas></div>';
+            output.appendChild(environmentChartContainer);
             
-            // Calculate trends based on period
-            const trendData = calculateTrendData(data.period, data.resolvedList.concat(data.inProgressList));
+            const environments = Object.keys(data.environmentCounts);
+            const environmentCounts = Object.values(data.environmentCounts);
             
-            const trendCtx = document.getElementById('trendChart').getContext('2d');
-            charts.push(new Chart(trendCtx, {
-                type: 'line',
+            const environmentCtx = document.getElementById('environmentChart').getContext('2d');
+            charts.push(new Chart(environmentCtx, {
+                type: 'pie',
                 data: {
-                    labels: trendData.labels,
+                    labels: environments,
                     datasets: [{
-                        label: 'Tickets Created',
-                        data: trendData.values,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        fill: true,
-                        tension: 0.4
+                        data: environmentCounts,
+                        backgroundColor: ['#dcfce7', '#fef3c7', '#e5e7eb'],
+                        borderColor: ['#166534', '#92400e', '#4b5563'],
+                        borderWidth: 2
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
+                        legend: { position: 'top' },
                         title: { 
                             display: true, 
-                            text: `Ticket Trend - ${data.period.charAt(0).toUpperCase() + data.period.slice(1)}`
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
+                            text: 'Environment Distribution'
                         }
                     }
                 }
@@ -2244,7 +3327,7 @@
                     labels.push(label);
                     
                     const count = tickets.filter(ticket => {
-                        const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate) : new Date(ticket.createdAt);
+                        const ticketDate = new Date(ticket.ticketDate || ticket.createdAt);
                         const ticketHour = ticketDate.getHours();
                         return ticketHour >= startHour && ticketHour < endHour && 
                                ticketDate.toDateString() === now.toDateString();
@@ -2261,9 +3344,9 @@
                     labels.push(date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }));
                     
                     const count = tickets.filter(ticket => {
-                        const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate).toISOString().split('T')[0] : 
-                                            ticket.createdAt.split('T')[0];
-                        return ticketDate === dateStr;
+                        const ticketDate = new Date(ticket.ticketDate || ticket.createdAt);
+                        const ticketDateStr = ticketDate.toISOString().split('T')[0];
+                        return ticketDateStr === dateStr;
                     }).length;
                     
                     values.push(count);
@@ -2279,7 +3362,7 @@
                     labels.push(`Week ${4 - i}`);
                     
                     const count = tickets.filter(ticket => {
-                        const ticketDate = ticket.ticketDate ? new Date(ticket.ticketDate) : new Date(ticket.createdAt);
+                        const ticketDate = new Date(ticket.ticketDate || ticket.createdAt);
                         return ticketDate >= startDate && ticketDate < endDate;
                     }).length;
                     
@@ -2320,6 +3403,13 @@
             summary.push(["Priority Breakdown", ""]);
             Object.entries(reportData.priorityCounts).forEach(([priority, count]) => {
                 summary.push([priority, count]);
+            });
+            
+            // Add environment breakdown to summary
+            summary.push(["", ""]);
+            summary.push(["Environment Breakdown", ""]);
+            Object.entries(reportData.environmentCounts).forEach(([environment, count]) => {
+                summary.push([environment, count]);
             });
             
             const wsSummary = XLSX.utils.aoa_to_sheet(summary);
@@ -2373,88 +3463,170 @@
             }
         }
 
+        // --- UPDATED: EXPORT TO EXCEL FUNCTIONALITY ---
+        function exportTickets(type, period, tab) {
+            const now = new Date();
+            let startDate, endDate;
+            
+            if (period === 'day') {
+                startDate = new Date(now);
+                startDate.setHours(0, 0, 0, 0);
+                endDate = new Date(now);
+                endDate.setHours(23, 59, 59, 999);
+            } else if (period === 'month') {
+                startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+            } else if (period === 'year') {
+                startDate = new Date(now.getFullYear(), 0, 1);
+                endDate = new Date(now.getFullYear(), 11, 31, 23, 59, 59, 999);
+            }
+            
+            // Filter tickets based on tab and period
+            let filteredTickets = [];
+            if (tab === 'in-progress') {
+                filteredTickets = allTickets.filter(t => {
+                    const ticketDate = t.ticketDate ? new Date(t.ticketDate) : (t.createdAt?.toDate() || new Date(0));
+                    return t.status !== 'Resolved' && ticketDate >= startDate && ticketDate <= endDate;
+                });
+            } else if (tab === 'resolved') {
+                filteredTickets = allTickets.filter(t => {
+                    const ticketDate = t.ticketDate ? new Date(t.ticketDate) : (t.createdAt?.toDate() || new Date(0));
+                    return t.status === 'Resolved' && ticketDate >= startDate && ticketDate <= endDate;
+                });
+            }
+            
+            if (filteredTickets.length === 0) {
+                showNotification(`No ${tab === 'in-progress' ? 'In Progress' : 'Resolved'} tickets found for the selected period.`, 'warning');
+                return;
+            }
+            
+            // Format tickets for export
+            const formattedTickets = filteredTickets.map(ticket => ({
+                'Date': ticket.ticketDate ? new Date(ticket.ticketDate).toLocaleDateString() : (ticket.createdAt ? ticket.createdAt.toDate().toLocaleDateString() : 'N/A'),
+                'Shift': ticket.shift || '',
+                'Handled By': ticket.handledBy || '',
+                'Ticket Number': ticket.ticketNumber || '',
+                'Priority': ticket.priority || '',
+                'Environment': ticket.environment || '',
+                'Status': ticket.status || '',
+                'Issue/Request': ticket.issueType || '',
+                'Description': ticket.description || '',
+                'Resolution': ticket.resolution || '',
+                'Resolved On': ticket.resolvedAt ? ticket.resolvedAt.toDate().toLocaleDateString() : '',
+                'Created At': ticket.createdAt ? ticket.createdAt.toDate().toLocaleString() : '',
+                'Updated At': ticket.updatedAt ? ticket.updatedAt.toDate().toLocaleString() : ''
+            }));
+            
+            // Create workbook and worksheet
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(formattedTickets);
+            
+            // Add worksheet to workbook
+            XLSX.utils.book_append_sheet(wb, ws, `${tab === 'in-progress' ? 'In Progress' : 'Resolved'} Tickets`);
+            
+            // Generate filename
+            const periodLabel = period === 'day' ? 'Today' : (period === 'month' ? 'This_Month' : 'This_Year');
+            const tabLabel = tab === 'in-progress' ? 'In_Progress' : 'Resolved';
+            const filename = `${tabLabel}_Tickets_${periodLabel}_${new Date().toISOString().split('T')[0]}.xlsx`;
+            
+            // Download the file
+            XLSX.writeFile(wb, filename);
+            showNotification(`${tab === 'in-progress' ? 'In Progress' : 'Resolved'} tickets exported!`, 'success');
+        }
+
         // --- EVENT LISTENERS ---
         function setupEventListeners() {
-            addTicketBtn.addEventListener('click', () => openModal());
-            cancelModalBtn.addEventListener('click', closeModal);
-            ticketForm.addEventListener('submit', handleFormSubmit);
-            deleteTicketBtn.addEventListener('click', handleDeleteTicket);
-
+            // Tabs
             document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', (e) => switchTab(e.target.dataset.tab));
-            });
-            
-            document.querySelectorAll('.sort-control').forEach(el => {
-                el.addEventListener('change', () => {
-                    // Reset to first page when filters change
-                    currentPageInProgress = 1;
-                    currentPageResolved = 1;
-                    renderTickets();
+                tab.addEventListener('click', (e) => {
+                    switchTab(e.target.dataset.tab);
                 });
             });
             
-            // Add event listeners for date pickers
-            document.getElementById('filter-in-progress-specific-date').addEventListener('change', () => {
-                currentPageInProgress = 1;
-                renderTickets();
-            });
-            document.getElementById('filter-resolved-specific-date').addEventListener('change', () => {
-                currentPageResolved = 1;
-                renderTickets();
+            // Modal
+            addTicketBtn.addEventListener('click', () => openModal());
+            cancelModalBtn.addEventListener('click', closeModal);
+            deleteTicketBtn.addEventListener('click', handleDeleteTicket);
+            ticketForm.addEventListener('submit', handleFormSubmit);
+            
+            // Report generation
+            generateDailyReportBtn.addEventListener('click', () => generateReport('daily'));
+            generateWeeklyReportBtn.addEventListener('click', () => generateReport('weekly'));
+            generateMonthlyReportBtn.addEventListener('click', () => generateReport('monthly'));
+            takeScreenshotBtn.addEventListener('click', takeScreenshot);
+            downloadReportBtn.addEventListener('click', downloadReport);
+            
+            // UPDATED: Export buttons
+            exportInProgressBtn.addEventListener('click', () => {
+                const period = exportInProgressPeriod.value;
+                exportTickets('in-progress', period, 'in-progress');
             });
             
-            // Report buttons - now update currentReportType
-            document.getElementById('generateDailyReportBtn').addEventListener('click', () => generateReport('daily'));
-            document.getElementById('generateWeeklyReportBtn').addEventListener('click', () => generateReport('weekly'));
-            document.getElementById('generateMonthlyReportBtn').addEventListener('click', () => generateReport('monthly'));
-            document.getElementById('downloadReportBtn').addEventListener('click', downloadReport);
-            document.getElementById('takeScreenshotBtn').addEventListener('click', takeScreenshot);
+            exportResolvedBtn.addEventListener('click', () => {
+                const period = exportResolvedPeriod.value;
+                exportTickets('resolved', period, 'resolved');
+            });
+            
+            // NEW: User selection modal
+            confirmUserBtn.addEventListener('click', confirmUserSelection);
+            
+            // NEW: Past Turnover events
+            applyPastTurnoverFilter.addEventListener('click', applyPastTurnoverFilters);
+            clearPastTurnoverFilter.addEventListener('click', clearPastTurnoverFilters);
+            
+            // Sorting and filtering
+            const sortElements = [
+                'sort-in-progress-date', 'sort-in-progress-shift', 'sort-in-progress-assignee', 'sort-in-progress-priority', 'sort-in-progress-environment', 'sort-in-progress-issue', 'filter-in-progress-specific-date',
+                'sort-resolved-date', 'sort-resolved-shift', 'sort-resolved-assignee', 'sort-resolved-priority', 'sort-resolved-environment', 'sort-resolved-issue', 'filter-resolved-specific-date'
+            ];
+            
+            sortElements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('change', () => {
+                        renderTickets();
+                    });
+                }
+            });
         }
 
-        // --- HELPER FUNCTIONS ---
-        function getStatusColor(status) {
-            switch (status) {
-                case 'In Progress':
-                case 'New':
-                case 'Investigating':
-                case 'On-Hold':
-                    return 'bg-yellow-100 text-yellow-800';
-                case 'Resolved': return 'bg-green-100 text-green-800';
-                default: return 'bg-gray-100 text-gray-800';
-            }
-        }
-
+        // --- UTILITY FUNCTIONS ---
         function formatDistanceToNow(date) {
-            const seconds = Math.floor((new Date() - date) / 1000);
-            let interval = seconds / 31536000;
-            if (interval > 1) return Math.floor(interval) + " years ago";
-            interval = seconds / 2592000;
-            if (interval > 1) return Math.floor(interval) + " months ago";
-            interval = seconds / 86400;
-            if (interval > 1) return Math.floor(interval) + " days ago";
-            interval = seconds / 3600;
-            if (interval > 1) return Math.floor(interval) + " hours ago";
-            interval = seconds / 60;
-            if (interval > 1) return Math.floor(interval) + " minutes ago";
-            return Math.floor(seconds) + " seconds ago";
+            const now = new Date();
+            const diffMs = now - date;
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+            
+            if (diffDays > 0) {
+                return `${diffDays}d ${diffHours}h`;
+            } else if (diffHours > 0) {
+                return `${diffHours}h ${diffMinutes}m`;
+            } else {
+                return `${diffMinutes}m`;
+            }
         }
         
         function formatDuration(ms) {
-            if (ms < 0) ms = -ms;
-            const time = {
-                day: Math.floor(ms / 86400000),
-                hour: Math.floor(ms / 3600000) % 24,
-                minute: Math.floor(ms / 60000) % 60,
-            };
-            return Object.entries(time)
-                .filter(val => val[1] !== 0)
-                .map(([key, val]) => `${val} ${key}${val !== 1 ? 's' : ''}`)
-                .join(', ');
+            const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+            
+            if (days > 0) {
+                return `${days}d ${hours}h`;
+            } else if (hours > 0) {
+                return `${hours}h ${minutes}m`;
+            } else {
+                return `${minutes}m`;
+            }
+        }
+        
+        function getStatusColor(status) {
+            return status === 'Resolved' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800';
         }
 
-        // Initialize the app immediately
+        // Initialize the app
         initApp();
     </script>
-
 </body>
 </html>
